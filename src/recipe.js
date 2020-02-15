@@ -21,6 +21,12 @@ class Recipe {
     return costCounter;
   }
 
+  findCost(ingredientID){
+    let cost =  this.ingredientsData.find(ingredient=> {
+      return ingredient.id === ingredientID
+    }).estimatedCostInCents;
+    return cost;
+  }
 }
 
 export default Recipe;

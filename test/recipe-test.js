@@ -27,6 +27,10 @@ describe('Recipe', () => {
     // console.log(ingredientsData);
     expect(recipe.calculateCost()).to.equal(4166);
   });
+  it('Should be able to calculate the cost of an ingredient', () => {
+    // console.log(recipe);
+    expect(recipe.findCost(1041009)).to.equal(850);
+  });
 
 
 });

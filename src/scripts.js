@@ -109,18 +109,10 @@ function displayDirections(event) {
   .then(response => response.json())
   .then(data => {
     let recipe = data.recipeData.find(item => item.id === parseInt(event.target.id));
-    console.log(recipe.instructions)
+    console.log(recipe)
   })
   .catch(error => console.log(error.message))
 
-
-  // let newRecipeInfo = cookbook.recipes.find(recipe => {
-  //   if (recipe.id === Number(event.target.id)) {
-  //     return recipe;
-  //   }
-  // })
-  //
-  //
   // let recipeObject = new Recipe(newRecipeInfo, ingredientsData);
   // let cost = recipeObject.calculateCost()
   // let costInDollars = (cost / 100).toFixed(2)

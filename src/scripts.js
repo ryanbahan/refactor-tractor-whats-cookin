@@ -105,6 +105,7 @@ function cardButtonConditionals(event) {
 
 
 function displayDirections(event) {
+
   fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData")
   .then(response => response.json())
   .then(data => {
@@ -119,10 +120,8 @@ function displayDirections(event) {
     </p>
     `;
 
-    let allRecipeInfo = document.querySelector('.all-recipe-info');
-    // let instructionsSpan = document.querySelector('.instructions');
 
-    // console.log(recipe.ingredients[0].id);
+    let allRecipeInfo = document.querySelector('.all-recipe-info');
 
     recipe.ingredients.forEach(ingredient => {
       fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData")
@@ -147,6 +146,7 @@ function displayDirections(event) {
   // let cost = recipeObject.calculateCost()
   // let costInDollars = (cost / 100).toFixed(2)
 }
+
 //
 // function getFavorites() {
 //     user.favoriteRecipes.forEach(recipe => {

@@ -1,7 +1,7 @@
 import './css/base.scss';
 import './css/styles.scss';
 
-import Pantry from './pantry';
+// import Pantry from './pantry';
 import Recipe from './recipe';
 import User from './user';
 import Cookbook from './cookbook';
@@ -123,17 +123,34 @@ function displayDirections(event) {
 
     let allRecipeInfo = document.querySelector('.all-recipe-info');
 
-    recipe.ingredients.forEach(ingredient => {
-      fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData")
-      .then(response => response.json())
-      .then(data => {
-        let ingredients;
-        ingredients = data.ingredientsData.find(item => item.id == ingredient.id).name;
-        allRecipeInfo.insertAdjacentHTML('afterbegin', `<p>${ingredients}</p>`)
-        console.log(ingredients);
-      })
-      .catch(error => console.log(error.message))
+    let recipeIds = [...recipe.ingredients].map(recipe => recipe.id);
+
+    fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData")
+    .then(response => response.json())
+    .then(data => {
+
+      let ingredients;
+      ingredients = data.ingredientsData
+      .filter(item => item.id == recipeIds
+        .find(id => id === item.id))
+        .map(item => item.name);
+
+      allRecipeInfo.insertAdjacentHTML('afterbegin', `<p>${ingredients}</p>`)
+
     })
+    .catch(error => console.log(error.message))
+
+    // recipe.ingredients.forEach(ingredient => {
+    //   fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData")
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     let ingredients;
+    //     ingredients = data.ingredientsData.find(item => item.id == ingredient.id).name;
+    //     allRecipeInfo.insertAdjacentHTML('afterbegin', `<p>${ingredients}</p>`)
+    //     // console.log(ingredients);
+    //   })
+    //   .catch(error => console.log(error.message))
+    // })
 
     recipe.instructions.forEach(instruction => {
       allRecipeInfo.insertAdjacentHTML('beforebegin', `<li>

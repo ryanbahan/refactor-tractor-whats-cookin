@@ -1,8 +1,7 @@
 import './css/base.scss';
 import './css/styles.scss';
 
-import ingredientData from './data/ingredients';
-import users from './data/users';
+// import ingredientData from './data/ingredients';
 
 import Pantry from './pantry';
 import Recipe from './recipe';
@@ -12,7 +11,7 @@ import Cookbook from './cookbook';
 let favButton = document.querySelector('.view-favorites');
 let homeButton = document.querySelector('.home')
 let cardArea = document.querySelector('.all-cards');
-let user, pantry;
+// let user, pantry;
 
 // homeButton.addEventListener('click', cardButtonConditionals);
 // favButton.addEventListener('click', viewFavorites);
@@ -24,21 +23,27 @@ let user, pantry;
   .then(data => {
     let cookbook = new Cookbook(data.recipeData);
     populateCards(cookbook.recipes);
-    console.log(cookbook);
   })
   .catch(error => console.log(error.message))
 })();
 
 (function getUsers() {
-  let userId = (Math.floor(Math.random() * 49) + 1)
-  let newUser = users.find(user => {
-    return user.id === Number(userId);
-  });
-
-  user = new User(userId, newUser.name, newUser.pantry)
-  pantry = new Pantry(newUser.pantry)
-  greetUser();
+  fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData")
+  .then(response => response.json())
+  .then(data => {
+    let userId = (Math.floor(Math.random() * 49) + 1);
+    let newUser = data.wcUsersData.find(user => user.id === Number(userId));
+    let user = new User(newUser.id, newUser.name, newUser.pantry);
+    greetUser(user);
+  })
+  .catch(error => console.log(error.message))
 })();
+
+function greetUser(user) {
+  const userName = document.querySelector('.user-name');
+  userName.innerHTML =
+  user.name.split(' ')[0] + ' ' + user.name.split(' ')[1][0];
+}
 
 // function viewFavorites() {
 //   if (cardArea.classList.contains('all')) {
@@ -71,12 +76,6 @@ let user, pantry;
 //     })
 //   }
 // }
-
-function greetUser() {
-  const userName = document.querySelector('.user-name');
-  userName.innerHTML =
-  user.name.split(' ')[0] + ' ' + user.name.split(' ')[1][0];
-}
 
 // function favoriteCard(event) {
 //   let specificRecipe = cookbook.recipes.find(recipe => {

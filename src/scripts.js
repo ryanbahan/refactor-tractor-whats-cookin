@@ -1,17 +1,14 @@
 import './css/base.scss';
 import './css/styles.scss';
 
-// import ingredientData from './data/ingredients';
-
 import Pantry from './pantry';
 import Recipe from './recipe';
 import User from './user';
 import Cookbook from './cookbook';
 
 let favButton = document.querySelector('.view-favorites');
-let homeButton = document.querySelector('.home')
+let homeButton = document.querySelector('.home');
 let cardArea = document.querySelector('.all-cards');
-// let user, pantry;
 
 // homeButton.addEventListener('click', cardButtonConditionals);
 // favButton.addEventListener('click', viewFavorites);
@@ -137,13 +134,11 @@ function greetUser(user) {
 //     `)
 //   })
 // }
-
+//
 // function getFavorites() {
-//   if (user.favoriteRecipes.length) {
 //     user.favoriteRecipes.forEach(recipe => {
 //       document.querySelector(`.favorite${recipe.id}`).classList.add('favorite-active')
 //     })
-//   } else return
 // }
 
 function populateCards(recipes) {

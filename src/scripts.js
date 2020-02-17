@@ -219,11 +219,17 @@ function populateCards(recipes) {
           src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
     </div>`)
   })
-  
+
 
   $('.favorite').click(function(){
-    $(this).addClass('favorite-active');
-    favorites.push(this.id);
+    $(this).toggleClass('favorite-active');
+    console.log(favorites.includes(this.id))
+    if(favorites.includes(this.id)){
+      console.log(this.id)
+      favorites.splice(favorites.indexOf(this.id),1);
+    } else{
+      favorites.push(this.id);
+    }
     localStorage.setItem(user.id,JSON.stringify(favorites));
   })
   // getFavorites();

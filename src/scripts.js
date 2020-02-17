@@ -1,5 +1,7 @@
 import './css/base.scss';
 import './css/styles.scss';
+const $ = require('jquery');
+
 
 // import Pantry from './pantry';
 import Recipe from './recipe';
@@ -14,7 +16,29 @@ homeButton.addEventListener('click', cardButtonConditionals);
 // favButton.addEventListener('click', viewFavorites);
 cardArea.addEventListener('click', cardButtonConditionals);
 
-(function getRecipes() {
+let currentUser = new User(1,'John',[]);
+let user;
+let favorites;
+
+
+(function getUsers() {
+  fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData")
+  .then(response => response.json())
+  .then(data => {
+    let userId = (Math.floor(Math.random() * 49) + 1);
+    userId = 1;
+    console.log(userId)
+    let newUser = data.wcUsersData.find(user => user.id === Number(userId));
+    user = new User(newUser.id, newUser.name, newUser.pantry);
+    loadFavorites(user.id);
+    getRecipes()
+    greetUser(user);
+
+  })
+  .catch(error => console.log(error.message))
+})();
+
+function getRecipes() {
   fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData")
   .then(response => response.json())
   .then(data => {
@@ -22,25 +46,18 @@ cardArea.addEventListener('click', cardButtonConditionals);
     populateCards(cookbook.recipes);
   })
   .catch(error => console.log(error.message))
-})();
-
-(function getUsers() {
-  fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData")
-  .then(response => response.json())
-  .then(data => {
-    let userId = (Math.floor(Math.random() * 49) + 1);
-    let newUser = data.wcUsersData.find(user => user.id === Number(userId));
-    let user = new User(newUser.id, newUser.name, newUser.pantry);
-    greetUser(user);
-  })
-  .catch(error => console.log(error.message))
-})();
+};
 
 function greetUser(user) {
-  const userName = document.querySelector('.user-name');
-  userName.innerHTML =
-  user.name.split(' ')[0] + ' ' + user.name.split(' ')[1][0];
+  $('.user-name').text(user.name.split(' ')[0] + ' ' + user.name.split(' ')[1][0]);
 }
+
+
+function loadFavorites(id){
+  favorites = JSON.parse(localStorage.getItem(id)) || [];
+  console.log(favorites);
+}
+
 
 // function viewFavorites() {
 //   if (cardArea.classList.contains('all')) {
@@ -91,9 +108,10 @@ function greetUser(user) {
 // }
 
 function cardButtonConditionals(event) {
-  if (event.target.classList.contains('favorite')) {
-    favoriteCard(event);
-  } else if (event.target.classList.contains('card-picture')) {
+  // if (event.target.classList.contains('favorite')) {
+  //   favoriteCard(event);
+  // } else
+  if (event.target.classList.contains('card-picture')) {
 
     displayDirections(event);
 
@@ -177,6 +195,12 @@ function populateCards(recipes) {
     cardArea.classList.remove('all')
   }
   recipes.forEach(recipe => {
+    let isFavorite = '';
+    if(favorites.includes(`${recipe.id}`)){
+      isFavorite = 'favorite-active';
+    } else {
+      isFavorite = 'favorite';
+    }
     cardArea.insertAdjacentHTML('afterbegin', `<div id='${recipe.id}'
     class='card'>
         <header id='${recipe.id}' class='card-header'>
@@ -188,12 +212,19 @@ function populateCards(recipes) {
           </button>
           <label for='favorite-button' class='hidden'>Click to favorite recipe
           </label>
-          <button id='${recipe.id}' aria-label='favorite-button' class='favorite favorite${recipe.id} card-button'></button>
+          <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'></button>
         </header>
           <span id='${recipe.id}' class='recipe-name'>${recipe.name}</span>
           <img id='${recipe.id}' tabindex='0' class='card-picture'
           src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
     </div>`)
+  })
+  
+
+  $('.favorite').click(function(){
+    $(this).addClass('favorite-active');
+    favorites.push(this.id);
+    localStorage.setItem(user.id,JSON.stringify(favorites));
   })
   // getFavorites();
 };

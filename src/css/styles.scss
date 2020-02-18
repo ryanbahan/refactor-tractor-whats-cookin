@@ -6,6 +6,7 @@ body {
   box-sizing: border-box;
   font-family: 'Open Sans', sans-serif;
   margin: auto;
+  position: relative;
 }
 
 button {
@@ -63,21 +64,6 @@ h1 {
   margin-top: 3px;
 }
 
-.search-image:hover,
-.card-button:hover,
-.navButton:hover,
-.search-button:hover {
-  background-color: #cff2da;
-}
-
-
-.search-image:active,
-.card-button:active,
-.navButton:active,
-.search-button:active {
-
-}
-
 .search-input {
   border: 1px solid #000;
   font-size: 100%;
@@ -85,23 +71,6 @@ h1 {
   margin: 3px 7px 0px 0px;
   padding-left: 10px;
   width: 90%;
-}
-
-
-.card-button {
-  height: 27px;
-  margin: 5% 2.5%;
-}
-
-
-
-.add-button {
-  display: flex;
-  width: 12%;
-}
-
-.add {
-  width: 100%;
 }
 
 .hidden {
@@ -113,7 +82,32 @@ h1 {
   background-image: url(https://image.flaticon.com/icons/svg/149/149222.svg);
   background-repeat: no-repeat;
   background-position: center;
-  width: 13%;
+}
+
+.favorite-active {
+  background-image: url(https://image.flaticon.com/icons/svg/148/148841.svg);
+  background-repeat: no-repeat;
+}
+
+.add-button {
+  display: flex;
+  background-image: url("https://image.flaticon.com/icons/svg/32/32339.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 87.5%;
+}
+
+.add-button-active {
+  display: flex;
+  background-image: url("https://image.flaticon.com/icons/svg/32/32339.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 87.5%;
+}
+
+.card-button {
+  width: 40px;
+  height: 30px;
 }
 
 .all-cards {
@@ -133,12 +127,23 @@ img {
   box-shadow: 5px 5px 5px #e4e4e4;
   border-radius: 2.5%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-
-.card-header {
+.card-title-info {
   display: flex;
   justify-content: space-between;
+  padding: 0 2.5%;
+}
+
+.card-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.card-button-container > * {
+  margin: 0 5%;
 }
 
 .all {
@@ -159,20 +164,10 @@ h3 {
 }
 
 .recipe-name {
-  padding: 1% 0 0 2.5%;
-  display: block;
-}
-
-.card-picture:hover {
-  opacity: 0.7;
-}
-
-.card-picture:active {
-  border: 2px solid #000;
+  max-width: 60%;
 }
 
 .card-picture {
-  margin: 0px 0 8px 0;
   width: 100%;
   border-radius: 2.5%;
 }
@@ -182,7 +177,50 @@ main {
   width: 100%;
 }
 
-.favorite-active {
-  background-image: url(https://image.flaticon.com/icons/svg/148/148841.svg);
-  background-repeat: no-repeat;
+.recipe-modal {
+  border: solid 0.5px #e4e4e4;
+  width: 65vw;
+  width: min-content;
+  height: 90vh;
+  overflow: scroll;
+  position: fixed;
+  z-index: 2;
+  background-color: #fff;
+  left: 28%;
+  top: 2.5%;
+  border-radius: 5px;
+  padding: 1%;
+}
+
+.recipe-view-image {
+  border-radius: 5px;
+}
+
+.recipe-title-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-opacity {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.5;
+  top: 0;
+}
+
+.recipe-name-container {
+}
+
+.recipe-name-container h3 {
+  color: black;
+  margin: 1% 0;
+  font-size: 1.25rem;
+}
+
+.close-link {
+  display: block;
+  text-align: right;
+  padding: 1.5%;
 }

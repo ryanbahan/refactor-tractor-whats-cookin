@@ -10,13 +10,13 @@ import Cookbook from './cookbook';
 import DomUpdates from './domUpdates';
 
 // let favButton = document.querySelector('.view-favorites');
-let homeButton = document.querySelector('.home');
-let cardArea = document.querySelector('.all-cards');
+// let homeButton = document.querySelector('.home');
+// let cardArea = document.querySelector('.all-cards');
 let domUpdates = new DomUpdates();
 
-homeButton.addEventListener('click', cardButtonConditionals);
+// homeButton.addEventListener('click', cardButtonConditionals);
 // favButton.addEventListener('click', viewFavorites);
-cardArea.addEventListener('click', cardButtonConditionals);
+// cardArea.addEventListener('click', cardButtonConditionals);
 
 let userId = (Math.floor(Math.random() * 49) + 1);
 let user;

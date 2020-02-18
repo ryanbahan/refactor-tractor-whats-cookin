@@ -79,16 +79,10 @@ function greetUser(user) {
 
 function cardButtonConditionals(event) {
   if (event.target.classList.contains('favorite')) {
-    console.log('check');
     toggleClick()
-  } else
-  if (event.target.classList.contains('card-picture')) {
-
-    displayDirections(event);
-
-  } else if (event.target.classList.contains('home')) {
-    favButton.innerHTML = 'View Favorites';
-    populateCards(cookbook.recipes);
+  } else if (!event.target.classList.contains('favorite')) {
+    let id = event.target.closest('.card').id;
+    domUpdates.displayRecipe(id);
   }
 }
 

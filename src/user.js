@@ -1,25 +1,11 @@
+import Cookbook from "./cookbook";
+
 class User {
   constructor(id, name, pantry) {
     this.id = id;
     this.name = name;
     this.pantry = pantry;
-    this.favoriteRecipes = JSON.parse(localStorage.getItem(this.id)) || [];
-  }
-
-  saveFavorites() {
-    localStorage.setItem(this.id, JSON.stringify(this.favoriteRecipes));
-  }
-
-  updateFavorites() {
-    if (this.favoriteRecipes.includes(event.target.id)) {
-      this.favoriteRecipes.splice(
-        this.favoriteRecipes.indexOf(event.target.id),
-        1
-      );
-    } else {
-      this.favoriteRecipes.push(event.target.id);
-    }
-    this.saveFavorites();
+    this.cookbook = new Cookbook(this.id);
   }
 
   filterFavorites(tag) {

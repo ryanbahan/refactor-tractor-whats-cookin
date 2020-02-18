@@ -1,6 +1,4 @@
 html {
-  background-color: #37515C;
-  border: 2px solid #000;
   height: 100vh;
 }
 
@@ -12,8 +10,6 @@ body {
 
 
 .main-header {
-  background-color: #EBF5EE;
-  border: 2px solid #000;
   display: flex;
   height: auto;
   justify-content: space-between;
@@ -29,13 +25,9 @@ body {
 }
 
 h1 {
-  border-right: 2px solid #000;
-  font-size: 255%;
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-top: 10px;
-  text-align: center;
-  width: 30%;
+  margin-left: 2.5%;
+  font-size: 18px;
+  font-weight: 400;
 }
 
 .user-info {
@@ -88,13 +80,12 @@ h1 {
 .card-button {
   border: 1px solid #000;
   height: 27px;
-  margin: 3px;
+  margin: 5% 2.5%;
 }
 
 
 
 .add-button {
-  background-color: #EBF5EE;
   display: flex;
   width: 12%;
 }
@@ -109,7 +100,6 @@ h1 {
 
 
 .favorite {
-  background-color: #EBF5EE;
   background-image: url(https://image.flaticon.com/icons/svg/149/149222.svg);
   background-repeat: no-repeat;
   background-position: center;
@@ -129,15 +119,14 @@ img {
 }
 
 .card {
-  background-color: #D7F2FE;
-  border: 3px solid #000;
+  border: 0.5px solid #e4e4e4;
+  box-shadow: 5px 5px 5px #e4e4e4;
+  border-radius: 2.5%;
   width: 100%;
 }
 
 
 .card-header {
-  background-color: #EBF5EE;
-  border-bottom: 1px solid #000;
   display: flex;
   justify-content: space-between;
 }
@@ -160,10 +149,8 @@ h3 {
 }
 
 .recipe-name {
-
+  padding: 1% 0 0 2.5%;
   display: block;
-  font-size: 150%;
-  text-align: center;
 }
 
 .card-picture:hover {
@@ -175,14 +162,12 @@ h3 {
 }
 
 .card-picture {
-  border: 1px solid #000;
-  height: 200px;
-  margin: 10px 3% 8px 2.6%;
-  width: 94%;
+  margin: 0px 0 8px 0;
+  width: 100%;
+  border-radius: 2.5%;
 }
 
 main {
-  background-color: #37515C;
   height: 100%;
   width: 100%;
 }

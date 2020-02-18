@@ -41,11 +41,10 @@ class DomUpdates {
               src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
         </div>`)
       })
-      // getFavorites();
     };
 
   getRecipes();
-  
+
   }
 }
 

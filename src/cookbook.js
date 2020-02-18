@@ -1,7 +1,7 @@
 class Cookbook {
   constructor(userID) {
     this.id = userID;
-    let storedValue = JSON.parse(localStorage.getItem(2)) || {
+    let storedValue = JSON.parse(localStorage.getItem(this.id)) || {
       favorites: [],
       savedRecipes: []
     };

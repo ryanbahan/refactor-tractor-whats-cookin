@@ -5,10 +5,10 @@ class Cookbook {
       favorites: [],
       savedRecipes: []
     };
-    this.favoriteRecipes = storedValue.favorites;
-    this.savedRecipes = storedValue.savedRecipes;
+    this.favoriteRecipes = storedValue.favorites || [];
+    this.savedRecipes = storedValue.savedRecipes || [];
   }
-  
+
   save() {
     localStorage.setItem(
       this.id,
@@ -46,7 +46,7 @@ class Cookbook {
     }
     this.save();
   }
-  
+
   cook(recipeID) {
     this.savedRecipes.splice(this.savedRecipes.indexOf(recipeID), 1);
     this.save();

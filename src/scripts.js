@@ -18,8 +18,8 @@ let domUpdates = new DomUpdates();
 // favButton.addEventListener('click', viewFavorites);
 cardArea.addEventListener('click', cardButtonConditionals);
 
-// let userId = (Math.floor(Math.random() * 49) + 1);
-let userId = 1;
+let userId = (Math.floor(Math.random() * 49) + 1);
+// let userId = 1;
 let user;
 
 (async function start() {

@@ -5,7 +5,7 @@ class DomUpdates {
   }
 
   displayRecipeCards(user, favorites) {
-
+    console.log(favorites);
     const getRecipes = async () => {
       let response = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData");
       let recipeData = await response.json();

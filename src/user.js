@@ -6,10 +6,6 @@ class User {
     this.favoriteRecipes = JSON.parse(localStorage.getItem(this.id)) || []
   }
 
-  loadFavorites() {
-    this.favoriteRecipes = JSON.parse(localStorage.getItem(this.id)) || [];
-  }
-
   saveFavorites() {
     localStorage.setItem(this.id, JSON.stringify(this.favoriteRecipes));
   }

@@ -10,15 +10,16 @@ import Cookbook from './cookbook';
 import DomUpdates from './domUpdates';
 
 // let favButton = document.querySelector('.view-favorites');
-let homeButton = document.querySelector('.home');
+// let homeButton = document.querySelector('.home');
 let cardArea = document.querySelector('.all-cards');
 let domUpdates = new DomUpdates();
 
-homeButton.addEventListener('click', cardButtonConditionals);
+// homeButton.addEventListener('click', cardButtonConditionals);
 // favButton.addEventListener('click', viewFavorites);
 cardArea.addEventListener('click', cardButtonConditionals);
 
 let userId = (Math.floor(Math.random() * 49) + 1);
+// let userId = 1;
 let user;
 let favorites;
 
@@ -80,6 +81,7 @@ function loadFavorites(id){
 
 function cardButtonConditionals(event) {
   if (event.target.classList.contains('favorite')) {
+    console.log('check');
     toggleClick()
   } else
   if (event.target.classList.contains('card-picture')) {

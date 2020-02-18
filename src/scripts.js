@@ -18,10 +18,9 @@ let domUpdates = new DomUpdates();
 // favButton.addEventListener('click', viewFavorites);
 cardArea.addEventListener('click', cardButtonConditionals);
 
-let userId = (Math.floor(Math.random() * 49) + 1);
-// let userId = 1;
+// let userId = (Math.floor(Math.random() * 49) + 1);
+let userId = 1;
 let user;
-let favorites;
 
 (async function start() {
 
@@ -30,9 +29,8 @@ let favorites;
 
   newUser = newUser.wcUsersData.find(user => user.id === Number(userId));
   user = new User(newUser.id, newUser.name, newUser.pantry);
-
-  loadFavorites(user.id);
-  domUpdates.displayRecipeCards(user, favorites);
+  console.log(user.cookbook);
+  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes);
   greetUser(user);
 
 })();
@@ -42,9 +40,9 @@ function greetUser(user) {
 }
 
 
-function loadFavorites(id){
-  favorites = JSON.parse(localStorage.getItem(id)) || [];
-}
+// function loadFavorites(id){
+//   favorites = JSON.parse(localStorage.getItem(id)) || [];
+// }
 
 
 // function viewFavorites() {
@@ -151,12 +149,5 @@ function displayDirections(event) {
 
 const toggleClick = () => {
   $(event.target).toggleClass('favorite-active');
-
-  if (favorites.includes(event.target.id)){
-    favorites.splice(favorites.indexOf(event.target.id),1);
-  } else {
-    favorites.push(event.target.id);
-  };
-
-  localStorage.setItem(user.id,JSON.stringify(favorites));
+  user.cookbook.updateFavorites(event.target.id);
 };

@@ -18,10 +18,9 @@ let domUpdates = new DomUpdates();
 // favButton.addEventListener('click', viewFavorites);
 cardArea.addEventListener('click', cardButtonConditionals);
 
-let userId = (Math.floor(Math.random() * 49) + 1);
-// let userId = 1;
+// let userId = (Math.floor(Math.random() * 49) + 1);
+let userId = 1;
 let user;
-let favorites;
 
 (async function start() {
 
@@ -30,7 +29,8 @@ let favorites;
 
   newUser = newUser.wcUsersData.find(user => user.id === Number(userId));
   user = new User(newUser.id, newUser.name, newUser.pantry);
-  domUpdates.displayRecipeCards(user, user.favoriteRecipes);
+  console.log(user.cookbook);
+  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes);
   greetUser(user);
 
 })();
@@ -155,5 +155,5 @@ function displayDirections(event) {
 
 const toggleClick = () => {
   $(event.target).toggleClass('favorite-active');
-  user.updateFavorites(event.target.id);
+  user.cookbook.updateFavorites(event.target.id);
 };

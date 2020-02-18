@@ -3,7 +3,7 @@ class User {
     this.id = id;
     this.name = name;
     this.pantry = pantry;
-    this.favoriteRecipes = [];
+    this.favoriteRecipes = JSON.parse(localStorage.getItem(this.id)) || []
   }
 
   loadFavorites() {

@@ -30,8 +30,6 @@ let favorites;
 
   newUser = newUser.wcUsersData.find(user => user.id === Number(userId));
   user = new User(newUser.id, newUser.name, newUser.pantry);
-
-  user.loadFavorites();
   domUpdates.displayRecipeCards(user, user.favoriteRecipes);
   greetUser(user);
 

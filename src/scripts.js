@@ -9,7 +9,7 @@ import User from './user';
 import Cookbook from './cookbook';
 import DomUpdates from './domUpdates';
 
-let favButton = document.querySelector('.view-favorites');
+// let favButton = document.querySelector('.view-favorites');
 let homeButton = document.querySelector('.home');
 let cardArea = document.querySelector('.all-cards');
 let domUpdates = new DomUpdates();
@@ -31,24 +31,10 @@ let favorites;
   user = new User(newUser.id, newUser.name, newUser.pantry);
 
   loadFavorites(user.id);
-
-  console.log('user', user);
-  console.log('favorites', favorites);
-
   domUpdates.displayRecipeCards(user, favorites);
   greetUser(user);
 
 })();
-
-// const getRecipes = async () => {
-//
-//   let response = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData");
-//   let recipeData = await response.json();
-//
-//   let cookbook = new Cookbook(recipeData.recipeData);
-//   populateCards(cookbook.recipes);
-//
-// }
 
 function greetUser(user) {
   $('.user-name').text(user.name.split(' ')[0] + ' ' + user.name.split(' ')[1][0]);
@@ -93,9 +79,9 @@ function loadFavorites(id){
 // }
 
 function cardButtonConditionals(event) {
-  // if (event.target.classList.contains('favorite')) {
-  //   favoriteCard(event);
-  // } else
+  if (event.target.classList.contains('favorite')) {
+    toggleClick()
+  } else
   if (event.target.classList.contains('card-picture')) {
 
     displayDirections(event);
@@ -167,15 +153,14 @@ function displayDirections(event) {
   // let costInDollars = (cost / 100).toFixed(2)
 }
 
-$('.favorite').click(function(){
-  console.log('check');
-  $(this).toggleClass('favorite-active');
+const toggleClick = () => {
+  $(event.target).toggleClass('favorite-active');
 
-  if(favorites.includes(this.id)){
-    favorites.splice(favorites.indexOf(this.id),1);
+  if (favorites.includes(event.target.id)){
+    favorites.splice(favorites.indexOf(event.target.id),1);
   } else {
-    favorites.push(this.id);
-  }
+    favorites.push(event.target.id);
+  };
 
   localStorage.setItem(user.id,JSON.stringify(favorites));
-})
+};

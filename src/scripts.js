@@ -31,8 +31,8 @@ let favorites;
   newUser = newUser.wcUsersData.find(user => user.id === Number(userId));
   user = new User(newUser.id, newUser.name, newUser.pantry);
 
-  loadFavorites(user.id);
-  domUpdates.displayRecipeCards(user, favorites);
+  user.loadFavorites();
+  domUpdates.displayRecipeCards(user, user.favoriteRecipes);
   greetUser(user);
 
 })();
@@ -42,9 +42,9 @@ function greetUser(user) {
 }
 
 
-function loadFavorites(id){
-  favorites = JSON.parse(localStorage.getItem(id)) || [];
-}
+// function loadFavorites(id){
+//   favorites = JSON.parse(localStorage.getItem(id)) || [];
+// }
 
 
 // function viewFavorites() {
@@ -157,12 +157,5 @@ function displayDirections(event) {
 
 const toggleClick = () => {
   $(event.target).toggleClass('favorite-active');
-
-  if (favorites.includes(event.target.id)){
-    favorites.splice(favorites.indexOf(event.target.id),1);
-  } else {
-    favorites.push(event.target.id);
-  };
-
-  localStorage.setItem(user.id,JSON.stringify(favorites));
+  user.updateFavorites(event.target.id);
 };

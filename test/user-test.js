@@ -10,6 +10,16 @@ import ingredientsData from '../src/data/ingredients.js'
 let user1, recipe;
 
 describe('User', () => {
+  global.localStorage = {
+    store: {},
+    setItem(keyName, value) {
+      this.store[keyName] = value;
+    },
+  
+    getItem(keyName) {
+      return this.store[keyName]
+    }
+  }
   beforeEach(() => {
     recipe = new Recipe(recipeData[0], ingredientsData)
     user1 = new User(1, 'Boba', [{
@@ -54,6 +64,9 @@ describe('User', () => {
     expect(user1.findFavorites('egg')).to.eql([recipeData[0]]);
   });
 
+  it('Should be able to save favorites', () => {
+    expect(user1.saveFavorites()).to.have.been.called(2);
+  });
   // it('Should be able to check ingredients in User/s pantry for a given recipe', () => {
   //   let recipeIngredients = recipeData[0].ingredients;
   //   expect(user1.checkPantry(recipeIngredients)).to.eql('You do not have the ingredients!');

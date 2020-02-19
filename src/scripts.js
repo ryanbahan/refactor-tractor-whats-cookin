@@ -10,19 +10,15 @@ import Cookbook from './cookbook';
 import DomUpdates from './domUpdates';
 import DatabaseController from './databaseController';
 
-// let favButton = document.querySelector('.view-favorites');
-// let homeButton = document.querySelector('.home');
 let cardArea = document.querySelector('.all-cards');
 let domUpdates = new DomUpdates();
 let databaseController = new DatabaseController();
 
-// homeButton.addEventListener('click', cardButtonConditionals);
-// favButton.addEventListener('click', viewFavorites);
 cardArea.addEventListener('click', cardButtonConditionals);
 
 let userId = (Math.floor(Math.random() * 49) + 1);
-// let userId = 1;
 let user;
+let recipes = [];
 
 (async function start() {
 
@@ -32,17 +28,20 @@ let user;
   newUser = newUser.wcUsersData.find(user => user.id === Number(userId));
   user = new User(newUser.id, newUser.name, newUser.pantry);
 
-  let recipes = await databaseController.getRecipes();
+  let recipeData = await databaseController.getRecipes();
 
+  recipeData.recipeData.forEach(recipe => {
+    recipes.push(new Recipe(recipe));
+  })
 
-  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipes);
+  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipeData);
   greetUser(user);
 
 })();
 
 function greetUser(user) {
   $('.user-name').text(user.name.split(' ')[0] + ' ' + user.name.split(' ')[1][0]);
-}
+};
 
 async function cardButtonConditionals(event) {
   if (event.target.classList.contains('favorite')) {
@@ -52,7 +51,7 @@ async function cardButtonConditionals(event) {
     let recipe = await databaseController.getRecipeData(id);
     domUpdates.displayRecipe(id, recipe);
   }
-}
+};
 
 const toggleClick = () => {
   $(event.target).toggleClass('favorite-active');

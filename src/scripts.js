@@ -33,8 +33,6 @@ let recipes = [];
   recipeData.recipeData.forEach(recipe => {
     recipes.push(new Recipe(recipe));
   })
-  console.log(recipes);
-  console.log(recipeData.recipeData);
 
   domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipes);
   greetUser(user);
@@ -51,15 +49,21 @@ $('#saved-recipes-filter').on('click',savedRecipesFilter);
 
 function savedRecipesFilter() {
   console.log(this);
+  console.log($(this));
+  $(this).addClass('active');
   let savedFavoritesDOM = recipes.filter((recipe) => {
     return user.cookbook.savedRecipes.includes(recipe.id);
   })
-  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipeData)
+  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipes)
 }
 
 $('#favorites-filter').on('click',favoritesFilter)
 function favoritesFilter() {
-  console.log(this);
+  console.log(user.cookbook.favoriteRecipes);
+  let savedFavoritesDOM = recipes.filter((recipe) => {
+    return user.cookbook.favoriteRecipes.includes(`${recipe.id}`);
+  })
+  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, savedFavoritesDOM)
 }
 
 async function cardButtonConditionals(event) {

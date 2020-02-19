@@ -4,13 +4,7 @@ class DomUpdates {
     this.allCards = document.querySelector('.all-cards');
   }
 
-  displayRecipeCards(user, favorites) {
-
-    const getRecipes = async () => {
-      let response = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData");
-      let recipeData = await response.json();
-      populateCards(recipeData.recipeData, this.allCards);
-    };
+  displayRecipeCards(user, favorites, recipeData) {
 
     function populateCards(recipes, target) {
       target.innerHTML = '';
@@ -45,14 +39,11 @@ class DomUpdates {
       })
     };
 
-  getRecipes();
+  populateCards(recipeData.recipeData, this.allCards);
 
   }
-  async displayRecipe(id) {
 
-    let recipe = await this.getRecipeData(id);
-
-    console.log(recipe);
+  async displayRecipe(id, recipe) {
 
     this.body.insertAdjacentHTML('afterbegin', `<section class="recipe-modal">
       <img src="${recipe.image}" alt="recipe photo" class="recipe-view-image">
@@ -100,24 +91,6 @@ class DomUpdates {
   closeModal() {
     this.closest('.recipe-modal').remove();
     document.querySelector('.modal-opacity').remove();
-  }
-
-  async getRecipeData(id) {
-
-    let recipesResponse = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData");
-    let recipeData = await recipesResponse.json();
-    let recipe = recipeData.recipeData.find(recipe => recipe.id == id);
-
-    let ingredientsResponse = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData");
-    let ingredientsData = await ingredientsResponse.json();
-
-    let recipeIngredients;
-
-    recipe.ingredients.forEach(ingredient => {
-      ingredient.name = ingredientsData.ingredientsData.find(item => item.id == ingredient.id).name;
-    });
-
-    return recipe;
   }
 }
 

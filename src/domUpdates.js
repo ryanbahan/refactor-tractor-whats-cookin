@@ -52,6 +52,8 @@ class DomUpdates {
 
     let recipe = await this.getRecipeData(id);
 
+    console.log(recipe);
+
     this.body.insertAdjacentHTML('afterbegin', `<section class="recipe-modal">
       <img src="${recipe.image}" alt="recipe photo" class="recipe-view-image">
       <div class="recipe-title-top">
@@ -79,7 +81,12 @@ class DomUpdates {
     <div class="modal-opacity">
     </div>`);
 
+    let ingredientsList = document.querySelector('.ingredients-list');
     let instructionsList = document.querySelector('.recipe-instructions-list');
+
+    recipe.ingredients.forEach(ingredient => {
+      ingredientsList.insertAdjacentHTML('beforeend', `<p>${ingredient.name.replace(/^\w/, c => c.toUpperCase())}</p>`)
+    })
 
     recipe.instructions.forEach(instruction => {
       instructionsList.insertAdjacentHTML('beforeend', `<p>${instruction.number}. ${instruction.instruction}</p>`)
@@ -97,9 +104,18 @@ class DomUpdates {
 
   async getRecipeData(id) {
 
-    let response = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData");
-    let recipeData = await response.json();
-    let recipe = recipeData.recipeData.find(recipe => recipe.id == id)
+    let recipesResponse = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData");
+    let recipeData = await recipesResponse.json();
+    let recipe = recipeData.recipeData.find(recipe => recipe.id == id);
+
+    let ingredientsResponse = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData");
+    let ingredientsData = await ingredientsResponse.json();
+
+    let recipeIngredients;
+
+    recipe.ingredients.forEach(ingredient => {
+      ingredient.name = ingredientsData.ingredientsData.find(item => item.id == ingredient.id).name;
+    });
 
     return recipe;
   }

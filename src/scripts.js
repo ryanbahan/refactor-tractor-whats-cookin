@@ -33,8 +33,10 @@ let recipes = [];
   recipeData.recipeData.forEach(recipe => {
     recipes.push(new Recipe(recipe));
   })
+  console.log(recipes);
+  console.log(recipeData.recipeData);
 
-  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipeData);
+  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipes);
   greetUser(user);
 
 })();
@@ -42,6 +44,23 @@ let recipes = [];
 function greetUser(user) {
   $('.user-name').text(user.name.split(' ')[0] + ' ' + user.name.split(' ')[1][0]);
 };
+
+// $('#grocery-list-filter').on('click',groceryFilter);
+
+$('#saved-recipes-filter').on('click',savedRecipesFilter);
+
+function savedRecipesFilter() {
+  console.log(this);
+  let savedFavoritesDOM = recipes.filter((recipe) => {
+    return user.cookbook.savedRecipes.includes(recipe.id);
+  })
+  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipeData)
+}
+
+$('#favorites-filter').on('click',favoritesFilter)
+function favoritesFilter() {
+  console.log(this);
+}
 
 async function cardButtonConditionals(event) {
   if (event.target.classList.contains('favorite')) {

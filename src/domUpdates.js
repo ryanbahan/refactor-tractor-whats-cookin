@@ -5,7 +5,7 @@ class DomUpdates {
   }
 
   displayRecipeCards(user, favorites) {
-    console.log(favorites);
+
     const getRecipes = async () => {
       let response = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData");
       let recipeData = await response.json();
@@ -48,7 +48,12 @@ class DomUpdates {
   getRecipes();
 
   }
-  displayRecipe(id) {
+  async displayRecipe(id) {
+
+    let recipe = await this.getRecipeData(id);
+
+    console.log(recipe);
+
     this.body.insertAdjacentHTML('afterbegin', `<section class="recipe-modal">
       <img src="https://spoonacular.com/recipeImages/595736-556x370.jpg" alt="recipe photo" class="recipe-view-image">
       <div class="recipe-title-top">
@@ -116,6 +121,15 @@ class DomUpdates {
   closeModal() {
     this.closest('.recipe-modal').remove();
     document.querySelector('.modal-opacity').remove();
+  }
+
+  async getRecipeData(id) {
+
+    let response = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData");
+    let recipeData = await response.json();
+    let recipe = recipeData.recipeData.find(recipe => recipe.id == id)
+
+    return recipe;
   }
 }
 

@@ -55,10 +55,10 @@ class DomUpdates {
     console.log(recipe);
 
     this.body.insertAdjacentHTML('afterbegin', `<section class="recipe-modal">
-      <img src="https://spoonacular.com/recipeImages/595736-556x370.jpg" alt="recipe photo" class="recipe-view-image">
+      <img src="${recipe.image}" alt="recipe photo" class="recipe-view-image">
       <div class="recipe-title-top">
         <div class="recipe-name-container">
-          <h3>Loaded Chocolate Chip Pudding Cookie Cups</h3>
+          <h3>${recipe.name}</h3>
           <h3>$XX</h3>
         </div>
         <div class="card-button-container">

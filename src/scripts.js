@@ -46,9 +46,7 @@ let recipes = [];
     })
   })
 
-  console.log(recipes);
-
-  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipeData);
+  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipes);
   greetUser(user);
 
 })();
@@ -62,7 +60,9 @@ async function cardButtonConditionals(event) {
     toggleClick()
   } else if (!event.target.classList.contains('favorite')) {
     let id = event.target.closest('.card').id;
-    let recipe = await databaseController.getRecipeData(id);
+    let recipe = recipes.find(item => {
+      return item.id == id
+    });
     domUpdates.displayRecipe(id, recipe);
   }
 };

@@ -21,7 +21,6 @@ let user;
 let recipes = [];
 
 (async function start() {
-
   let response = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData");
   let newUser = await response.json();
 
@@ -29,10 +28,25 @@ let recipes = [];
   user = new User(newUser.id, newUser.name, newUser.pantry);
 
   let recipeData = await databaseController.getRecipes();
-
   recipeData.recipeData.forEach(recipe => {
     recipes.push(new Recipe(recipe));
   })
+
+  let ingredientsData = await databaseController.getIngredients();
+
+
+  recipes.forEach(recipe => {
+    recipe.ingredients = recipe.ingredients.map( ingredient => {
+      let ingredientData = ingredientsData.ingredientsData.find(item => {
+        return item.id === ingredient.id
+      })
+      ingredient.name = ingredientData.name;
+      ingredient.estimatedCostInCents = ingredientData.estimatedCostInCents
+      return ingredient
+    })
+  })
+
+  console.log(recipes);
 
   domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipeData);
   greetUser(user);

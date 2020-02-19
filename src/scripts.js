@@ -34,6 +34,20 @@ let recipes = [];
 
   let ingredientsData = await databaseController.getIngredients();
 
+
+  recipes.forEach(recipe => {
+    recipe.ingredients = recipe.ingredients.map( ingredient => {
+      let ingredientData = ingredientsData.ingredientsData.find(item => {
+        return item.id === ingredient.id
+      })
+      ingredient.name = ingredientData.name;
+      ingredient.estimatedCostInCents = ingredientData.estimatedCostInCents
+      return ingredient
+    })
+  })
+
+  console.log(recipes);
+
   domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipeData);
   greetUser(user);
 

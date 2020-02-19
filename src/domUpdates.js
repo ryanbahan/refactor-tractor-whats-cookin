@@ -5,7 +5,7 @@ class DomUpdates {
   }
 
   displayRecipeCards(user, favorites) {
-    console.log(favorites);
+
     const getRecipes = async () => {
       let response = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData");
       let recipeData = await response.json();
@@ -48,12 +48,17 @@ class DomUpdates {
   getRecipes();
 
   }
-  displayRecipe(id) {
+  async displayRecipe(id) {
+
+    let recipe = await this.getRecipeData(id);
+
+    console.log(recipe);
+
     this.body.insertAdjacentHTML('afterbegin', `<section class="recipe-modal">
-      <img src="https://spoonacular.com/recipeImages/595736-556x370.jpg" alt="recipe photo" class="recipe-view-image">
+      <img src="${recipe.image}" alt="recipe photo" class="recipe-view-image">
       <div class="recipe-title-top">
         <div class="recipe-name-container">
-          <h3>Loaded Chocolate Chip Pudding Cookie Cups</h3>
+          <h3>${recipe.name}</h3>
           <h3>$XX</h3>
         </div>
         <div class="card-button-container">
@@ -66,49 +71,28 @@ class DomUpdates {
       <hr>
       <div class="ingredients-list">
         <h4>Ingredients:</h4>
-        <p>Flour</p>
-        <p>Baking Soda</p>
-        <p>Egg</p>
-        <p>Granulated Sugar</p>
-        <p>Instant Vanilla Pudding Mix</p>
-        <p>Light Brown Sugar</p>
-        <p>Salt</p>
-        <p>Sea Salt</p>
-        <p>Semisweet Chocolate Chips</p>
-        <p>Unsalted Butter</p>
-        <p>Vanilla Extract</p>
       </div>
       <hr>
       <div class="recipe-instructions-list">
         <h4>Instructions</h4>
-        <p>In a large mixing bowl, whisk together the dry ingredients
-          (flour, pudding mix, soda and salt). Set aside.In a large mixing bowl
-          of a stand mixer, cream butter for 30 seconds. Gradually add granulated
-          sugar and brown sugar and cream until light and fluffy.</p>
-        <p>
-          Add egg and vanilla and mix until combined.
-        </p>
-        <p>
-          Add dry ingredients and mix on low just until incorporated.
-          Stir in chocolate chips.Scoop the dough into 1,5 tablespoon size balls
-          and place on a plate or sheet. Cover with saran wrap and chill at least
-          2 hours or overnight.When ready to bake, preheat oven to 350 degrees.
-        </p>
-        <p>
-          Place the cookie dough balls into ungreased muffin pan. Sprinkle with sea salt.
-        </p>
-        <p>
-          Bake for 9 to 10 minutes, or until you see the edges start to brown.
-        </p>
-        <p>
-          Remove the pan from the oven and let sit for 10 minutes before removing onto
-          a cooling rack.Top with ice cream and a drizzle of chocolate sauce.
-        </p>
       </div>
       <a href="#" class="close-link"><b>Close</b></a>
     </section>
     <div class="modal-opacity">
     </div>`);
+
+    let ingredientsList = document.querySelector('.ingredients-list');
+    let instructionsList = document.querySelector('.recipe-instructions-list');
+
+    recipe.ingredients.forEach(ingredient => {
+      ingredientsList.insertAdjacentHTML('beforeend', `<p>${ingredient.name.replace(/^\w/, c => c.toUpperCase())}</p>`)
+    })
+
+    recipe.instructions.forEach(instruction => {
+      instructionsList.insertAdjacentHTML('beforeend', `<p>${instruction.number}. ${instruction.instruction}</p>`)
+    });
+
+
 
     document.querySelector('.close-link').addEventListener('click', this.closeModal)
 
@@ -116,6 +100,24 @@ class DomUpdates {
   closeModal() {
     this.closest('.recipe-modal').remove();
     document.querySelector('.modal-opacity').remove();
+  }
+
+  async getRecipeData(id) {
+
+    let recipesResponse = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData");
+    let recipeData = await recipesResponse.json();
+    let recipe = recipeData.recipeData.find(recipe => recipe.id == id);
+
+    let ingredientsResponse = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData");
+    let ingredientsData = await ingredientsResponse.json();
+
+    let recipeIngredients;
+
+    recipe.ingredients.forEach(ingredient => {
+      ingredient.name = ingredientsData.ingredientsData.find(item => item.id == ingredient.id).name;
+    });
+
+    return recipe;
   }
 }
 

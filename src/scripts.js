@@ -29,7 +29,7 @@ let user;
 
   newUser = newUser.wcUsersData.find(user => user.id === Number(userId));
   user = new User(newUser.id, newUser.name, newUser.pantry);
-  console.log(user.cookbook);
+
   domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes);
   greetUser(user);
 

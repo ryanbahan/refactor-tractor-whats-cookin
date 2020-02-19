@@ -39,7 +39,7 @@ class DomUpdates {
       })
     };
 
-  populateCards(recipeData.recipeData, this.allCards);
+  populateCards(recipeData, this.allCards);
 
   }
 

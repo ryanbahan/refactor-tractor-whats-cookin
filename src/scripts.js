@@ -16,7 +16,6 @@ let databaseController = new DatabaseController();
 // cardArea.addEventListener('click', cardButtonConditionals);
 
 let userId = (Math.floor(Math.random() * 49) + 1);
-userId = 1;
 let user;
 let recipes = [];
 

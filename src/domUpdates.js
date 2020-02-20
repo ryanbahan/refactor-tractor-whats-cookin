@@ -5,6 +5,7 @@ class DomUpdates {
     this.body = document.querySelector('body');
     this.allCards = document.querySelector('.all-cards');
     this.filter = document.querySelector('.filter');
+    this.searchField = document.querySelector('.search-bar');
   }
 
   displayRecipeCards(user, favorites,savedRecipes, recipeData) {
@@ -19,7 +20,7 @@ class DomUpdates {
         let isSaved ='';
         if(savedRecipes.includes(`${recipe.id}`)){
           isSaved = 'add-button-active';
-        } 
+        }
         if(favorites.includes(`${recipe.id}`)){
           isFavorite = 'favorite-active';
         } else {
@@ -44,6 +45,8 @@ class DomUpdates {
         </div>`)
       })
     };
+
+    console.log(recipeData);
 
   populateCards(recipeData, this.allCards);
 
@@ -274,7 +277,18 @@ class DomUpdates {
 
   }
 
+  searchCards(user, recipes) {
+  var query = new RegExp(`${this.searchField.value}`, 'gi');
+
+  var matches = recipes.filter(recipe => recipe.name.match(query));
+
+  this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, matches);
+};
+
   createDOMBindings(user,recipes){
+    $('.search-bar').on('input',() => {
+      this.searchCards(user, recipes);
+    });
 
     $('#saved-recipes-filter').on('click',() => {
       this.savedRecipesFilter(user,recipes);

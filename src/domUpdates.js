@@ -82,7 +82,8 @@ class DomUpdates {
     let instructionsList = document.querySelector('.recipe-instructions-list');
 
     recipe.ingredients.forEach(ingredient => {
-      ingredientsList.insertAdjacentHTML('beforeend', `<p>${ingredient.name.replace(/^\w/, c => c.toUpperCase())}</p>`)
+      console.log()
+      ingredientsList.insertAdjacentHTML('beforeend', `<p>${ingredient.name.replace(/^\w/, c => c.toUpperCase())} ${ingredient.quantity.amount} ${ingredient.quantity.unit}</p>`)
     })
 
     recipe.instructions.forEach(instruction => {

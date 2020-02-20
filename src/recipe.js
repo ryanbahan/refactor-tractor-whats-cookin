@@ -8,24 +8,13 @@ class Recipe {
     this.image = recipe.image;
   }
 
-  calculateCost() {
-    let costCounter = 0;
-    this.ingredients.forEach(ingredient => {
-      this.ingredientsData.find(specificIngredient => {
-        if (specificIngredient.id === ingredient.id) {
-          costCounter += (Number(specificIngredient.estimatedCostInCents) *
-          Number(ingredient.quantity.amount))
-        }
-      })
-    });
-    return costCounter;
-  }
 
-  findCost(ingredientID){
-    let cost =  this.ingredientsData.find(ingredient=> {
-      return ingredient.id === ingredientID
-    }).estimatedCostInCents;
-    return cost;
+  calculateTotalRecipeCost() {
+    let costCounter = 0;
+    this.ingredients.map(ingredient => {
+      costCounter += Math.floor(ingredient.estimatedCostInCents * ingredient.quantity.amount)
+    })
+    return costCounter/100;
   }
 }
 

@@ -50,6 +50,5 @@ let recipes = [];
 })();
 
 function greetUser(user) {
-  $('.user-name').text(user.name.split(' ')[0] + ' ' + user.name.split(' ')[1][0]);
+  $('.user-name').text(user.name.split(' ')[0] + '\xa0' + user.name.split(' ')[1][0]);
 };
-

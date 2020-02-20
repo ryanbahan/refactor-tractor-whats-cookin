@@ -236,7 +236,7 @@ class DomUpdates {
       </fieldset>
       </div>
       <div class="grocery-bottom">
-        <button type="submit" class="grocery-submit close-link">Close</button>
+        <button type="submit" class="filter-close close-link">Close</button>
       </div>
     </section>
     `);

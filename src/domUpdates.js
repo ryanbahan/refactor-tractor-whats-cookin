@@ -159,6 +159,8 @@ class DomUpdates {
 
   groceryListView(user,recipes) {
 
+    user.pantry.getNeededIngredients(user.cookbook.savedRecipes);
+
     this.body.insertAdjacentHTML('afterbegin', `<section class="grocery-modal">
       <hr>
         <div class="grocery-item">

@@ -26,6 +26,11 @@ nav ul {
 
 nav li {
   margin-right: 15px;
+  cursor: pointer;
+}
+
+#home {
+  cursor: pointer;
 }
 
 
@@ -82,11 +87,13 @@ h1 {
   background-image: url(https://image.flaticon.com/icons/svg/149/149222.svg);
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
 }
 
 .favorite-active {
   background-image: url(https://image.flaticon.com/icons/svg/148/148841.svg);
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 
 .add-button {
@@ -95,6 +102,7 @@ h1 {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 87.5%;
+  cursor: pointer;
 }
 
 .add-button-active {
@@ -103,6 +111,7 @@ h1 {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 87.5%;
+  cursor: pointer;
 }
 
 .card-button {
@@ -129,6 +138,7 @@ img {
   width: 100%;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .card-title-info {
@@ -275,4 +285,17 @@ main {
   display: block;
   text-align: right;
   padding: 1.5%;
+}
+
+.filter {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.filter-button {
+  font-size: 1rem;
+  border: solid 1px black;
+  border-radius: 5px;
+  margin-right: 2%;
 }

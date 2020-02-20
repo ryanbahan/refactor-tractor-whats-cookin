@@ -91,6 +91,7 @@ class DomUpdates {
 
   }
   closeModal() {
+    console.log('modal');
     this.closest('.recipe-modal').remove();
     document.querySelector('.modal-opacity').remove();
   }
@@ -100,6 +101,7 @@ class DomUpdates {
   }
   
   savedRecipesFilter(user,recipes) {
+    console.log('savedRecipes');
     let savedFavoritesDOM = recipes.filter((recipe) => {
       return user.cookbook.savedRecipes.includes(`${recipe.id}`);
     })
@@ -107,18 +109,25 @@ class DomUpdates {
   }
   
   favoritesFilter(user,recipes) {
-    console.log(user.cookbook.favoriteRecipes);
     let savedFavoritesDOM = recipes.filter((recipe) => {
       return user.cookbook.favoriteRecipes.includes(`${recipe.id}`);
     })
     this.displayRecipeCards(user, user.cookbook.favoriteRecipes, savedFavoritesDOM);
   }
-  
+
   createDOMBindings(user,recipes){
-    console.log(` This is here: ${user.cookbook}`)
-    $('#saved-recipes-filter').on('click',this.savedRecipesFilter(user,recipes));
-    $('#favorites-filter').on('click',this.favoritesFilter(user,recipes));
-    $('#home').on('click',this.home(user,recipes));
+    
+    $('#saved-recipes-filter').on('click',() => {
+      this.savedRecipesFilter(user,recipes);
+    });
+    $('#favorites-filter').on('click', () => {
+      this.favoritesFilter(user,recipes);
+    });
+    
+    $('#home').on('click',() => {
+      this.home(user,recipes);
+    });
+    console.log($('#home'));
   }
 }
 

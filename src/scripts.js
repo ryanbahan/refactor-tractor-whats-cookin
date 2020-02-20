@@ -27,7 +27,6 @@ let recipes = [];
 
   newUser = newUser.wcUsersData.find(user => user.id === Number(userId));
   user = new User(newUser.id, newUser.name, newUser.pantry);
-
   let recipeData = await databaseController.getRecipes();
 
   recipeData.recipeData.forEach(recipe => {
@@ -36,35 +35,13 @@ let recipes = [];
 
   domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipes);
   greetUser(user);
+  domUpdates.createDOMBindings(user,recipes);
 
 })();
 
 function greetUser(user) {
   $('.user-name').text(user.name.split(' ')[0] + ' ' + user.name.split(' ')[1][0]);
 };
-
-// $('#grocery-list-filter').on('click',groceryFilter);
-
-$('#saved-recipes-filter').on('click',savedRecipesFilter);
-
-function savedRecipesFilter() {
-  console.log(this);
-  console.log($(this));
-  $(this).addClass('active');
-  let savedFavoritesDOM = recipes.filter((recipe) => {
-    return user.cookbook.savedRecipes.includes(recipe.id);
-  })
-  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipes)
-}
-
-$('#favorites-filter').on('click',favoritesFilter)
-function favoritesFilter() {
-  console.log(user.cookbook.favoriteRecipes);
-  let savedFavoritesDOM = recipes.filter((recipe) => {
-    return user.cookbook.favoriteRecipes.includes(`${recipe.id}`);
-  })
-  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, savedFavoritesDOM)
-}
 
 async function cardButtonConditionals(event) {
   if (event.target.classList.contains('favorite')) {

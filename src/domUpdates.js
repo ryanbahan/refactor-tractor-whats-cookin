@@ -1,3 +1,5 @@
+const $ = require('jquery');
+
 class DomUpdates {
   constructor() {
     this.body = document.querySelector('body');
@@ -91,6 +93,32 @@ class DomUpdates {
   closeModal() {
     this.closest('.recipe-modal').remove();
     document.querySelector('.modal-opacity').remove();
+  }
+
+  home(user,recipes){
+    this.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipes);
+  }
+  
+  savedRecipesFilter(user,recipes) {
+    let savedFavoritesDOM = recipes.filter((recipe) => {
+      return user.cookbook.savedRecipes.includes(`${recipe.id}`);
+    })
+    this.displayRecipeCards(user, user.cookbook.favoriteRecipes, savedFavoritesDOM);
+  }
+  
+  favoritesFilter(user,recipes) {
+    console.log(user.cookbook.favoriteRecipes);
+    let savedFavoritesDOM = recipes.filter((recipe) => {
+      return user.cookbook.favoriteRecipes.includes(`${recipe.id}`);
+    })
+    this.displayRecipeCards(user, user.cookbook.favoriteRecipes, savedFavoritesDOM);
+  }
+  
+  createDOMBindings(user,recipes){
+    console.log(` This is here: ${user.cookbook}`)
+    $('#saved-recipes-filter').on('click',this.savedRecipesFilter(user,recipes));
+    $('#favorites-filter').on('click',this.favoritesFilter(user,recipes));
+    $('#home').on('click',this.home(user,recipes));
   }
 }
 

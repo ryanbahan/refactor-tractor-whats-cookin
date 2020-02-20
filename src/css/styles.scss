@@ -177,6 +177,58 @@ main {
   width: 100%;
 }
 
+.grocery-modal {
+  border: solid 0.5px #e4e4e4;
+  width: 40vw;
+  height: 90vh;
+  overflow: scroll;
+  position: fixed;
+  z-index: 2;
+  background-color: #fff;
+  left: 28%;
+  top: 2.5%;
+  border-radius: 5px;
+  padding: 1%;
+}
+
+.grocery-item {
+  border-radius: 5px;
+  border: solid 1px black;
+  display: flex;
+  justify-content: space-between;
+  padding: 2.5%;
+  margin: 2.5% 0;
+}
+
+.grocery-right-container {
+  display: flex;
+}
+
+.grocery-qty {
+  margin-right: 15px;
+}
+
+.grocery-submit {
+  border: solid 1px black;
+  border-radius: 2.5px;
+  font-size: 1.25rem;
+  padding: 2.5%;
+}
+
+.grocery-bottom {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.grocery-totals {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.grocery-totals > * {
+  margin-right: 5px;
+}
+
 .recipe-modal {
   border: solid 0.5px #e4e4e4;
   width: 65vw;

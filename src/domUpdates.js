@@ -90,16 +90,23 @@ class DomUpdates {
     document.querySelector('.close-link').addEventListener('click', this.closeModal)
 
   }
+
   closeModal() {
     console.log('modal');
     this.closest('.recipe-modal').remove();
     document.querySelector('.modal-opacity').remove();
   }
 
+  closeGroceryModal() {
+    console.log('modal');
+    this.closest('.grocery-modal').remove();
+    document.querySelector('.modal-opacity').remove();
+  }
+
   home(user,recipes){
     this.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipes);
   }
-  
+
   savedRecipesFilter(user,recipes) {
     console.log('savedRecipes');
     let savedFavoritesDOM = recipes.filter((recipe) => {
@@ -107,7 +114,7 @@ class DomUpdates {
     })
     this.displayRecipeCards(user, user.cookbook.favoriteRecipes, savedFavoritesDOM);
   }
-  
+
   favoritesFilter(user,recipes) {
     let savedFavoritesDOM = recipes.filter((recipe) => {
       return user.cookbook.favoriteRecipes.includes(`${recipe.id}`);
@@ -115,19 +122,67 @@ class DomUpdates {
     this.displayRecipeCards(user, user.cookbook.favoriteRecipes, savedFavoritesDOM);
   }
 
+  groceryListView(user,recipes) {
+
+    this.body.insertAdjacentHTML('afterbegin', `<section class="grocery-modal">
+      <hr>
+        <div class="grocery-item">
+          <p>Item name</p>
+          <div class="grocery-right-container">
+            <p class="grocery-qty">QTY: 2</p>
+            <p>Price: $1.50</p>
+          </div>
+        </div>
+        <div class="grocery-item">
+          <p>Item name</p>
+          <div class="grocery-right-container">
+            <p class="grocery-qty">QTY: 2</p>
+            <p>Price: $1.50</p>
+          </div>
+        </div>
+        <div class="grocery-item">
+          <p>Item name</p>
+          <div class="grocery-right-container">
+            <p class="grocery-qty">QTY: 2</p>
+            <p>Price: $1.50</p>
+          </div>
+        </div>
+      <hr>
+      <div class="grocery-totals">
+      <p>QTY: 15</p>
+      <p>Total: $12.25</p>
+      </div>
+      <div class="grocery-bottom">
+        <button type="submit" class="grocery-submit close-link">Checkout</button>
+      </div>
+    </section>
+    <div class="modal-opacity">
+    </div>`);
+
+    document.querySelector('.close-link').addEventListener('click', this.closeGroceryModal)
+
+    console.log('grocery list');
+  }
+
   createDOMBindings(user,recipes){
-    
+
     $('#saved-recipes-filter').on('click',() => {
       this.savedRecipesFilter(user,recipes);
     });
     $('#favorites-filter').on('click', () => {
       this.favoritesFilter(user,recipes);
     });
-    
+
+    $('#grocery-list').on('click',() => {
+      this.groceryListView(user,recipes);
+    });
+
     $('#home').on('click',() => {
       this.home(user,recipes);
     });
-    console.log($('#home'));
+
+
+
   }
 }
 

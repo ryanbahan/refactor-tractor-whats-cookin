@@ -7,7 +7,7 @@ class DomUpdates {
     this.filter = document.querySelector('.filter');
   }
 
-  displayRecipeCards(user, favorites, recipeData) {
+  displayRecipeCards(user, favorites,savedRecipes, recipeData) {
 
     function populateCards(recipes, target) {
       target.innerHTML = '';
@@ -16,7 +16,10 @@ class DomUpdates {
       }
       recipes.forEach(recipe => {
         let isFavorite = '';
-
+        let isSaved ='';
+        if(savedRecipes.includes(`${recipe.id}`)){
+          isSaved = 'add-button-active';
+        } 
         if(favorites.includes(`${recipe.id}`)){
           isFavorite = 'favorite-active';
         } else {
@@ -32,7 +35,7 @@ class DomUpdates {
         <p id='${recipe.id}' class='recipe-name'>${recipe.name}</p>
 
           <div class="card-button-container">
-          <button id='${recipe.id}' aria-label='add-button' class='add-button card-button'>
+          <button id='${recipe.id}' aria-label='add-button' class='add-button ${isSaved} card-button'>
           </button>
           <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'>
           </button>
@@ -86,14 +89,11 @@ class DomUpdates {
       instructionsList.insertAdjacentHTML('beforeend', `<p>${instruction.number}. ${instruction.instruction}</p>`)
     });
 
-
-
     document.querySelector('.close-link').addEventListener('click', this.closeModal)
 
   }
 
   closeModal() {
-    console.log('modal');
     this.closest('.recipe-modal').remove();
     document.querySelector('.modal-opacity').remove();
   }
@@ -109,22 +109,48 @@ class DomUpdates {
   }
 
   home(user,recipes){
-    this.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipes);
+    this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, recipes);
   }
 
   savedRecipesFilter(user,recipes) {
-    console.log('savedRecipes');
     let savedFavoritesDOM = recipes.filter((recipe) => {
       return user.cookbook.savedRecipes.includes(`${recipe.id}`);
     })
-    this.displayRecipeCards(user, user.cookbook.favoriteRecipes, savedFavoritesDOM);
+    this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, savedFavoritesDOM);
   }
 
   favoritesFilter(user,recipes) {
     let savedFavoritesDOM = recipes.filter((recipe) => {
       return user.cookbook.favoriteRecipes.includes(`${recipe.id}`);
     })
-    this.displayRecipeCards(user, user.cookbook.favoriteRecipes, savedFavoritesDOM);
+    this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes,savedFavoritesDOM);
+  }
+
+  cardHelper(user,recipes) {
+    let target = $(event.target);
+    let id = target.attr('id')
+    if(target.hasClass('favorite')) {
+      this.toggleFav(user,target)
+    } else if(target.hasClass('add-button')) {
+      this.toggleSavedRecipe(user,target)
+    } else {
+      let recipe = recipes.find(item => {
+        return item.id == id
+      });
+      this.displayRecipe(id,recipe);
+    }
+  }
+
+  toggleFav(user,target) {
+    target.toggleClass('favorite-active');
+    let id = target.attr('id')
+    user.cookbook.updateFavorites(id);
+  }
+
+  toggleSavedRecipe(user,target) {
+    target.toggleClass('add-button-active');
+    let id = target.attr('id')
+    user.cookbook.updateSavedRecipes(id);
   }
 
   groceryListView(user,recipes) {
@@ -267,9 +293,9 @@ class DomUpdates {
     $('#home').on('click',() => {
       this.home(user,recipes);
     });
-
-
-
+    $('.all-cards').on('click', () =>{
+      this.cardHelper(user,recipes);
+    })
   }
 }
 

@@ -14,7 +14,7 @@ let cardArea = document.querySelector('.all-cards');
 let domUpdates = new DomUpdates();
 let databaseController = new DatabaseController();
 
-cardArea.addEventListener('click', cardButtonConditionals);
+// cardArea.addEventListener('click', cardButtonConditionals);
 
 let userId = (Math.floor(Math.random() * 49) + 1);
 let user;
@@ -54,19 +54,19 @@ function greetUser(user) {
   $('.user-name').text(user.name.split(' ')[0] + ' ' + user.name.split(' ')[1][0]);
 };
 
-async function cardButtonConditionals(event) {
-  if (event.target.classList.contains('favorite')) {
-    toggleClick()
-  } else if (!event.target.classList.contains('favorite')) {
-    let id = event.target.closest('.card').id;
-    let recipe = recipes.find(item => {
-      return item.id == id
-    });
-    domUpdates.displayRecipe(id, recipe);
-  }
-};
+// async function cardButtonConditionals(event) {
+//   if (event.target.classList.contains('favorite')) {
+//     toggleClick()
+//   } else if (!event.target.classList.contains('favorite')) {
+//     let id = event.target.closest('.card').id;
+//     let recipe = recipes.find(item => {
+//       return item.id == id
+//     });
+//     domUpdates.displayRecipe(id, recipe);
+//   }
+// };
 
-const toggleClick = () => {
-  $(event.target).toggleClass('favorite-active');
-  user.cookbook.updateFavorites(event.target.id);
-};
+// const toggleClick = () => {
+//   $(event.target).toggleClass('favorite-active');
+//   user.cookbook.updateFavorites(event.target.id);
+// };

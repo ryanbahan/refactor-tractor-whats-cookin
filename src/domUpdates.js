@@ -85,8 +85,6 @@ class DomUpdates {
       instructionsList.insertAdjacentHTML('beforeend', `<p>${instruction.number}. ${instruction.instruction}</p>`)
     });
 
-
-
     document.querySelector('.close-link').addEventListener('click', this.closeModal)
 
   }
@@ -115,19 +113,41 @@ class DomUpdates {
     this.displayRecipeCards(user, user.cookbook.favoriteRecipes, savedFavoritesDOM);
   }
 
+  cardHelper(user,recepies) {
+    let target = $(event.target);
+    if(target.hasClass('favorite')) {
+      this.toggleClick(user,target)
+    } else if(target.hasClass('add')) {
+
+    } else {
+      let id = target.closest('.card').id;
+      let recipe = recepies.find(item => {
+        return item.id === id;
+      })
+      this.DomUpdates.displayRecipe(id,recipe);
+    }
+  }
+
+  toggleClick(user,target) {
+    target.toggleClass('favorite-active');
+    let id = target.attr('id')
+    user.cookbook.updateFavorites(id);
+  }
+
   createDOMBindings(user,recipes){
-    
     $('#saved-recipes-filter').on('click',() => {
       this.savedRecipesFilter(user,recipes);
     });
     $('#favorites-filter').on('click', () => {
       this.favoritesFilter(user,recipes);
     });
-    
     $('#home').on('click',() => {
       this.home(user,recipes);
     });
-    console.log($('#home'));
+
+    $('.all-cards').on('click', () =>{
+      this.cardHelper(user,recipes);
+    })
   }
 }
 

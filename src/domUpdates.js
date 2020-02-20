@@ -113,25 +113,32 @@ class DomUpdates {
     this.displayRecipeCards(user, user.cookbook.favoriteRecipes, savedFavoritesDOM);
   }
 
-  cardHelper(user,recepies) {
+  cardHelper(user,recipes) {
     let target = $(event.target);
+    let id = target.attr('id')
     if(target.hasClass('favorite')) {
-      this.toggleClick(user,target)
-    } else if(target.hasClass('add')) {
-
+      this.toggleFavoriteRecipe(user,target)
+    } else if(target.hasClass('add-button')) {
+      this.toggleSavedRecipe(user,target)
     } else {
-      let id = target.closest('.card').id;
-      let recipe = recepies.find(item => {
-        return item.id === id;
-      })
-      this.DomUpdates.displayRecipe(id,recipe);
+      console.log(id)
+      let recipe = recipes.find(item => {
+        return item.id == id
+      });
+      this.displayRecipe(id,recipe);
     }
   }
 
-  toggleClick(user,target) {
+  toggleFavoriteRecipe(user,target) {
     target.toggleClass('favorite-active');
     let id = target.attr('id')
     user.cookbook.updateFavorites(id);
+  }
+
+  toggleSavedRecipe(user,target) {
+    target.toggleClass('saved-active');
+    let id = target.attr('id')
+    user.cookbook.updateSavedRecipes(id);
   }
 
   createDOMBindings(user,recipes){

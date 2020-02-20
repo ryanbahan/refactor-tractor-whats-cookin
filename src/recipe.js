@@ -5,7 +5,7 @@ class Recipe {
     this.ingredients = recipe.ingredients;
     this.instructions = recipe.instructions;
     this.tags = recipe.tags;
-    this.image = recipe.image
+    this.image = recipe.image;
   }
 
   calculateCost() {

@@ -26,7 +26,6 @@ let recipes = [];
 
   newUser = newUser.wcUsersData.find(user => user.id === Number(userId));
   user = new User(newUser.id, newUser.name, newUser.pantry);
-
   let recipeData = await databaseController.getRecipes();
   recipeData.recipeData.forEach(recipe => {
     recipes.push(new Recipe(recipe));
@@ -45,9 +44,9 @@ let recipes = [];
       return ingredient
     })
   })
-
   domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipes);
   greetUser(user);
+  domUpdates.createDOMBindings(user,recipes);
 
 })();
 

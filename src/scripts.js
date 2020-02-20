@@ -32,7 +32,6 @@ let recipes = [];
 
   let ingredientsData = await databaseController.getIngredients();
 
-
   recipes.forEach(recipe => {
     recipe.ingredients = recipe.ingredients.map( ingredient => {
       let ingredientData = ingredientsData.ingredientsData.find(item => {
@@ -43,6 +42,21 @@ let recipes = [];
       return ingredient
     })
   })
+
+  user.pantry.contents = user.pantry.contents.map(ingredient => {
+
+    let ingredientData = ingredientsData.ingredientsData.find(item => {
+      return item.id === ingredient.ingredient
+    })
+
+    return ingredientData;
+  })
+
+  user.pantry.contents = user.pantry.contents.filter(item => item !== undefined);
+
+  console.log(user.pantry);
+
+
   domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, recipes);
   greetUser(user);
   domUpdates.createDOMBindings(user,recipes);

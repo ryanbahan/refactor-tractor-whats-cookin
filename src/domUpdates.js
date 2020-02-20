@@ -56,7 +56,7 @@ class DomUpdates {
       <div class="recipe-title-top">
         <div class="recipe-name-container">
           <h3>${recipe.name}</h3>
-          <h3>${recipe.calculateCost()}</h3>
+          <h3>$${recipe.calculateTotalRecipeCost()}</h3>
         </div>
         <div class="card-button-container">
           <button aria-label='add-button' class='add-button card-button'>

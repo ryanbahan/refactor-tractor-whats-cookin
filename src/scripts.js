@@ -16,6 +16,7 @@ let databaseController = new DatabaseController();
 // cardArea.addEventListener('click', cardButtonConditionals);
 
 let userId = (Math.floor(Math.random() * 49) + 1);
+userId = 1;
 let user;
 let recipes = [];
 
@@ -43,7 +44,7 @@ let recipes = [];
       return ingredient
     })
   })
-  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipes);
+  domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, recipes);
   greetUser(user);
   domUpdates.createDOMBindings(user,recipes);
 

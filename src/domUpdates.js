@@ -4,6 +4,7 @@ class DomUpdates {
   constructor() {
     this.body = document.querySelector('body');
     this.allCards = document.querySelector('.all-cards');
+    this.filter = document.querySelector('.filter');
   }
 
   displayRecipeCards(user, favorites, recipeData) {
@@ -103,6 +104,10 @@ class DomUpdates {
     document.querySelector('.modal-opacity').remove();
   }
 
+  closeFilter() {
+    this.closest('.filter-dropdown').remove();
+  }
+
   home(user,recipes){
     this.displayRecipeCards(user, user.cookbook.favoriteRecipes, recipes);
   }
@@ -164,6 +169,84 @@ class DomUpdates {
     console.log('grocery list');
   }
 
+  filterDropdownView() {
+
+    this.filter.insertAdjacentHTML('afterbegin', `<section class="filter-dropdown">
+    <div class="fieldset-container">
+      <fieldset class="filter-options">
+        <input type="checkbox" id="Antipasti" name="Antipasti"
+           checked>
+           <label for="Antipasti">Antipasto</label>
+       <input type="checkbox" id="Antipasto" name="Antipasto"
+          checked>
+          <label for="Antipasto">Antipasto</label>
+      <input type="checkbox" id="Appetizer" name="Appetizer"
+         checked>
+         <label for="Appetizer">Appetizer</label>
+     <input type="checkbox" id="Breakfast" name="Breakfast"
+        checked>
+        <label for="Breakfast">Breakfast</label>
+     <input type="checkbox" id="Brunch" name="Brunch"
+        checked>
+        <label for="Brunch">Brunch</label>
+     <input type="checkbox" id="Condiment" name="Condiment"
+        checked>
+        <label for="Condiment">Condiment</label>
+     <input type="checkbox" id="Dinner" name="Dinner"
+        checked>
+        <label for="Dinner">Dinner</label>
+     <input type="checkbox" id="Dip" name="Dip"
+        checked>
+        <label for="Dip">Dip</label>
+     <input type="checkbox" id="hor d\'oeuvre" name="hor d\'oeuvre"
+        checked>
+        <label for="hor d\'oeuvre">hor d\'oeuvre</label>
+      </fieldset>
+      <fieldset>
+      <input type="checkbox" id="Lunch" name="Lunch"
+         checked>
+         <label for="Lunch">Lunch</label>
+      <input type="checkbox" id="Main Course" name="Main Course"
+         checked>
+         <label for="Main Course">Main Course</label>
+      <input type="checkbox" id="Main Dish" name="Main Dish"
+         checked>
+         <label for="Main Dish">Main Dish</label>
+      <input type="checkbox" id="Morning Meal" name="Morning Meal"
+         checked>
+         <label for="Morning Meal">Morning Meal</label>
+      <input type="checkbox" id="Salad" name="Salad"
+         checked>
+         <label for="Salad">Salad</label>
+      <input type="checkbox" id="Sauce" name="Sauce"
+         checked>
+         <label for="Sauce">Sauce</label>
+      <input type="checkbox" id="Side Dish" name="Side Dish"
+         checked>
+         <label for="Side Dish">Side Dish</label>
+      <input type="checkbox" id="Snack" name="Snack"
+         checked>
+         <label for="Snack">Snack</label>
+      <input type="checkbox" id="Spread" name="Spread"
+         checked>
+         <label for="Spread">Spread</label>
+      <input type="checkbox" id="Starter" name="Starter"
+         checked>
+         <label for="Starter">Starter</label>
+      </fieldset>
+      </div>
+      <div class="grocery-bottom">
+        <button type="submit" class="grocery-submit close-link">Close</button>
+      </div>
+    </section>
+    `);
+
+    document.querySelector('.close-link').addEventListener('click', this.closeFilter)
+
+    console.log('filter');
+
+  }
+
   createDOMBindings(user,recipes){
 
     $('#saved-recipes-filter').on('click',() => {
@@ -175,6 +258,10 @@ class DomUpdates {
 
     $('#grocery-list').on('click',() => {
       this.groceryListView(user,recipes);
+    });
+
+    $('.filter-button').on('click',() => {
+      this.filterDropdownView(user,recipes);
     });
 
     $('#home').on('click',() => {

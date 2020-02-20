@@ -187,6 +187,38 @@ main {
   width: 100%;
 }
 
+.filter-dropdown {
+  border: solid 0.5px #e4e4e4;
+  width: 25vw;
+  min-width: 350px;
+  height: min-content;
+  overflow: scroll;
+  position: absolute;
+  right: 1%;
+  top: -5px;
+  z-index: 2;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 1%;
+}
+
+.filter-dropdown fieldset {
+  border: none;
+}
+
+.filter-dropdown fieldset > * {
+  display: block;
+}
+
+.fieldset-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.filter-dropdown button {
+  margin: 2.5%;
+}
+
 .grocery-modal {
   border: solid 0.5px #e4e4e4;
   width: 40vw;
@@ -291,6 +323,7 @@ main {
   margin-top: 25px;
   display: flex;
   justify-content: flex-end;
+  position: relative;
 }
 
 .filter-button {
@@ -298,4 +331,5 @@ main {
   border: solid 1px black;
   border-radius: 5px;
   margin-right: 2%;
+  cursor: pointer;
 }

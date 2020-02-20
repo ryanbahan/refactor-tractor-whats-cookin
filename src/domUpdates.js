@@ -92,7 +92,6 @@ class DomUpdates {
 
   }
   closeModal() {
-    console.log('modal');
     this.closest('.recipe-modal').remove();
     document.querySelector('.modal-opacity').remove();
   }
@@ -102,7 +101,6 @@ class DomUpdates {
   }
   
   savedRecipesFilter(user,recipes) {
-    console.log('savedRecipes');
     let savedFavoritesDOM = recipes.filter((recipe) => {
       return user.cookbook.savedRecipes.includes(`${recipe.id}`);
     })
@@ -124,7 +122,6 @@ class DomUpdates {
     } else if(target.hasClass('add-button')) {
       this.toggleSavedRecipe(user,target)
     } else {
-      console.log(id)
       let recipe = recipes.find(item => {
         return item.id == id
       });
@@ -140,7 +137,6 @@ class DomUpdates {
 
   toggleSavedRecipe(user,target) {
     target.toggleClass('add-button-active');
-    console.log(target)
     let id = target.attr('id')
     user.cookbook.updateSavedRecipes(id);
   }

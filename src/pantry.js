@@ -19,40 +19,49 @@ class Pantry {
       return list;
     }, [])
 
-    // add cost to ingredients
-    ingredientsNeeded = ingredientsNeeded.map(item => {
-      item.cost = (item.quantity.amount * item.estimatedCostInCents / 100).toFixed(2);
-      return item;
-    })
-
     let missingIngredients = ingredientsNeeded.reduce((list, ingredient) => {
       if (this.contents.find(item => item.id == ingredient.id)) {
-        // console.log(this.contents.find(item => item.id == ingredient.id));
-        let ingredientDelta = null;
-        // console.log('in pantry', ingredient);
+        let ingredientInPantry = this.contents.find(item => item.id == ingredient.id);
+        if (ingredientInPantry.amount >= ingredient.quantity.amount) {
+          console.log('not needed');
+        } else {
+
+          let ingredientDelta = {
+            id: ingredient.id,
+            estimatedCostInCents: ingredient.estimatedCostInCents,
+            name: ingredient.name,
+            unit: ingredient.quantity.unit,
+            quantity: {
+              amount: ingredient.quantity.amount - ingredientInPantry.amount,
+              unit: ingredient.quantity.unit
+            }
+            
+          };
+          list.push(ingredientDelta);
+          console.log('needed', ingredient.quantity.amount, ingredientInPantry.amount, ingredientDelta);
+        }
       } else {
         list.push(ingredient);
       }
       return list;
-    }, [])
+    }, []);
 
-    // console.log('needed', ingredientsNeeded);
-    // console.log('pantry', this.contents);
+    // add cost to ingredients
+    missingIngredients = missingIngredients.map(item => {
+      item.cost = (item.quantity.amount * item.estimatedCostInCents / 100).toFixed(2);
+      return item;
+    })
 
-
-
-
-
-
-
-    let totalCost = ingredientsNeeded.reduce((num, item) => {
+    // get total cost of items
+    let totalCost = missingIngredients.reduce((num, item) => {
       num += parseFloat(item.cost);
       return num;
     }, 0)
 
     totalCost = totalCost.toFixed(2);
 
-    let quantities = ingredientsNeeded.reduce((num, item) => {
+    // get total quantity of items
+    let quantities = missingIngredients.reduce((num, item) => {
       num += item.quantity.amount;
       return num;
     }, 0)
@@ -60,7 +69,7 @@ class Pantry {
     quantities = quantities.toFixed(2);
 
 
-    return [ingredientsNeeded, totalCost, quantities];
+    return [missingIngredients, totalCost, quantities];
   }
 }
 

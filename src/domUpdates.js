@@ -46,8 +46,6 @@ class DomUpdates {
       })
     };
 
-    console.log(recipeData);
-
   populateCards(recipeData, this.allCards);
 
   }
@@ -159,7 +157,9 @@ class DomUpdates {
 
   groceryListView(user,recipes) {
 
-    user.pantry.getNeededIngredients(user.cookbook.savedRecipes);
+    let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, user.pantry.contents, recipes);
+
+    console.log(ingredients);
 
     this.body.insertAdjacentHTML('afterbegin', `<section class="grocery-modal">
       <hr>
@@ -197,8 +197,6 @@ class DomUpdates {
     </div>`);
 
     document.querySelector('.close-link').addEventListener('click', this.closeGroceryModal)
-
-    console.log('grocery list');
   }
 
   filterDropdownView() {
@@ -274,8 +272,6 @@ class DomUpdates {
     `);
 
     document.querySelector('.close-link').addEventListener('click', this.closeFilter)
-
-    console.log('filter');
 
   }
 

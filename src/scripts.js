@@ -54,9 +54,6 @@ let recipes = [];
 
   user.pantry.contents = user.pantry.contents.filter(item => item !== undefined);
 
-  console.log(user.pantry);
-
-
   domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, recipes);
   greetUser(user);
   domUpdates.createDOMBindings(user,recipes);

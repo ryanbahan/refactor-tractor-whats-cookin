@@ -21,6 +21,7 @@ let recipes = [];
 
   newUser = newUser.wcUsersData.find(user => user.id === Number(userId));
   user = new User(newUser.id, newUser.name, newUser.pantry);
+
   let recipeData = await databaseController.getRecipes();
   recipeData.recipeData.forEach(recipe => {
     recipes.push(new Recipe(recipe));
@@ -44,6 +45,8 @@ let recipes = [];
     let ingredientData = ingredientsData.ingredientsData.find(item => {
       return item.id === ingredient.ingredient
     })
+
+    ingredientData.amount = ingredient.amount
 
     return ingredientData;
   })

@@ -100,9 +100,9 @@ class DomUpdates {
     document.querySelector('.modal-opacity').remove();
   }
 
-  closeGroceryModal() {
-    console.log('modal');
-    this.closest('.grocery-modal').remove();
+  closeGroceryModal(ingredients) {
+    // console.log(ingredients);
+    document.querySelector('.grocery-modal').remove();
     document.querySelector('.modal-opacity').remove();
   }
 
@@ -157,7 +157,7 @@ class DomUpdates {
 
   groceryListView(user,recipes) {
 
-    let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, user.pantry.contents, recipes);
+    let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
 
     let htmlStart = `<section class="grocery-modal">
       <hr>`;
@@ -191,7 +191,7 @@ class DomUpdates {
       ${items}
       ${htmlBottom}`);
 
-    document.querySelector('.close-link').addEventListener('click', this.closeGroceryModal)
+    document.querySelector('.grocery-submit').addEventListener('click', () => {this.closeGroceryModal(ingredients)})
   }
 
   filterDropdownView() {

@@ -15,8 +15,6 @@ class Pantry {
         list.push(item);
       }
 
-
-
       return list;
     }, [])
 
@@ -25,7 +23,22 @@ class Pantry {
       return item;
     })
 
-    return ingredientsNeeded;
+    let totalCost = ingredientsNeeded.reduce((num, item) => {
+      num += parseFloat(item.cost);
+      return num;
+    }, 0)
+
+    totalCost = totalCost.toFixed(2);
+
+    let quantities = ingredientsNeeded.reduce((num, item) => {
+      num += item.quantity.amount;
+      return num;
+    }, 0)
+
+    quantities = quantities.toFixed(2);
+
+
+    return [ingredientsNeeded, totalCost, quantities];
   }
 }
 

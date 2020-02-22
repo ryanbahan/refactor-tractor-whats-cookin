@@ -2,8 +2,6 @@ import './css/base.scss';
 import './css/styles.scss';
 const $ = require('jquery');
 
-
-// import Pantry from './pantry';
 import Recipe from './recipe';
 import User from './user';
 import Cookbook from './cookbook';
@@ -12,8 +10,6 @@ import DatabaseController from './databaseController';
 
 let domUpdates = new DomUpdates();
 let databaseController = new DatabaseController();
-
-// cardArea.addEventListener('click', cardButtonConditionals);
 
 let userId = (Math.floor(Math.random() * 49) + 1);
 let user;

@@ -2,8 +2,6 @@ import './css/base.scss';
 import './css/styles.scss';
 const $ = require('jquery');
 
-
-// import Pantry from './pantry';
 import Recipe from './recipe';
 import User from './user';
 import Cookbook from './cookbook';
@@ -12,8 +10,6 @@ import DatabaseController from './databaseController';
 
 let domUpdates = new DomUpdates();
 let databaseController = new DatabaseController();
-
-// cardArea.addEventListener('click', cardButtonConditionals);
 
 let userId = (Math.floor(Math.random() * 49) + 1);
 let user;
@@ -32,7 +28,6 @@ let recipes = [];
 
   let ingredientsData = await databaseController.getIngredients();
 
-
   recipes.forEach(recipe => {
     recipe.ingredients = recipe.ingredients.map( ingredient => {
       let ingredientData = ingredientsData.ingredientsData.find(item => {
@@ -43,6 +38,18 @@ let recipes = [];
       return ingredient
     })
   })
+
+  user.pantry.contents = user.pantry.contents.map(ingredient => {
+
+    let ingredientData = ingredientsData.ingredientsData.find(item => {
+      return item.id === ingredient.ingredient
+    })
+
+    return ingredientData;
+  })
+
+  user.pantry.contents = user.pantry.contents.filter(item => item !== undefined);
+
   domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, recipes);
   greetUser(user);
   domUpdates.createDOMBindings(user,recipes);

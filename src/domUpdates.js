@@ -46,8 +46,6 @@ class DomUpdates {
       })
     };
 
-    console.log(recipeData);
-
   populateCards(recipeData, this.allCards);
 
   }
@@ -159,44 +157,41 @@ class DomUpdates {
 
   groceryListView(user,recipes) {
 
-    this.body.insertAdjacentHTML('afterbegin', `<section class="grocery-modal">
-      <hr>
-        <div class="grocery-item">
-          <p>Item name</p>
-          <div class="grocery-right-container">
-            <p class="grocery-qty">QTY: 2</p>
-            <p>Price: $1.50</p>
-          </div>
+    let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, user.pantry.contents, recipes);
+
+    let htmlStart = `<section class="grocery-modal">
+      <hr>`;
+
+    let items = ingredients[0].map(ingredient => {
+      let htmlMiddle = `<div class="grocery-item">
+        <p>${ingredient.name.replace(/^\w/, c => c.toUpperCase())}</p>
+        <div class="grocery-right-container">
+          <p class="grocery-qty">QTY: ${ingredient.quantity.amount.toFixed(2)}</p>
+          <p>Price: $${ingredient.cost}</p>
         </div>
-        <div class="grocery-item">
-          <p>Item name</p>
-          <div class="grocery-right-container">
-            <p class="grocery-qty">QTY: 2</p>
-            <p>Price: $1.50</p>
-          </div>
-        </div>
-        <div class="grocery-item">
-          <p>Item name</p>
-          <div class="grocery-right-container">
-            <p class="grocery-qty">QTY: 2</p>
-            <p>Price: $1.50</p>
-          </div>
-        </div>
-      <hr>
-      <div class="grocery-totals">
-      <p>QTY: 15</p>
-      <p>Total: $12.25</p>
-      </div>
-      <div class="grocery-bottom">
-        <button type="submit" class="grocery-submit close-link">Checkout</button>
-      </div>
-    </section>
-    <div class="modal-opacity">
-    </div>`);
+      </div>`
+      return htmlMiddle;
+    });
+
+    items = items.join('');
+
+    let htmlBottom = `<hr>
+    <div class="grocery-totals">
+    <p>QTY: ${ingredients[2]}</p>
+    <p>Total: $${ingredients[1]}</p>
+    </div>
+    <div class="grocery-bottom">
+      <button type="submit" class="grocery-submit close-link">Checkout</button>
+    </div>
+  </section>
+  <div class="modal-opacity">
+  </div>`;
+
+    this.body.insertAdjacentHTML('afterbegin', `${htmlStart}
+      ${items}
+      ${htmlBottom}`);
 
     document.querySelector('.close-link').addEventListener('click', this.closeGroceryModal)
-
-    console.log('grocery list');
   }
 
   filterDropdownView() {
@@ -272,8 +267,6 @@ class DomUpdates {
     `);
 
     document.querySelector('.close-link').addEventListener('click', this.closeFilter)
-
-    console.log('filter');
 
   }
 

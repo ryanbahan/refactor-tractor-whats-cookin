@@ -3,10 +3,35 @@ class Pantry {
     this.contents = userIngredients;
   }
   prepareIngredients(recipeID,recipes){
+    console.log(this.contents)
     let preparingRecipe = recipes.find((recipe) => {
       return recipe.id == recipeID;
     })
-    return preparingRecipe;
+    let ingredientsNeeded = preparingRecipe.ingredients;
+    //Remove Duplicates
+    ingredientsNeeded = ingredientsNeeded.reduce((list,ingredient,index) => {
+      let firstIndex = ingredientsNeeded.findIndex((item)=>{return item.id === ingredient.id;})
+      console.log(ingredientsNeeded[firstIndex])
+      console.log(ingredient)
+      if(firstIndex<index){
+
+        ingredientsNeeded[firstIndex].quantity.amount += ingredient.quantity.amount;
+      } else {
+        list.push(ingredient)
+      }
+      return list;
+    }, [])
+
+    let isMissingIngredients = ingredientsNeeded.reduce((isMissing,ingredient)=>{
+      let pantryIngredient = this.contents.find(item=>item.id == ingredient.id);
+      if(pantryIngredient){
+        isMissing = pantryIngredient.amount < ingredient.quantity.amount;
+      } else {
+        isMissing =true;
+      }
+      return isMissing;
+    },false);
+    return isMissingIngredients;
   }
   getNeededIngredients(savedRecipes, recipes) {
     // get recipe ingredients from ID's

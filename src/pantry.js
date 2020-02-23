@@ -2,6 +2,12 @@ class Pantry {
   constructor(userIngredients) {
     this.contents = userIngredients;
   }
+  prepareIngredients(recipeID,recipes){
+    let preparingRecipe = recipes.find((recipe) => {
+      return recipe.id == recipeID;
+    })
+    return preparingRecipe;
+  }
   getNeededIngredients(savedRecipes, recipes) {
     // get recipe ingredients from ID's
     let ingredientsNeeded = savedRecipes.map(recipe => recipes.find(item => item.id == recipe))

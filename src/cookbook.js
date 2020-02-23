@@ -47,8 +47,7 @@ class Cookbook {
     this.save();
   }
 
-  cook(recipeID,recipes) {
-    recipes
+  cook(recipeID) {
     this.savedRecipes.splice(this.savedRecipes.indexOf(recipeID), 1);
     this.save();
   }

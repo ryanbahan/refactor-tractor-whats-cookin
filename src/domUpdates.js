@@ -293,8 +293,13 @@ class DomUpdates {
   this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, matches);
 };
   cook(user,target,recipes){
+    let controller = new DatabaseController();
     let recipeID = target.attr('id');
-    let neededIngredients = user.pantry.getNeededIngredients([recipeID],user.pantry.contents,recipes);
+    let neededIngredients = user.pantry.prepareIngredients(recipeID,recipes);
+    // let neededIngredients = user.pantry.getNeededIngredients([recipeID],recipes);
+    user.cookbook.cook(recipeID);
+    console.log(neededIngredients);
+
   }
 
   createDOMBindings(user,recipes){

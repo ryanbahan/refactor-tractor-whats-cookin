@@ -19,7 +19,8 @@ class Pantry {
   }
 
   getNeededIngredients(savedRecipes, recipes) {
-
+    
+    // remove any items that may cause issues
     let savedItems = savedRecipes.filter(recipe => recipe !== null);
 
     // get recipe ingredients from ID's

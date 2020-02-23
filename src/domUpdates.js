@@ -39,7 +39,6 @@ class DomUpdates {
           <div class="card-title-info">
           <p id='${recipe.id}' class='recipe-name'>${recipe.name}</p>
           <div class="card-button-container">
-<<<<<<< HEAD
           <button id='${recipe.id}' aria-label='add-button' class='add-button ${isSaved} card-button'>
           </button>
           <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'>
@@ -47,10 +46,6 @@ class DomUpdates {
           <button id='${recipe.id}' aria-label='cook-button' class='cook card-button'>
           </button>
           </div>
-=======
-            <button id='${recipe.id}' aria-label='add-button' class='add-button ${isSaved} card-button'></button>
-            <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'></button>
->>>>>>> master
           </div>
         </div>
         </div>`)

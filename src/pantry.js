@@ -23,7 +23,7 @@ class Pantry {
       if (this.contents.find(item => item.id == ingredient.id)) {
         let ingredientInPantry = this.contents.find(item => item.id == ingredient.id);
         if (ingredientInPantry.amount >= ingredient.quantity.amount) {
-          console.log('not needed');
+          // console.log('not needed');
         } else {
 
           let ingredientDelta = {
@@ -35,10 +35,10 @@ class Pantry {
               amount: ingredient.quantity.amount - ingredientInPantry.amount,
               unit: ingredient.quantity.unit
             }
-            
+
           };
           list.push(ingredientDelta);
-          console.log('needed', ingredient.quantity.amount, ingredientInPantry.amount, ingredientDelta);
+          // console.log('needed', ingredient.quantity.amount, ingredientInPantry.amount, ingredientDelta);
         }
       } else {
         list.push(ingredient);

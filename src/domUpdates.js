@@ -1,4 +1,5 @@
 const $ = require('jquery');
+import DatabaseController from './databaseController';
 
 class DomUpdates {
   constructor() {
@@ -100,8 +101,18 @@ class DomUpdates {
     document.querySelector('.modal-opacity').remove();
   }
 
-  closeGroceryModal(ingredients) {
-    // console.log(ingredients);
+  closeGroceryModal(ingredients, user) {
+    let controller = new DatabaseController();
+
+    ingredients[0].forEach(ingredient => {
+      let jsonInfo = {
+        userID: user.id,
+        ingredientID: ingredient.id,
+        ingredientModification: ingredient.quantity.amount
+      };
+      controller.updateIngredients(jsonInfo);
+    })
+    
     document.querySelector('.grocery-modal').remove();
     document.querySelector('.modal-opacity').remove();
   }
@@ -191,7 +202,7 @@ class DomUpdates {
       ${items}
       ${htmlBottom}`);
 
-    document.querySelector('.grocery-submit').addEventListener('click', () => {this.closeGroceryModal(ingredients)})
+    document.querySelector('.grocery-submit').addEventListener('click', () => {this.closeGroceryModal(ingredients, user)})
   }
 
   filterDropdownView() {

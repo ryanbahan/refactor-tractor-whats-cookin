@@ -16,6 +16,22 @@ class DatabaseController {
 
     return ingredientsData;
   };
+
+  async updateIngredients(ingredients) {
+    let data = JSON.stringify(ingredients);
+	   let response = await fetch(
+		"https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData",
+		{
+			method:"POST",
+			headers: {
+				"Content-Type": 'application/json'
+			},
+			body: data,
+		}
+	)
+	let retrievedData = await response.json();
+	console.log(retrievedData);
+  }
 }
 
 export default DatabaseController;

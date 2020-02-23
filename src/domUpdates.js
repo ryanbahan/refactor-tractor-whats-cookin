@@ -75,7 +75,7 @@ class DomUpdates {
       <div class="recipe-instructions-list">
         <h4>Instructions</h4>
       </div>
-      <a href="#" class="close-link"><b>Close</b></a>
+      <a href="#" class="close-link">Close</a>
     </section>
     <div class="modal-opacity">
     </div>`);
@@ -92,13 +92,13 @@ class DomUpdates {
       instructionsList.insertAdjacentHTML('beforeend', `<p>${instruction.number}. ${instruction.instruction}</p>`)
     });
 
-    document.querySelector('.close-link').addEventListener('click', this.closeModal)
-
   }
 
   closeModal() {
-    this.closest('.recipe-modal').remove();
-    document.querySelector('.modal-opacity').remove();
+    if ($(event.target).hasClass("close-link")) {
+      $('.recipe-modal').remove();
+      $('.modal-opacity').remove();
+    }
   }
 
   closeGroceryModal(ingredients, user) {
@@ -112,7 +112,7 @@ class DomUpdates {
       };
       controller.updateIngredients(jsonInfo);
     })
-    
+
     document.querySelector('.grocery-modal').remove();
     document.querySelector('.modal-opacity').remove();
   }
@@ -312,8 +312,13 @@ class DomUpdates {
     $('#home').on('click',() => {
       this.home(user,recipes);
     });
+
     $('.all-cards').on('click', () =>{
       this.cardHelper(user,recipes);
+    })
+
+    $('body').on('click', () =>{
+      this.closeModal();
     })
   }
 }

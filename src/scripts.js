@@ -23,6 +23,8 @@ let recipes = [];
   
   user = new User(newUser.id, newUser.name, newUser.pantry);
 
+  console.log(user);
+
   recipeData.recipeData.forEach(recipe => {
     let recipeItem = new Recipe(recipe);
     recipeItem.getIngredientInfo(ingredientsData);

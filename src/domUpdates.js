@@ -113,12 +113,14 @@ class DomUpdates {
       controller.updateIngredients(jsonInfo);
     })
 
+    controller.updatePantry(user);
+
     document.querySelector('.grocery-modal').remove();
     document.querySelector('.modal-opacity').remove();
 
   }
 
-  closeGroceryModal() {
+  closeGroceryModal(user) {
     document.querySelector('.grocery-modal').remove();
     document.querySelector('.modal-opacity').remove();
   }
@@ -173,6 +175,7 @@ class DomUpdates {
   }
 
   groceryListView(user,recipes) {
+    console.log(user);
 
     let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
 
@@ -213,7 +216,7 @@ class DomUpdates {
       ${htmlBottom}`);
 
     document.querySelector('.grocery-submit').addEventListener('click', () => {this.groceryModalCheckout(ingredients, user)})
-    document.querySelector('.close-link').addEventListener('click', this.closeGroceryModal)
+    document.querySelector('.close-link').addEventListener('click', () => {this.closeGroceryModal(user)})
 
   }
 

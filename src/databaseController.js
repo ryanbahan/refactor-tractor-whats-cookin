@@ -1,3 +1,5 @@
+import Pantry from './pantry';
+
 class DatabaseController {
   constructor() {
   }
@@ -7,6 +9,15 @@ class DatabaseController {
     let users = await response.json();
 
     return users;
+  };
+
+  async updatePantry(user) {
+    let response = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData");
+    let users = await response.json();
+    let updatedUser = users.wcUsersData.find(person => person.id == user.id);
+
+    user.pantry = new Pantry(updatedUser.pantry);
+    user.pantry.getPantryInfo(await this.getIngredients());
   };
 
   async getRecipes() {

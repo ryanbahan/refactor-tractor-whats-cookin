@@ -15,11 +15,10 @@ let user;
 let recipes = [];
 
 (async function start() {
+
   let newUser = await databaseController.getUser();
   let recipeData = await databaseController.getRecipes();
   let ingredientsData = await databaseController.getIngredients();
-
-  user = new User(newUser.id, newUser.name, newUser.pantry);
 
   recipeData.recipeData.forEach(recipe => {
     let item = new Recipe(recipe);
@@ -27,18 +26,8 @@ let recipes = [];
     recipes.push(item);
   })
 
-  user.pantry.contents = user.pantry.contents.map(ingredient => {
-
-    let ingredientData = ingredientsData.ingredientsData.find(item => {
-      return item.id === ingredient.ingredient
-    })
-
-    ingredientData.amount = ingredient.amount
-
-    return ingredientData;
-  })
-
-  user.pantry.contents = user.pantry.contents.filter(item => item !== undefined);
+  user = new User(newUser.id, newUser.name, newUser.pantry);
+  user.pantry.getPantryInfo(ingredientsData);
 
   domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, recipes);
   greetUser(user);

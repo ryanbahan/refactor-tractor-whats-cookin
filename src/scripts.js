@@ -11,15 +11,11 @@ import DatabaseController from './databaseController';
 let domUpdates = new DomUpdates();
 let databaseController = new DatabaseController();
 
-let userId = (Math.floor(Math.random() * 49) + 1);
 let user;
 let recipes = [];
 
 (async function start() {
-  let response = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData");
-  let newUser = await response.json();
-
-  newUser = newUser.wcUsersData.find(user => user.id === Number(userId));
+  let newUser = await databaseController.getUser();
   user = new User(newUser.id, newUser.name, newUser.pantry);
 
   let recipeData = await databaseController.getRecipes();

@@ -74,13 +74,15 @@ describe("Pantry", () => {
     });
     it("Should return list of ingredients if there is sufficient ingredients to cook", () => {
         let ingredients = [{
+            userID:14,
             ingredientID:19335,
             ingredientModification:1
         },{
+            userID:14,
             ingredientID:1123,
             ingredientModification:1
         }]
-        expect(pantry.prepareIngredients(0, recipes)).to.deep.equal(ingredients);
+        expect(pantry.prepareIngredients(0, recipes,14)).to.deep.equal(ingredients);
     });
   });
 });

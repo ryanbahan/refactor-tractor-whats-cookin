@@ -9,11 +9,10 @@ class DomUpdates {
     this.searchField = $('.search-bar');
   }
 
-  displayRecipeCards(user, favorites,savedRecipes, recipeData) {
-    console.log('test');
+  displayRecipeCards(user, favorites, savedRecipes, recipeData) {
 
     function populateCards(recipes, target) {
-      target.innerHTML = '';
+      $(target).html("");
       if (target.hasClass('all')) {
         target.removeClass('all')
       }

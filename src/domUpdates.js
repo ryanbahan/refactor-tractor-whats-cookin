@@ -110,29 +110,29 @@ class DomUpdates {
         ingredientID: ingredient.id,
         ingredientModification: ingredient.quantity.amount
       };
-      controller.updateIngredients(jsonInfo);
+      // controller.updateIngredients(jsonInfo);
     })
 
-    document.querySelector('.grocery-modal').remove();
-    document.querySelector('.modal-opacity').remove();
+    $('.grocery-modal').remove();
+    $('.modal-opacity').remove();
   }
 
   closeFilter() {
     this.closest('.filter-dropdown').remove();
   }
 
-  home(user,recipes){
+  viewHomePage(user,recipes){
     this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, recipes);
   }
 
-  savedRecipesFilter(user,recipes) {
+  viewSavedRecipes(user,recipes) {
     let savedFavoritesDOM = recipes.filter((recipe) => {
       return user.cookbook.savedRecipes.includes(`${recipe.id}`);
     })
     this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, savedFavoritesDOM);
   }
 
-  favoritesFilter(user,recipes) {
+  viewFavoriteRecipes(user,recipes) {
     let savedFavoritesDOM = recipes.filter((recipe) => {
       return user.cookbook.favoriteRecipes.includes(`${recipe.id}`);
     })
@@ -141,12 +141,13 @@ class DomUpdates {
 
   cardHelper(user,recipes) {
     let target = $(event.target);
-    let id = target.attr('id')
-    if(target.hasClass('favorite')) {
-      this.toggleFav(user,target)
-    } else if(target.hasClass('add-button')) {
+    let id = target.attr('id');
+
+    if (target.hasClass('favorite')) {
+      this.toggleFavoriteRecipe(user,target)
+    } else if (target.hasClass('add-button')) {
       this.toggleSavedRecipe(user,target)
-    } else {
+    } else if ($(event.target).closest('.card')) {
       let recipe = recipes.find(item => {
         return item.id == id
       });
@@ -154,7 +155,7 @@ class DomUpdates {
     }
   }
 
-  toggleFav(user,target) {
+  toggleFavoriteRecipe(user,target) {
     target.toggleClass('favorite-active');
     let id = target.attr('id')
     user.cookbook.updateFavorites(id);
@@ -166,7 +167,7 @@ class DomUpdates {
     user.cookbook.updateSavedRecipes(id);
   }
 
-  groceryListView(user,recipes) {
+  viewGroceryList(user,recipes) {
 
     let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
 
@@ -295,14 +296,14 @@ class DomUpdates {
     });
 
     $('#saved-recipes-filter').on('click',() => {
-      this.savedRecipesFilter(user,recipes);
+      this.viewSavedRecipes(user,recipes);
     });
     $('#favorites-filter').on('click', () => {
-      this.favoritesFilter(user,recipes);
+      this.viewFavoriteRecipes(user,recipes);
     });
 
     $('#grocery-list').on('click',() => {
-      this.groceryListView(user,recipes);
+      this.viewGroceryList(user,recipes);
     });
 
     $('.filter-button').on('click',() => {
@@ -310,14 +311,11 @@ class DomUpdates {
     });
 
     $('#home').on('click',() => {
-      this.home(user,recipes);
+      this.viewHomePage(user,recipes);
     });
 
-    $('.all-cards').on('click', () =>{
-      this.cardHelper(user,recipes);
-    })
-
     $('body').on('click', () =>{
+      this.cardHelper(user,recipes);
       this.closeModal();
     })
   }

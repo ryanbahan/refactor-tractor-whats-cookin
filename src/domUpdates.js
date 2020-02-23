@@ -3,68 +3,53 @@ import DatabaseController from './databaseController';
 
 class DomUpdates {
   constructor() {
-    this.body = document.querySelector('body');
-    this.allCards = document.querySelector('.all-cards');
-    this.filter = document.querySelector('.filter');
-    this.searchField = document.querySelector('.search-bar');
+    this.body = $('body');
+    this.allCards = $('.all-cards');
+    this.filter = $('.filter');
+    this.searchField = $('.search-bar');
   }
 
-  displayRecipeCards(user, favorites,savedRecipes, recipeData) {
+  displayRecipeCards(user, favorites, savedRecipes, recipeData) {
 
     function populateCards(recipes, target) {
-      target.innerHTML = '';
-      if (target.classList.contains('all')) {
-        target.classList.remove('all')
+      $(target).html("");
+      if (target.hasClass('all')) {
+        target.removeClass('all')
       }
       recipes.forEach(recipe => {
+
         let isFavorite = '';
         let isSaved ='';
-        if(savedRecipes.includes(`${recipe.id}`)){
+        if (savedRecipes.includes(`${recipe.id}`)){
           isSaved = 'add-button-active';
         }
-        if(favorites.includes(`${recipe.id}`)){
+        if (favorites.includes(`${recipe.id}`)){
           isFavorite = 'favorite-active';
         } else {
           isFavorite = 'favorite';
         }
 
-        target.insertAdjacentHTML('afterbegin', `<div id='${recipe.id}'
-        class='card'>
-
-              <img id='${recipe.id}' tabindex='0' class='card-picture'
-              src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
-              <div class="card-title-info">
-        <p id='${recipe.id}' class='recipe-name'>${recipe.name}</p>
-
+        $(".all-cards").append(`
+        <div id='${recipe.id}' class='card'>
+          <img id='${recipe.id}' tabindex='0' class='card-picture' src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
+          <div class="card-title-info">
+          <p id='${recipe.id}' class='recipe-name'>${recipe.name}</p>
           <div class="card-button-container">
-          <button id='${recipe.id}' aria-label='add-button' class='add-button ${isSaved} card-button'>
-          </button>
-          <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'>
-          </button>
+            <button id='${recipe.id}' aria-label='add-button' class='add-button ${isSaved} card-button'></button>
+            <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'></button>
           </div>
-          </div>
+        </div>
         </div>`)
       })
     };
 
-  populateCards(recipeData, this.allCards);
+    populateCards(recipeData, this.allCards);
 
   }
 
-  async displayRecipe(id, recipe,user) {
-    let isFavorite = '';
-    let isSaved ='';
-    console.log(id)
-    if(user.cookbook.savedRecipes.includes(`${id}`)){
-      isSaved = 'add-button-active';
-    }
-    if(user.cookbook.favoriteRecipes.includes(`${id}`)){
-      isFavorite = 'favorite-active';
-    } else {
-      isFavorite = 'favorite';
-    }
+  async displayRecipe(id, recipe) {
 
-    this.body.insertAdjacentHTML('afterbegin', `<section class="recipe-modal">
+    $("body").append(`<section class="recipe-modal">
       <img src="${recipe.image}" alt="recipe photo" class="recipe-view-image">
       <div class="recipe-title-top">
         <div class="recipe-name-container">
@@ -72,10 +57,10 @@ class DomUpdates {
           <h3>$${recipe.calculateTotalRecipeCost()}</h3>
         </div>
         <div class="card-button-container">
-        <button id='${id}' aria-label='add-button' class='add-button ${isSaved} card-button'>
-        </button>
-        <button id='${id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${id} card-button'>
-        </button>
+          <button id='${recipe.id}' aria-label='add-button' class='add-button card-button'>
+          </button>
+          <button id='${recipe.id}' aria-label='favorite-button' class='favorite card-button'>
+          </button>
         </div>
       </div>
       <hr>
@@ -86,109 +71,110 @@ class DomUpdates {
       <div class="recipe-instructions-list">
         <h4>Instructions</h4>
       </div>
-      <a href="#" class="close-link"><b>Close</b></a>
+      <a href="#" class="close-link">Close</a>
     </section>
     <div class="modal-opacity">
-    </div>`);
-    
-    
-    let ingredientsList = document.querySelector('.ingredients-list');
-    let instructionsList = document.querySelector('.recipe-instructions-list');
+    </div>`)
 
     recipe.ingredients.forEach(ingredient => {
-      console.log()
-      ingredientsList.insertAdjacentHTML('beforeend', `<p>${ingredient.name.replace(/^\w/, c => c.toUpperCase())} ${ingredient.quantity.amount} ${ingredient.quantity.unit}</p>`)
+      $(`<p>${ingredient.name.replace(/^\w/, c => c.toUpperCase())} ${ingredient.quantity.amount} ${ingredient.quantity.unit}</p>`)
+      .insertAfter('.ingredients-list');
     })
+
+    recipe.instructions.reverse();
 
     recipe.instructions.forEach(instruction => {
-      instructionsList.insertAdjacentHTML('beforeend', `<p>${instruction.number}. ${instruction.instruction}</p>`)
+      $(`<p>${instruction.number}. ${instruction.instruction}</p>`)
+      .insertAfter('.recipe-instructions-list');
     });
-
-    document.querySelector('.close-link').addEventListener('click', this.closeModal)
-
-
-    $('.add-button').on('click',(event) => {
-      this.toggleSavedRecipe(user,$(event.target));
-    });
-
-    $('.favorite').on('click',(event) => {
-      this.toggleFav(user,$(event.target));
-    });
-
 
   }
 
-  closeModal() {
-    this.closest('.recipe-modal').remove();
-    document.querySelector('.modal-opacity').remove();
+  closeModal(user, recipes) {
+    if ($(event.target).hasClass("close-link")) {
+      $('.recipe-modal').remove();
+      $('.modal-opacity').remove();
+
+      this.displayRecipeCards(user, user.cookbook.favoriteRecipes, user.cookbook.savedRecipes, recipes);
+    }
   }
 
-  closeGroceryModal(ingredients, user) {
-    let controller = new DatabaseController();
+  closeGroceryModal(user, recipes) {
+    if ($(event.target).hasClass("grocery-submit")) {
+      let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
+      let controller = new DatabaseController();
 
-    ingredients[0].forEach(ingredient => {
-      let jsonInfo = {
-        userID: user.id,
-        ingredientID: ingredient.id,
-        ingredientModification: ingredient.quantity.amount
-      };
-      controller.updateIngredients(jsonInfo);
-    })
-    
-    document.querySelector('.grocery-modal').remove();
-    document.querySelector('.modal-opacity').remove();
+      ingredients[0].forEach(ingredient => {
+        let jsonInfo = {
+          userID: user.id,
+          ingredientID: ingredient.id,
+          ingredientModification: ingredient.quantity.amount
+        };
+        // controller.updateIngredients(jsonInfo);
+      })
+
+      $('.grocery-modal').remove();
+      $('.modal-opacity').remove();
+    }
   }
 
   closeFilter() {
-    this.closest('.filter-dropdown').remove();
+    if ($(event.target).hasClass("close-link")) {
+      $('.filter-dropdown').remove();
+    }
   }
 
-  home(user,recipes){
+  viewHomePage(user,recipes){
     this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, recipes);
   }
 
-  savedRecipesFilter(user,recipes) {
+  viewSavedRecipes(user,recipes) {
     let savedFavoritesDOM = recipes.filter((recipe) => {
       return user.cookbook.savedRecipes.includes(`${recipe.id}`);
     })
-    this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, savedFavoritesDOM);
+
+    this.displayRecipeCards(user, user.cookbook.favoriteRecipes, user.cookbook.savedRecipes, savedFavoritesDOM);
   }
 
-  favoritesFilter(user,recipes) {
+  viewFavoriteRecipes(user,recipes) {
     let savedFavoritesDOM = recipes.filter((recipe) => {
       return user.cookbook.favoriteRecipes.includes(`${recipe.id}`);
     })
+
     this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes,savedFavoritesDOM);
   }
 
   cardHelper(user,recipes) {
     let target = $(event.target);
-    let id = target.attr('id')
-    if(target.hasClass('favorite')) {
-      this.toggleFav(user,target)
-    } else if(target.hasClass('add-button')) {
+    let id = target.attr('id');
+
+    if (target.hasClass('favorite')) {
+      this.toggleFavoriteRecipe(user,target)
+    } else if (target.hasClass('add-button')) {
       this.toggleSavedRecipe(user,target)
-    } else {
+    } else if ($(event.target).parents('.card').length) {
       let recipe = recipes.find(item => {
         return item.id == id
       });
-      this.displayRecipe(id,recipe,user);
+      this.displayRecipe(id,recipe);
     }
   }
 
-  toggleFav(user,target) {
+  toggleFavoriteRecipe(user,target) {
     target.toggleClass('favorite-active');
-    let id = target.attr('id')
+    let id = target.attr('id');
     user.cookbook.updateFavorites(id);
+    console.log(id);
   }
 
   toggleSavedRecipe(user,target) {
     target.toggleClass('add-button-active');
-    let id = target.attr('id')
+    let id = target.attr('id');
     user.cookbook.updateSavedRecipes(id);
+    console.log('saved');
   }
 
-  groceryListView(user,recipes) {
+  viewGroceryList(user,recipes) {
 
     let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
 
@@ -220,16 +206,12 @@ class DomUpdates {
   <div class="modal-opacity">
   </div>`;
 
-    this.body.insertAdjacentHTML('afterbegin', `${htmlStart}
-      ${items}
-      ${htmlBottom}`);
-
-    document.querySelector('.grocery-submit').addEventListener('click', () => {this.closeGroceryModal(ingredients, user)})
+  $("body").append(`${htmlStart}${items}${htmlBottom}`);
+  
   }
 
   filterDropdownView() {
-
-    this.filter.insertAdjacentHTML('afterbegin', `<section class="filter-dropdown">
+    $(".filter").append(`<section class="filter-dropdown">
     <div class="fieldset-container">
       <fieldset class="filter-options">
         <input type="checkbox" id="Antipasti" name="Antipasti"
@@ -296,17 +278,13 @@ class DomUpdates {
       <div class="grocery-bottom">
         <button type="submit" class="filter-close close-link">Close</button>
       </div>
-    </section>
-    `);
-
-    document.querySelector('.close-link').addEventListener('click', this.closeFilter)
-
+    </section>`)
   }
 
   searchCards(user, recipes) {
-  var query = new RegExp(`${this.searchField.value}`, 'gi');
+  let query = new RegExp(`${$('.search-bar').val()}`, 'gi');
 
-  var matches = recipes.filter(recipe => recipe.name.match(query));
+  let matches = recipes.filter(recipe => recipe.name.match(query));
 
   this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, matches);
 };
@@ -316,15 +294,15 @@ class DomUpdates {
       this.searchCards(user, recipes);
     });
 
-    $('#saved-recipes-filter').on('click',() => {
-      this.savedRecipesFilter(user,recipes);
+    $('#saved-recipes').on('click',() => {
+      this.viewSavedRecipes(user,recipes);
     });
-    $('#favorites-filter').on('click', () => {
-      this.favoritesFilter(user,recipes);
+    $('#favorites').on('click', () => {
+      this.viewFavoriteRecipes(user,recipes);
     });
 
     $('#grocery-list').on('click',() => {
-      this.groceryListView(user,recipes);
+      this.viewGroceryList(user,recipes);
     });
 
     $('.filter-button').on('click',() => {
@@ -332,10 +310,14 @@ class DomUpdates {
     });
 
     $('#home').on('click',() => {
-      this.home(user,recipes);
+      this.viewHomePage(user,recipes);
     });
-    $('.all-cards').on('click', () =>{
+
+    $('body').on('click', () =>{
       this.cardHelper(user,recipes);
+      this.closeModal(user, recipes);
+      this.closeFilter();
+      this.closeGroceryModal(user, recipes);
     })
   }
 }

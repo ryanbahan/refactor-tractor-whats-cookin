@@ -161,22 +161,14 @@ class DomUpdates {
   cardHelper(user,recipes) {
     let target = $(event.target);
     let id = target.attr('id');
-<<<<<<< HEAD
-    if(target.hasClass('favorite')) {
-      this.toggleFav(user,target)
-    } else if(target.hasClass('add-button')) {
-      this.toggleSavedRecipe(user,target,recipes)
-    } else if(target.hasClass('cook')) {
-      this.cook(user,target,recipes);
-    } else {
-=======
-
     if (target.hasClass('favorite')) {
       this.toggleFavoriteRecipe(user,target)
     } else if (target.hasClass('add-button')) {
       this.toggleSavedRecipe(user,target)
-    } else if ($(event.target).parents('.card').length) {
->>>>>>> master
+    } else if(target.hasClass('cook')) {
+      this.cook(user,target,recipes);
+    }else if ($(event.target).parents('.card').length) {
+
       let recipe = recipes.find(item => {
         return item.id == id
       });
@@ -335,7 +327,7 @@ class DomUpdates {
     $('#saved-recipes-filter').on('click',() => {
       this.savedRecipesFilter(user,recipes);
     });
-    
+
     $('#saved-recipes').on('click',() => {
       this.viewSavedRecipes(user,recipes);
 

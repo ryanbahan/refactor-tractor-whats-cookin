@@ -113,8 +113,6 @@ class DomUpdates {
       controller.updateIngredients(jsonInfo);
     })
 
-    controller.updatePantry(user);
-
     document.querySelector('.grocery-modal').remove();
     document.querySelector('.modal-opacity').remove();
 
@@ -174,8 +172,10 @@ class DomUpdates {
     user.cookbook.updateSavedRecipes(id);
   }
 
-  groceryListView(user,recipes) {
-    console.log(user);
+  async groceryListView(user,recipes) {
+    let controller = new DatabaseController();
+
+    await controller.updatePantry(user);
 
     let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
 

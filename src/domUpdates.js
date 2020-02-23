@@ -207,6 +207,7 @@ class DomUpdates {
   </div>`;
 
   $("body").append(`${htmlStart}${items}${htmlBottom}`);
+  
   }
 
   filterDropdownView() {

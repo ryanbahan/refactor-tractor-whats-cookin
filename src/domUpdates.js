@@ -3,13 +3,14 @@ import DatabaseController from './databaseController';
 
 class DomUpdates {
   constructor() {
-    this.body = document.querySelector('body');
+    this.body = $('body');
     this.allCards = $('.all-cards');
-    this.filter = document.querySelector('.filter');
-    this.searchField = document.querySelector('.search-bar');
+    this.filter = $('.filter');
+    this.searchField = $('.search-bar');
   }
 
   displayRecipeCards(user, favorites,savedRecipes, recipeData) {
+    console.log('test');
 
     function populateCards(recipes, target) {
       target.innerHTML = '';
@@ -114,7 +115,9 @@ class DomUpdates {
   }
 
   closeFilter() {
-    this.closest('.filter-dropdown').remove();
+    if ($(event.target).hasClass("close-link")) {
+      $('.filter-dropdown').remove();
+    }
   }
 
   viewHomePage(user,recipes){
@@ -125,7 +128,10 @@ class DomUpdates {
     let savedFavoritesDOM = recipes.filter((recipe) => {
       return user.cookbook.savedRecipes.includes(`${recipe.id}`);
     })
-    this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, savedFavoritesDOM);
+    console.log(user);
+    console.log('var', savedFavoritesDOM);
+    // console.log(this);
+    this.displayRecipeCards(user, user.cookbook.favoriteRecipes, user.cookbook.savedRecipes, savedFavoritesDOM);
   }
 
   viewFavoriteRecipes(user,recipes) {
@@ -153,13 +159,13 @@ class DomUpdates {
 
   toggleFavoriteRecipe(user,target) {
     target.toggleClass('favorite-active');
-    let id = target.attr('id')
+    let id = target.attr('id');
     user.cookbook.updateFavorites(id);
   }
 
   toggleSavedRecipe(user,target) {
     target.toggleClass('add-button-active');
-    let id = target.attr('id')
+    let id = target.attr('id');
     user.cookbook.updateSavedRecipes(id);
   }
 
@@ -203,8 +209,7 @@ class DomUpdates {
   }
 
   filterDropdownView() {
-
-    this.filter.insertAdjacentHTML('afterbegin', `<section class="filter-dropdown">
+    $(".filter").append(`<section class="filter-dropdown">
     <div class="fieldset-container">
       <fieldset class="filter-options">
         <input type="checkbox" id="Antipasti" name="Antipasti"
@@ -271,11 +276,7 @@ class DomUpdates {
       <div class="grocery-bottom">
         <button type="submit" class="filter-close close-link">Close</button>
       </div>
-    </section>
-    `);
-
-    document.querySelector('.close-link').addEventListener('click', this.closeFilter)
-
+    </section>`)
   }
 
   searchCards(user, recipes) {
@@ -291,10 +292,10 @@ class DomUpdates {
       this.searchCards(user, recipes);
     });
 
-    $('#saved-recipes-filter').on('click',() => {
+    $('#saved-recipes').on('click',() => {
       this.viewSavedRecipes(user,recipes);
     });
-    $('#favorites-filter').on('click', () => {
+    $('#favorites').on('click', () => {
       this.viewFavoriteRecipes(user,recipes);
     });
 
@@ -313,6 +314,7 @@ class DomUpdates {
     $('body').on('click', () =>{
       this.cardHelper(user,recipes);
       this.closeModal();
+      this.closeFilter();
     })
   }
 }

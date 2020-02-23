@@ -3,7 +3,7 @@ class Pantry {
     this.contents = userIngredients;
   }
 
-  prepareIngredients(recipeID, recipes) {
+  prepareIngredients(recipeID, recipes,userID) {
     let preparingRecipe = recipes.find(recipe => {
       return recipe.id == recipeID;
     });
@@ -35,6 +35,7 @@ class Pantry {
           hasIngredient.ready = false;
         }
         hasIngredient.req.push({
+          userID:userID,
           ingredientID: ingredient.id,
           ingredientModification: ingredient.quantity.amount
         });

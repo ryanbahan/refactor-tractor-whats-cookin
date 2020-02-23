@@ -61,7 +61,7 @@ describe("Pantry", () => {
           },
           {
             id: 1123,
-            quantity: { amount: 100, unit: "mguffin" }
+            quantity: { amount: 1, unit: "mguffin" }
           }
         ]
       }
@@ -70,10 +70,17 @@ describe("Pantry", () => {
 
   describe("Pantry Checks", () => {
     it("Should return false if there is not sufficient ingredients", () => {
-      expect(pantry.prepareIngredients(0, recipes)).to.equal(false);
+      expect(pantry.prepareIngredients(1, recipes)).to.equal(false);
     });
-    it("Should return true if there is sufficient ingredients", () => {
-        expect(pantry.prepareIngredients(1, recipes)).to.equal(true);
-      });
+    it("Should return list of ingredients if there is sufficient ingredients to cook", () => {
+        let ingredients = [{
+            ingredientID:19335,
+            ingredientModification:1
+        },{
+            ingredientID:1123,
+            ingredientModification:1
+        }]
+        expect(pantry.prepareIngredients(0, recipes)).to.deep.equal(ingredients);
+    });
   });
 });

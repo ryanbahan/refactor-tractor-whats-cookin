@@ -16,24 +16,15 @@ let recipes = [];
 
 (async function start() {
   let newUser = await databaseController.getUser();
-  user = new User(newUser.id, newUser.name, newUser.pantry);
-
   let recipeData = await databaseController.getRecipes();
-  recipeData.recipeData.forEach(recipe => {
-    recipes.push(new Recipe(recipe));
-  })
-
   let ingredientsData = await databaseController.getIngredients();
 
-  recipes.forEach(recipe => {
-    recipe.ingredients = recipe.ingredients.map( ingredient => {
-      let ingredientData = ingredientsData.ingredientsData.find(item => {
-        return item.id === ingredient.id
-      })
-      ingredient.name = ingredientData.name;
-      ingredient.estimatedCostInCents = ingredientData.estimatedCostInCents
-      return ingredient
-    })
+  user = new User(newUser.id, newUser.name, newUser.pantry);
+
+  recipeData.recipeData.forEach(recipe => {
+    let item = new Recipe(recipe);
+    item.getIngredientsInfo(ingredientsData);
+    recipes.push(item);
   })
 
   user.pantry.contents = user.pantry.contents.map(ingredient => {

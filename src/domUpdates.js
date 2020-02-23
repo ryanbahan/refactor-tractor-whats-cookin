@@ -50,7 +50,7 @@ class DomUpdates {
 
   async displayRecipe(id, recipe) {
 
-    this.body.insertAdjacentHTML('afterbegin', `<section class="recipe-modal">
+    $("body").append(`<section class="recipe-modal">
       <img src="${recipe.image}" alt="recipe photo" class="recipe-view-image">
       <div class="recipe-title-top">
         <div class="recipe-name-container">
@@ -75,7 +75,7 @@ class DomUpdates {
       <a href="#" class="close-link">Close</a>
     </section>
     <div class="modal-opacity">
-    </div>`);
+    </div>`)
 
     recipe.ingredients.forEach(ingredient => {
       $(`<p>${ingredient.name.replace(/^\w/, c => c.toUpperCase())} ${ingredient.quantity.amount} ${ingredient.quantity.unit}</p>`)
@@ -98,20 +98,23 @@ class DomUpdates {
     }
   }
 
-  closeGroceryModal(ingredients, user) {
-    let controller = new DatabaseController();
+  closeGroceryModal(user, recipes) {
+    if ($(event.target).hasClass("grocery-submit")) {
+      let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
+      let controller = new DatabaseController();
 
-    ingredients[0].forEach(ingredient => {
-      let jsonInfo = {
-        userID: user.id,
-        ingredientID: ingredient.id,
-        ingredientModification: ingredient.quantity.amount
-      };
-      // controller.updateIngredients(jsonInfo);
-    })
+      ingredients[0].forEach(ingredient => {
+        let jsonInfo = {
+          userID: user.id,
+          ingredientID: ingredient.id,
+          ingredientModification: ingredient.quantity.amount
+        };
+        // controller.updateIngredients(jsonInfo);
+      })
 
-    $('.grocery-modal').remove();
-    $('.modal-opacity').remove();
+      $('.grocery-modal').remove();
+      $('.modal-opacity').remove();
+    }
   }
 
   closeFilter() {
@@ -128,9 +131,7 @@ class DomUpdates {
     let savedFavoritesDOM = recipes.filter((recipe) => {
       return user.cookbook.savedRecipes.includes(`${recipe.id}`);
     })
-    console.log(user);
-    console.log('var', savedFavoritesDOM);
-    // console.log(this);
+
     this.displayRecipeCards(user, user.cookbook.favoriteRecipes, user.cookbook.savedRecipes, savedFavoritesDOM);
   }
 
@@ -138,6 +139,7 @@ class DomUpdates {
     let savedFavoritesDOM = recipes.filter((recipe) => {
       return user.cookbook.favoriteRecipes.includes(`${recipe.id}`);
     })
+
     this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes,savedFavoritesDOM);
   }
 
@@ -201,11 +203,7 @@ class DomUpdates {
   <div class="modal-opacity">
   </div>`;
 
-    this.body.insertAdjacentHTML('afterbegin', `${htmlStart}
-      ${items}
-      ${htmlBottom}`);
-
-    document.querySelector('.grocery-submit').addEventListener('click', () => {this.closeGroceryModal(ingredients, user)})
+  $("body").append(`${htmlStart}${items}${htmlBottom}`);
   }
 
   filterDropdownView() {
@@ -315,6 +313,7 @@ class DomUpdates {
       this.cardHelper(user,recipes);
       this.closeModal();
       this.closeFilter();
+      this.closeGroceryModal(user, recipes);
     })
   }
 }

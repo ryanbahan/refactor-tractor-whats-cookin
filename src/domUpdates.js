@@ -57,9 +57,9 @@ class DomUpdates {
           <h3>$${recipe.calculateTotalRecipeCost()}</h3>
         </div>
         <div class="card-button-container">
-          <button aria-label='add-button' class='add-button card-button'>
+          <button id='${recipe.id}' aria-label='add-button' class='add-button card-button'>
           </button>
-          <button aria-label='favorite-button' class='favorite card-button'>
+          <button id='${recipe.id}' aria-label='favorite-button' class='favorite card-button'>
           </button>
         </div>
       </div>
@@ -164,7 +164,7 @@ class DomUpdates {
     target.toggleClass('favorite-active');
     let id = target.attr('id');
     user.cookbook.updateFavorites(id);
-    console.log('favorite');
+    console.log(id);
   }
 
   toggleSavedRecipe(user,target) {

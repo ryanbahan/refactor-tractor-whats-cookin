@@ -76,7 +76,6 @@ class DomUpdates {
       isFavorite = 'favorite';
     }
 
-
     $("body").append(`<section class="recipe-modal">
       <img src="${recipe.image}" alt="recipe photo" class="recipe-view-image">
       <div class="recipe-title-top">
@@ -143,7 +142,7 @@ class DomUpdates {
           ingredientID: ingredient.id,
           ingredientModification: ingredient.quantity.amount
         };
-        // controller.updateIngredients(jsonInfo);
+        controller.updateIngredients(jsonInfo);
       })
 
       $('.grocery-modal').remove();

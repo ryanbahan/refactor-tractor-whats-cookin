@@ -17,7 +17,7 @@ class DomUpdates {
         target.removeClass('all')
       }
       recipes.forEach(recipe => {
-        
+
         let isFavorite = '';
         let isSaved ='';
         if(savedRecipes.includes(`${recipe.id}`)){
@@ -143,8 +143,7 @@ class DomUpdates {
       this.toggleFavoriteRecipe(user,target)
     } else if (target.hasClass('add-button')) {
       this.toggleSavedRecipe(user,target)
-    } else if ($(event.target).closest('.card') &&
-      !$(event.target).hasClass("close-link")) {
+    } else if ($(event.target).parents('.card').length) {
       let recipe = recipes.find(item => {
         return item.id == id
       });

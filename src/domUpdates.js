@@ -24,6 +24,10 @@ class DomUpdates {
 
         let isFavorite = '';
         let isSaved ='';
+        let canCook ='';
+        if(!user.pantry.prepareIngredients(recipe.id,recipes)){
+          canCook = 'disabled';
+        }
         if (savedRecipes.includes(`${recipe.id}`)){
           isSaved = 'add-button-active';
         }
@@ -43,7 +47,7 @@ class DomUpdates {
           </button>
           <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'>
           </button>
-          <button id='${recipe.id}' aria-label='cook-button' class='cook card-button'>
+          <button id='${recipe.id}' ${canCook} aria-label='cook-button' class='cook card-button'>
           </button>
           </div>
           </div>
@@ -56,7 +60,22 @@ class DomUpdates {
 
   }
 
-  async displayRecipe(id, recipe) {
+  async displayRecipe(id, recipe,user,recipes) {
+    let isFavorite = '';
+    let isSaved ='';
+    let canCook ='';
+    if(!user.pantry.prepareIngredients(recipe.id,recipes)){
+      canCook = 'disabled';
+    }
+    if (user.cookbook.savedRecipes.includes(`${recipe.id}`)){
+      isSaved = 'add-button-active';
+    }
+    if (user.cookbook.favoriteRecipes.includes(`${recipe.id}`)){
+      isFavorite = 'favorite-active';
+    } else {
+      isFavorite = 'favorite';
+    }
+
 
     $("body").append(`<section class="recipe-modal">
       <img src="${recipe.image}" alt="recipe photo" class="recipe-view-image">
@@ -66,10 +85,12 @@ class DomUpdates {
           <h3>$${recipe.calculateTotalRecipeCost()}</h3>
         </div>
         <div class="card-button-container">
-          <button id='${recipe.id}' aria-label='add-button' class='add-button card-button'>
-          </button>
-          <button id='${recipe.id}' aria-label='favorite-button' class='favorite card-button'>
-          </button>
+        <button id='${recipe.id}' aria-label='add-button' class='add-button ${isSaved} card-button'>
+        </button>
+        <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'>
+        </button>
+        <button id='${recipe.id}' ${canCook} aria-label='cook-button' class='cook card-button'>
+        </button>
         </div>
       </div>
       <hr>
@@ -91,6 +112,9 @@ class DomUpdates {
     })
 
     recipe.instructions.reverse();
+    $('.cook-button').on('click',() => {
+      this.cardHelper(user, recipes);
+    });
 
     recipe.instructions.forEach(instruction => {
       $(`<p>${instruction.number}. ${instruction.instruction}</p>`)
@@ -167,7 +191,7 @@ class DomUpdates {
       let recipe = recipes.find(item => {
         return item.id == id
       });
-      this.displayRecipe(id,recipe);
+      this.displayRecipe(id,recipe,user,recipes);
     }
   }
 
@@ -175,14 +199,12 @@ class DomUpdates {
     target.toggleClass('favorite-active');
     let id = target.attr('id');
     user.cookbook.updateFavorites(id);
-    console.log(id);
   }
 
   toggleSavedRecipe(user,target) {
     target.toggleClass('add-button-active');
     let id = target.attr('id');
     user.cookbook.updateSavedRecipes(id);
-    console.log('saved');
   }
 
   viewGroceryList(user,recipes) {
@@ -302,11 +324,11 @@ class DomUpdates {
   cook(user,target,recipes){
     let controller = new DatabaseController();
     let recipeID = target.attr('id');
-    let neededIngredients = user.pantry.prepareIngredients(recipeID,recipes);
-    // let neededIngredients = user.pantry.getNeededIngredients([recipeID],recipes);
-    user.cookbook.cook(recipeID);
-    console.log(neededIngredients);
-
+    let neededIngredients = user.pantry.prepareIngredients(recipeID,recipes,user.id);
+    if(neededIngredients){
+      user.cookbook.cook(recipeID);
+      controller.updateIngredientParallelTest(neededIngredients);
+    }
   }
 
   createDOMBindings(user,recipes){

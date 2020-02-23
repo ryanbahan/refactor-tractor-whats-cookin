@@ -133,13 +133,12 @@ class DomUpdates {
   cardHelper(user,recipes) {
     let target = $(event.target);
     let id = target.attr('id');
-    console.log(target);
     if(target.hasClass('favorite')) {
       this.toggleFav(user,target)
     } else if(target.hasClass('add-button')) {
-      this.toggleSavedRecipe(user,target)
+      this.toggleSavedRecipe(user,target,recipes)
     } else if(target.hasClass('cook')) {
-      this.cook(user,target);
+      this.cook(user,target,recipes);
     } else {
       let recipe = recipes.find(item => {
         return item.id == id
@@ -282,8 +281,9 @@ class DomUpdates {
 
   this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, matches);
 };
-  cook(user,target){
-    console.log(this);
+  cook(user,target,recipes){
+    let recipeID = target.attr('id');
+    let neededIngredients = user.pantry.getNeededIngredients([recipeID],user.pantry.contents,recipes);
   }
 
   createDOMBindings(user,recipes){

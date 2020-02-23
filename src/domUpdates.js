@@ -171,6 +171,7 @@ class DomUpdates {
     target.toggleClass('add-button-active');
     let id = target.attr('id');
     user.cookbook.updateSavedRecipes(id);
+    console.log('saved');
   }
 
   viewGroceryList(user,recipes) {
@@ -280,9 +281,9 @@ class DomUpdates {
   }
 
   searchCards(user, recipes) {
-  var query = new RegExp(`${this.searchField.value}`, 'gi');
+  let query = new RegExp(`${$('.search-bar').val()}`, 'gi');
 
-  var matches = recipes.filter(recipe => recipe.name.match(query));
+  let matches = recipes.filter(recipe => recipe.name.match(query));
 
   this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, matches);
 };

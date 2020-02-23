@@ -101,7 +101,7 @@ class DomUpdates {
     document.querySelector('.modal-opacity').remove();
   }
 
-  closeGroceryModal(ingredients, user) {
+  groceryModalCheckout(ingredients, user) {
     let controller = new DatabaseController();
 
     ingredients[0].forEach(ingredient => {
@@ -112,7 +112,13 @@ class DomUpdates {
       };
       controller.updateIngredients(jsonInfo);
     })
-    
+
+    document.querySelector('.grocery-modal').remove();
+    document.querySelector('.modal-opacity').remove();
+
+  }
+
+  closeGroceryModal() {
     document.querySelector('.grocery-modal').remove();
     document.querySelector('.modal-opacity').remove();
   }
@@ -171,6 +177,10 @@ class DomUpdates {
     let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
 
     let htmlStart = `<section class="grocery-modal">
+    <div class="grocery-top">
+    <p>Your Cart</p>
+      <button type="submit" class="close-link grocery-close">Close</button>
+    </div>
       <hr>`;
 
     let items = ingredients[0].map(ingredient => {
@@ -202,7 +212,9 @@ class DomUpdates {
       ${items}
       ${htmlBottom}`);
 
-    document.querySelector('.grocery-submit').addEventListener('click', () => {this.closeGroceryModal(ingredients, user)})
+    document.querySelector('.grocery-submit').addEventListener('click', () => {this.groceryModalCheckout(ingredients, user)})
+    document.querySelector('.close-link').addEventListener('click', this.closeGroceryModal)
+
   }
 
   filterDropdownView() {

@@ -253,6 +253,11 @@ main {
   cursor: pointer;
 }
 
+.grocery-top {
+  display: flex;
+  justify-content: space-between;
+}
+
 .grocery-bottom {
   display: flex;
   justify-content: flex-end;
@@ -314,6 +319,13 @@ main {
   display: block;
   text-align: right;
   padding: 1.5%;
+}
+
+.grocery-close {
+  border: solid 1px black;
+  border-radius: 2.5px;
+  display: block;
+  cursor: pointer;
 }
 
 .filter {

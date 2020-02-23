@@ -8,6 +8,16 @@ class Recipe {
     this.image = recipe.image;
   }
 
+  getIngredientInfo(ingredientsData) {
+    this.ingredients = this.ingredients.map(ingredient => {
+      let ingredientData = ingredientsData.ingredientsData.find(item => {
+        return item.id === ingredient.id
+      })
+      ingredient.name = ingredientData.name;
+      ingredient.estimatedCostInCents = ingredientData.estimatedCostInCents
+      return ingredient
+    })
+  }
 
   calculateTotalRecipeCost() {
     let costCounter = 0;

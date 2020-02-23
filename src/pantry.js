@@ -32,26 +32,13 @@ class Pantry {
     let missingIngredients = this.findMissingIngredients(totalIngredientsNeeded);
 
     // add cost to ingredients
-    missingIngredients = missingIngredients.map(item => {
-      item.cost = (item.quantity.amount * item.estimatedCostInCents / 100).toFixed(2);
-      return item;
-    })
+    missingIngredients = this.addCostToIngredients(missingIngredients);
 
     // get total cost of items
-    let totalCost = missingIngredients.reduce((num, item) => {
-      num += parseFloat(item.cost);
-      return num;
-    }, 0)
-
-    totalCost = totalCost.toFixed(2);
+    let totalCost = this.getTotalCost(missingIngredients);
 
     // get total quantity of items
-    let quantities = missingIngredients.reduce((num, item) => {
-      num += item.quantity.amount;
-      return num;
-    }, 0)
-
-    quantities = quantities.toFixed(2);
+    let quantities = this.getTotalQuantities(missingIngredients);
 
     return [missingIngredients, totalCost, quantities];
   }
@@ -113,6 +100,31 @@ class Pantry {
     }, []);
 
     return missingIngredients;
+  }
+
+  addCostToIngredients(ingredients) {
+    return ingredients.map(item => {
+      item.cost = (item.quantity.amount * item.estimatedCostInCents / 100).toFixed(2);
+      return item;
+    })
+  }
+
+  getTotalCost(ingredients) {
+    let cost = ingredients.reduce((num, item) => {
+      num += parseFloat(item.cost);
+      return num;
+    }, 0)
+
+    return cost.toFixed(2);
+  }
+
+  getTotalQuantities(ingredients) {
+    let quantities = ingredients.reduce((num, item) => {
+      num += item.quantity.amount;
+      return num;
+    }, 0)
+
+    return quantities.toFixed(2);
   }
 }
 

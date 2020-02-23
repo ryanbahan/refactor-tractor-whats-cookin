@@ -4,7 +4,7 @@ import DatabaseController from './databaseController';
 class DomUpdates {
   constructor() {
     this.body = document.querySelector('body');
-    this.allCards = document.querySelector('.all-cards');
+    this.allCards = $('.all-cards');
     this.filter = document.querySelector('.filter');
     this.searchField = document.querySelector('.search-bar');
   }
@@ -13,10 +13,11 @@ class DomUpdates {
 
     function populateCards(recipes, target) {
       target.innerHTML = '';
-      if (target.classList.contains('all')) {
-        target.classList.remove('all')
+      if (target.hasClass('all')) {
+        target.removeClass('all')
       }
       recipes.forEach(recipe => {
+        
         let isFavorite = '';
         let isSaved ='';
         if(savedRecipes.includes(`${recipe.id}`)){
@@ -28,21 +29,16 @@ class DomUpdates {
           isFavorite = 'favorite';
         }
 
-        target.insertAdjacentHTML('afterbegin', `<div id='${recipe.id}'
-        class='card'>
-
-              <img id='${recipe.id}' tabindex='0' class='card-picture'
-              src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
-              <div class="card-title-info">
-        <p id='${recipe.id}' class='recipe-name'>${recipe.name}</p>
-
+        $(".all-cards").append(`
+        <div id='${recipe.id}' class='card'>
+          <img id='${recipe.id}' tabindex='0' class='card-picture' src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
+          <div class="card-title-info">
+          <p id='${recipe.id}' class='recipe-name'>${recipe.name}</p>
           <div class="card-button-container">
-          <button id='${recipe.id}' aria-label='add-button' class='add-button ${isSaved} card-button'>
-          </button>
-          <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'>
-          </button>
+            <button id='${recipe.id}' aria-label='add-button' class='add-button ${isSaved} card-button'></button>
+            <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'></button>
           </div>
-          </div>
+        </div>
         </div>`)
       })
     };
@@ -80,16 +76,16 @@ class DomUpdates {
     <div class="modal-opacity">
     </div>`);
 
-    let ingredientsList = document.querySelector('.ingredients-list');
-    let instructionsList = document.querySelector('.recipe-instructions-list');
-
     recipe.ingredients.forEach(ingredient => {
-      console.log()
-      ingredientsList.insertAdjacentHTML('beforeend', `<p>${ingredient.name.replace(/^\w/, c => c.toUpperCase())} ${ingredient.quantity.amount} ${ingredient.quantity.unit}</p>`)
+      $(`<p>${ingredient.name.replace(/^\w/, c => c.toUpperCase())} ${ingredient.quantity.amount} ${ingredient.quantity.unit}</p>`)
+      .insertAfter('.ingredients-list');
     })
 
+    recipe.instructions.reverse();
+
     recipe.instructions.forEach(instruction => {
-      instructionsList.insertAdjacentHTML('beforeend', `<p>${instruction.number}. ${instruction.instruction}</p>`)
+      $(`<p>${instruction.number}. ${instruction.instruction}</p>`)
+      .insertAfter('.recipe-instructions-list');
     });
 
   }
@@ -147,7 +143,8 @@ class DomUpdates {
       this.toggleFavoriteRecipe(user,target)
     } else if (target.hasClass('add-button')) {
       this.toggleSavedRecipe(user,target)
-    } else if ($(event.target).closest('.card')) {
+    } else if ($(event.target).closest('.card') &&
+      !$(event.target).hasClass("close-link")) {
       let recipe = recipes.find(item => {
         return item.id == id
       });

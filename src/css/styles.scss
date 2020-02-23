@@ -67,6 +67,23 @@ h1 {
   display: none;
 }
 
+.cook {
+    display: flex;
+    background-image: url("../images/raw-meat.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 120%;
+    cursor: pointer;
+}
+
+.cook:hover {
+  display: flex;
+  background-image: url("../images/cooked-meat.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 120%;
+  cursor: pointer;
+}
 
 .favorite {
   background-image: url(https://image.flaticon.com/icons/svg/149/149222.svg);
@@ -83,7 +100,7 @@ h1 {
 
 .add-button {
   display: flex;
-  background-image: url("../data/plus.svg");
+  background-image: url("../images/plus.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 87.5%;
@@ -92,7 +109,7 @@ h1 {
 
 .add-button-active {
   display: flex;
-  background-image: url("../data/minus.svg");
+  background-image: url("../images/minus.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 87.5%;

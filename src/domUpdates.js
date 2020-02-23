@@ -40,6 +40,8 @@ class DomUpdates {
           </button>
           <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'>
           </button>
+          <button id='${recipe.id}' aria-label='cook-button' class='cook card-button'>
+          </button>
           </div>
           </div>
         </div>`)
@@ -130,11 +132,14 @@ class DomUpdates {
 
   cardHelper(user,recipes) {
     let target = $(event.target);
-    let id = target.attr('id')
+    let id = target.attr('id');
+    console.log(target);
     if(target.hasClass('favorite')) {
       this.toggleFav(user,target)
     } else if(target.hasClass('add-button')) {
       this.toggleSavedRecipe(user,target)
+    } else if(target.hasClass('cook')) {
+      this.cook(user,target);
     } else {
       let recipe = recipes.find(item => {
         return item.id == id
@@ -277,10 +282,17 @@ class DomUpdates {
 
   this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, matches);
 };
+  cook(user,target){
+    console.log(this);
+  }
 
   createDOMBindings(user,recipes){
     $('.search-bar').on('input',() => {
       this.searchCards(user, recipes);
+    });
+
+    $('.cook-button').on('click',() => {
+      this.cardHelper(user, recipes);
     });
 
     $('#saved-recipes-filter').on('click',() => {

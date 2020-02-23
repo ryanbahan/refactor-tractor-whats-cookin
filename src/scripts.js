@@ -30,11 +30,7 @@ let recipes = [];
   user.pantry.getPantryInfo(ingredientsData);
 
   domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, recipes);
-  greetUser(user);
+  domUpdates.greetUser(user);
   domUpdates.createDOMBindings(user,recipes);
 
 })();
-
-function greetUser(user) {
-  $('.user-name').text(user.name.split(' ')[0] + '\xa0' + user.name.split(' ')[1][0]);
-};

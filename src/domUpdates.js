@@ -9,6 +9,10 @@ class DomUpdates {
     this.searchField = $('.search-bar');
   }
 
+  greetUser(user) {
+    $('.user-name').text(user.name.split(' ')[0] + '\xa0' + user.name.split(' ')[1][0]);
+  };
+
   displayRecipeCards(user, favorites, savedRecipes, recipeData) {
 
     function populateCards(recipes, target) {
@@ -207,7 +211,7 @@ class DomUpdates {
   </div>`;
 
   $("body").append(`${htmlStart}${items}${htmlBottom}`);
-  
+
   }
 
   filterDropdownView() {

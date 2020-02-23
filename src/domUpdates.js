@@ -20,10 +20,10 @@ class DomUpdates {
 
         let isFavorite = '';
         let isSaved ='';
-        if(savedRecipes.includes(`${recipe.id}`)){
+        if (savedRecipes.includes(`${recipe.id}`)){
           isSaved = 'add-button-active';
         }
-        if(favorites.includes(`${recipe.id}`)){
+        if (favorites.includes(`${recipe.id}`)){
           isFavorite = 'favorite-active';
         } else {
           isFavorite = 'favorite';
@@ -43,7 +43,7 @@ class DomUpdates {
       })
     };
 
-  populateCards(recipeData, this.allCards);
+    populateCards(recipeData, this.allCards);
 
   }
 
@@ -90,10 +90,12 @@ class DomUpdates {
 
   }
 
-  closeModal() {
+  closeModal(user, recipes) {
     if ($(event.target).hasClass("close-link")) {
       $('.recipe-modal').remove();
       $('.modal-opacity').remove();
+
+      this.displayRecipeCards(user, user.cookbook.favoriteRecipes, user.cookbook.savedRecipes, recipes);
     }
   }
 
@@ -162,6 +164,7 @@ class DomUpdates {
     target.toggleClass('favorite-active');
     let id = target.attr('id');
     user.cookbook.updateFavorites(id);
+    console.log('favorite');
   }
 
   toggleSavedRecipe(user,target) {
@@ -310,7 +313,7 @@ class DomUpdates {
 
     $('body').on('click', () =>{
       this.cardHelper(user,recipes);
-      this.closeModal();
+      this.closeModal(user, recipes);
       this.closeFilter();
       this.closeGroceryModal(user, recipes);
     })

@@ -51,7 +51,18 @@ class DomUpdates {
 
   }
 
-  async displayRecipe(id, recipe) {
+  async displayRecipe(id, recipe,user) {
+    let isFavorite = '';
+    let isSaved ='';
+    console.log(id)
+    if(user.cookbook.savedRecipes.includes(`${id}`)){
+      isSaved = 'add-button-active';
+    }
+    if(user.cookbook.favoriteRecipes.includes(`${id}`)){
+      isFavorite = 'favorite-active';
+    } else {
+      isFavorite = 'favorite';
+    }
 
     this.body.insertAdjacentHTML('afterbegin', `<section class="recipe-modal">
       <img src="${recipe.image}" alt="recipe photo" class="recipe-view-image">
@@ -61,10 +72,10 @@ class DomUpdates {
           <h3>$${recipe.calculateTotalRecipeCost()}</h3>
         </div>
         <div class="card-button-container">
-          <button aria-label='add-button' class='add-button card-button'>
-          </button>
-          <button aria-label='favorite-button' class='favorite card-button'>
-          </button>
+        <button id='${id}' aria-label='add-button' class='add-button ${isSaved} card-button'>
+        </button>
+        <button id='${id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${id} card-button'>
+        </button>
         </div>
       </div>
       <hr>
@@ -79,7 +90,8 @@ class DomUpdates {
     </section>
     <div class="modal-opacity">
     </div>`);
-
+    
+    
     let ingredientsList = document.querySelector('.ingredients-list');
     let instructionsList = document.querySelector('.recipe-instructions-list');
 
@@ -93,6 +105,16 @@ class DomUpdates {
     });
 
     document.querySelector('.close-link').addEventListener('click', this.closeModal)
+
+
+    $('.add-button').on('click',(event) => {
+      this.toggleSavedRecipe(user,$(event.target));
+    });
+
+    $('.favorite').on('click',(event) => {
+      this.toggleFav(user,$(event.target));
+    });
+
 
   }
 
@@ -150,7 +172,7 @@ class DomUpdates {
       let recipe = recipes.find(item => {
         return item.id == id
       });
-      this.displayRecipe(id,recipe);
+      this.displayRecipe(id,recipe,user);
     }
   }
 

@@ -2,6 +2,15 @@ class DatabaseController {
   constructor() {
   }
 
+  async getUser() {
+    let userId = (Math.floor(Math.random() * 49) + 1);
+    let response = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData");
+    let users = await response.json();
+    let user = users.wcUsersData.find(person => person.id === Number(userId));
+
+    return user;
+  };
+
   async getRecipes() {
     let response = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData");
     let recipeData = await response.json();

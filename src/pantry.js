@@ -2,6 +2,7 @@ class Pantry {
   constructor(userIngredients) {
     this.contents = userIngredients;
   }
+
   prepareIngredients(recipeID,recipes){
     console.log(this.contents)
     let preparingRecipe = recipes.find((recipe) => {
@@ -33,6 +34,23 @@ class Pantry {
     },false);
     return isMissingIngredients;
   }
+
+  getPantryInfo(ingredientsData) {
+    this.contents = this.contents.map(ingredient => {
+
+      let ingredientData = ingredientsData.ingredientsData.find(item => {
+        return item.id === ingredient.ingredient
+      })
+
+      ingredientData.amount = ingredient.amount
+
+      return ingredientData;
+    })
+
+    this.contents = this.contents.filter(item => item !== undefined);
+  }
+
+
   getNeededIngredients(savedRecipes, recipes) {
     // get recipe ingredients from ID's
     let ingredientsNeeded = savedRecipes.map(recipe => recipes.find(item => item.id == recipe))

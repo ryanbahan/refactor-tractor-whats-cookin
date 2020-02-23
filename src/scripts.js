@@ -11,54 +11,26 @@ import DatabaseController from './databaseController';
 let domUpdates = new DomUpdates();
 let databaseController = new DatabaseController();
 
-let userId = (Math.floor(Math.random() * 49) + 1);
 let user;
 let recipes = [];
 
 (async function start() {
-  let response = await fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData");
-  let newUser = await response.json();
 
-  newUser = newUser.wcUsersData.find(user => user.id === Number(userId));
-  user = new User(newUser.id, newUser.name, newUser.pantry);
-
+  let newUser = await databaseController.getUser();
   let recipeData = await databaseController.getRecipes();
-  recipeData.recipeData.forEach(recipe => {
-    recipes.push(new Recipe(recipe));
-  })
-
   let ingredientsData = await databaseController.getIngredients();
 
-  recipes.forEach(recipe => {
-    recipe.ingredients = recipe.ingredients.map( ingredient => {
-      let ingredientData = ingredientsData.ingredientsData.find(item => {
-        return item.id === ingredient.id
-      })
-      ingredient.name = ingredientData.name;
-      ingredient.estimatedCostInCents = ingredientData.estimatedCostInCents
-      return ingredient
-    })
+  recipeData.recipeData.forEach(recipe => {
+    let item = new Recipe(recipe);
+    item.getIngredientsInfo(ingredientsData);
+    recipes.push(item);
   })
 
-  user.pantry.contents = user.pantry.contents.map(ingredient => {
-
-    let ingredientData = ingredientsData.ingredientsData.find(item => {
-      return item.id === ingredient.ingredient
-    })
-
-    ingredientData.amount = ingredient.amount
-
-    return ingredientData;
-  })
-
-  user.pantry.contents = user.pantry.contents.filter(item => item !== undefined);
+  user = new User(newUser.id, newUser.name, newUser.pantry);
+  user.pantry.getPantryInfo(ingredientsData);
 
   domUpdates.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, recipes);
-  greetUser(user);
+  domUpdates.greetUser(user);
   domUpdates.createDOMBindings(user,recipes);
 
 })();
-
-function greetUser(user) {
-  $('.user-name').text(user.name.split(' ')[0] + '\xa0' + user.name.split(' ')[1][0]);
-};

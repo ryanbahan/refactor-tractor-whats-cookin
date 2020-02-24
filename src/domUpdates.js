@@ -260,7 +260,7 @@ class DomUpdates {
 
   }
 
-  closeFilter() {
+  closeFilter(user, recipes) {
     if ($(event.target).hasClass("filter-close")) {
 
       $(".filter-checkbox:checked")
@@ -270,79 +270,102 @@ class DomUpdates {
         }
       });
 
+      $(".filter-checkbox:not(:checked)")
+      .each((index, value) => {
+        if (this.activeFilterCategories.find(item => item === value.id)) {
+          let index = this.activeFilterCategories.findIndex(item => item === value.id);
+          this.activeFilterCategories.splice(index, 1);
+        }
+      });
+
       $('.filter-dropdown').remove();
     }
   }
 
+  populateCheckedFilterItems() {
+    $(".filter-checkbox")
+    .each((index, value) => {
+      if (this.activeFilterCategories.find(item => item === value.id)) {
+        $(`#${value.id}`).prop('checked', true)
+      } else {
+        $(`#${value.id}`).prop('checked', false)
+      }
+    });
+  }
+
   filterDropdownView() {
+
     $(".filter").append(`<section class="filter-dropdown">
     <div class="fieldset-container">
       <fieldset class="filter-options">
-        <input type="checkbox" id="Antipasti" name="Antipasti"
-           checked>
-           <label for="Antipasti">Antipasto</label>
+        <input class="filter-checkbox" type="checkbox" id="Antipasti" name="Antipasti"
+        >
+           <label for="Antipasti">Antipasti</label>
        <input class="filter-checkbox" type="checkbox" id="Antipasto" name="Antipasto"
-          checked>
+      >
           <label for="Antipasto">Antipasto</label>
       <input class="filter-checkbox" type="checkbox" id="Appetizer" name="Appetizer"
-         checked>
+      >
          <label for="Appetizer">Appetizer</label>
      <input class="filter-checkbox" type="checkbox" id="Breakfast" name="Breakfast"
-        checked>
+    >
         <label for="Breakfast">Breakfast</label>
      <input class="filter-checkbox" type="checkbox" id="Brunch" name="Brunch"
-        checked>
+    >
         <label for="Brunch">Brunch</label>
      <input class="filter-checkbox" type="checkbox" id="Condiment" name="Condiment"
-        checked>
+    >
         <label for="Condiment">Condiment</label>
      <input class="filter-checkbox" type="checkbox" id="Dinner" name="Dinner"
-        checked>
+    >
         <label for="Dinner">Dinner</label>
      <input class="filter-checkbox" type="checkbox" id="Dip" name="Dip"
-        checked>
+    >
         <label for="Dip">Dip</label>
-     <input class="filter-checkbox" type="checkbox" id="hor d\'oeuvre" name="hor d\'oeuvre"
-        checked>
-        <label for="hor d\'oeuvre">hor d\'oeuvre</label>
+     <input class="filter-checkbox" type="checkbox" id="hor-doeuvre" name="hor doeuvre"
+    >
+        <label for="hor doeuvre">hor doeuvre</label>
       </fieldset>
       <fieldset>
       <input class="filter-checkbox" type="checkbox" id="Lunch" name="Lunch"
-         checked>
+      >
          <label for="Lunch">Lunch</label>
-      <input class="filter-checkbox" type="checkbox" id="Main Course" name="Main Course"
-         checked>
+      <input class="filter-checkbox" type="checkbox" id="Main-Course" name="Main Course"
+      >
          <label for="Main Course">Main Course</label>
-      <input class="filter-checkbox" type="checkbox" id="Main Dish" name="Main Dish"
-         checked>
+      <input class="filter-checkbox" type="checkbox" id="Main-Dish" name="Main Dish"
+      >
          <label for="Main Dish">Main Dish</label>
-      <input class="filter-checkbox" type="checkbox" id="Morning Meal" name="Morning Meal"
-         checked>
+      <input class="filter-checkbox" type="checkbox" id="Morning-Meal" name="Morning Meal"
+      >
          <label for="Morning Meal">Morning Meal</label>
       <input class="filter-checkbox" type="checkbox" id="Salad" name="Salad"
-         checked>
+      >
          <label for="Salad">Salad</label>
       <input class="filter-checkbox" type="checkbox" id="Sauce" name="Sauce"
-         checked>
+      >
          <label for="Sauce">Sauce</label>
-      <input class="filter-checkbox" type="checkbox" id="Side Dish" name="Side Dish"
-         checked>
+      <input class="filter-checkbox" type="checkbox" id="Side-Dish" name="Side Dish"
+      >
          <label for="Side Dish">Side Dish</label>
       <input class="filter-checkbox" type="checkbox" id="Snack" name="Snack"
-         checked>
+      >
          <label for="Snack">Snack</label>
       <input class="filter-checkbox" type="checkbox" id="Spread" name="Spread"
-         checked>
+      >
          <label for="Spread">Spread</label>
       <input class="filter-checkbox" type="checkbox" id="Starter" name="Starter"
-         checked>
+      >
          <label for="Starter">Starter</label>
       </fieldset>
       </div>
       <div class="grocery-bottom">
         <button type="submit" class="filter-close close-link">Close</button>
       </div>
-    </section>`)
+    </section>`);
+
+    this.populateCheckedFilterItems();
+
   }
 
   searchCards(user, recipes) {
@@ -370,6 +393,7 @@ class DomUpdates {
   }
 
   createDOMBindings(user,recipes){
+
     $('.search-bar').on('input',() => {
       this.searchCards(user, recipes);
     });
@@ -406,7 +430,7 @@ class DomUpdates {
     $('body').on('click', () =>{
       this.cardHelper(user,recipes);
       this.closeModal(user, recipes);
-      this.closeFilter();
+      this.closeFilter(user, recipes);
       this.closeGroceryModal(user, recipes);
       this.closeGroceryModalWithoutCheckout(user, recipes);
     })

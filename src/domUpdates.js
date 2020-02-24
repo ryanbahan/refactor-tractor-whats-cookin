@@ -1,5 +1,6 @@
 const $ = require('jquery');
 import DatabaseController from './databaseController';
+import Pantry from './pantry';
 
 class DomUpdates {
   constructor() {
@@ -136,6 +137,8 @@ class DomUpdates {
       let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
       let controller = new DatabaseController();
 
+      console.log('on modal', ingredients[0]);
+
       ingredients[0].forEach(ingredient => {
         let jsonInfo = {
           userID: user.id,
@@ -206,9 +209,17 @@ class DomUpdates {
     user.cookbook.updateSavedRecipes(id);
   }
 
-  viewGroceryList(user,recipes) {
+  async viewGroceryList(user,recipes) {
+    let controller = new DatabaseController();
+    let ingredientsData = await controller.getIngredients();
 
+    user.pantry = new Pantry(await controller.updateUserPantry(user.id));
+    user.pantry.getPantryInfo(ingredientsData);
+    
     let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
+    console.log('on modal open - pantry', user.pantry);
+    console.log('on modal open - needed ingredients', ingredients);
+
 
     let htmlStart = `<section class="grocery-modal">
       <hr>`;

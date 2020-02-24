@@ -76,8 +76,12 @@ class Pantry {
     // remove duplicates
     totalIngredientsNeeded = this.mergeDuplicates(totalIngredientsNeeded);
 
+    console.log('pantry', this.contents);
+
     // get missing ingredients
     let missingIngredients = this.findMissingIngredients(totalIngredientsNeeded);
+
+    console.log('missing', missingIngredients);
 
     // add cost to ingredients
     missingIngredients = this.addCostToIngredients(missingIngredients);

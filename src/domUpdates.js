@@ -132,8 +132,16 @@ class DomUpdates {
     }
   }
 
+  closeGroceryModalWithoutCheckout(user, recipes) {
+    if ($(event.target).hasClass("close-link")) {
+      $('.grocery-modal').remove();
+      $('.modal-opacity').remove();
+    }
+  }
+
   closeGroceryModal(user, recipes) {
     if ($(event.target).hasClass("grocery-submit")) {
+
       let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
       let controller = new DatabaseController();
 
@@ -222,6 +230,10 @@ class DomUpdates {
 
 
     let htmlStart = `<section class="grocery-modal">
+      <div class="grocery-top">
+        <p>Your Cart</p>
+        <button class="close-link">Close</button>
+      </div>
       <hr>`;
 
     let items = ingredients[0].map(ingredient => {
@@ -387,6 +399,7 @@ class DomUpdates {
       this.closeModal(user, recipes);
       this.closeFilter();
       this.closeGroceryModal(user, recipes);
+      this.closeGroceryModalWithoutCheckout(user, recipes);
     })
   }
 }

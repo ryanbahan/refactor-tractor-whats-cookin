@@ -253,6 +253,17 @@ main {
   padding: 1%;
 }
 
+.grocery-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.grocery-top button {
+  border: solid 0.5px black;
+  border-radius: 2.5px;
+  cursor: pointer;
+}
+
 .grocery-item {
   border-radius: 5px;
   border: solid 1px black;

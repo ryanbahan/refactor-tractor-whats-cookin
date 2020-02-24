@@ -267,6 +267,10 @@ class DomUpdates {
 
       let filteredItems = this.getFilteredRecipes(this.activeFilterCategories, recipes);
 
+      this.displayRecipeCards(user, user.cookbook.favoriteRecipes, user.cookbook.savedRecipes, filteredItems);
+
+      console.log(filteredItems);
+
       $('.filter-dropdown').remove();
     }
   }
@@ -292,6 +296,7 @@ class DomUpdates {
       return list;
     }, [])
 
+    return matches;
   }
 
   updateCheckedItems() {

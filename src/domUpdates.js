@@ -323,11 +323,15 @@ class DomUpdates {
   cook(user,target,recipes){
     let controller = new DatabaseController();
     let recipeID = target.attr('id');
+    console.log(user.pantry);
+    user.pantry = controller.updateUserPantry(user.id);
     let neededIngredients = user.pantry.prepareIngredients(recipeID,recipes,user.id);
     if(neededIngredients){
       user.cookbook.cook(recipeID);
       controller.updateIngredientParallelTest(neededIngredients);
+      user.pantry = controller.updateUserPantry(user.id);
     }
+    console.log(user.pantry);
   }
 
   createDOMBindings(user,recipes){

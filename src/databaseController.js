@@ -2,7 +2,7 @@ class DatabaseController {
   constructor() {}
 
   async getUser() {
-    let userId = Math.floor(Math.random() * 49) + 1;
+    let userId = 1;
     let response = await fetch(
       "https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData"
     );
@@ -16,7 +16,7 @@ class DatabaseController {
       "https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData"
     );
     let users = await response.json();
-    let user = users.wcUsersData.find(person => person.id === Number(userId));
+    let user = await users.wcUsersData.find(person => person.id === Number(userId));
 
     return user.pantry;
   }

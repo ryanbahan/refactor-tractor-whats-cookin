@@ -17,17 +17,19 @@ class DomUpdates {
   async displayRecipeCards(user, favorites, savedRecipes, recipeData) {
     let controller = new DatabaseController();
     user.pantry = new Pantry(await controller.updateUserPantry(user.id));
-    console.log(user.pantry)
+    console.log(user.pantry.prepareIngredients)
     function populateCards(recipes, target) {
       $(target).html("");
       if (target.hasClass('all')) {
         target.removeClass('all')
       }
+
       recipes.forEach(recipe => {
 
         let isFavorite = '';
         let isSaved ='';
         let canCook ='';
+        // console.log(user.pantry.prepareIngredients(recipe.id,recipes,user.id))
         if(user.pantry.prepareIngredients(recipe.id,recipes,user.id)===false){
           canCook = 'disabled';
           // console.log('this is disabled')
@@ -64,7 +66,7 @@ class DomUpdates {
 
   }
 
-  async displayRecipe(id, recipe,user,recipes) {
+  displayRecipe(id, recipe,user,recipes) {
     let isFavorite = '';
     let isSaved ='';
     let canCook ='';
@@ -344,7 +346,7 @@ class DomUpdates {
     let controller = new DatabaseController();
     let recipeID = target.attr('id');
     // console.log(user.pantry);
-    user.pantry = controller.updateUserPantry(user.id);
+    // user.pantry = controller.updateUserPantry(user.id);
     let neededIngredients = user.pantry.prepareIngredients(recipeID,recipes,user.id);
     if(neededIngredients){
       user.cookbook.cook(recipeID);
@@ -352,6 +354,7 @@ class DomUpdates {
       user.pantry = controller.updateUserPantry(user.id);
     }
     console.log(user.pantry);
+    this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes,recipes);
   }
 
   createDOMBindings(user,recipes){

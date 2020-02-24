@@ -162,27 +162,23 @@ describe("Pantry", () => {
       expect(pantry.mergeDuplicates(list)).to.deep.equal(ingredients);
     });
 
-    it("Should find missing ingredients", () => {
-      let ingredients = [
-        {
-          id: 19335,
-          quantity: {
-            amount: 1,
-            unit: "mguffin"
-          }
-        },
-        {
-          id: 1123,
-          quantity: {
-            amount: 1,
-            unit: "mguffin"
-          }
-        }
-      ];
+    it("Should return nothing if there are no missing ingredients", () => {
+
       let list = pantry.getSavedRecipeIngredients([0], recipes);
       expect(pantry.getNeededIngredients([0],recipes)).to.deep.equal([]);
     });
-
+    it("Should find missing ingredients", () => {
+      let userIngredients = [
+        {
+          ingredient: 19335,
+          name: "sucrose",
+          estimatedCostInCents: 902,
+          amount: .5
+        }]
+      pantry = new Pantry(userIngredients);
+      let list = pantry.getSavedRecipeIngredients([0], recipes);
+      expect(pantry.getNeededIngredients([0],recipes)).to.deep.equal([]);
+    });
 
   });
 });

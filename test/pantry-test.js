@@ -10,43 +10,27 @@ let ingredientsData;
 describe("Pantry", () => {
   beforeEach(() => {
     let userIngredients = [
-      { id: 19335, name: "sucrose", estimatedCostInCents: 902, amount: 2 },
-      { id: 20081, name: "wheat flour", estimatedCostInCents: 142, amount: 4 },
+      { ingredient: 19335, name: "sucrose", estimatedCostInCents: 902, amount: 2 },
+      { ingredient: 20081, name: "wheat flour", estimatedCostInCents: 142, amount: 4 },
       {
-        id: 18371,
+        ingredient: 18371,
         name: "baking powder",
         estimatedCostInCents: 346,
         amount: 3
       },
-      { id: 1123, name: "eggs", estimatedCostInCents: 472, amount: 3 },
-      { id: 2047, name: "salt", estimatedCostInCents: 280, amount: 5 },
-      { id: 19296, name: "runny honey", estimatedCostInCents: 742, amount: 2 },
-      {
-        id: 4053,
-        name: "pure olive oil",
-        estimatedCostInCents: 705,
-        amount: 5
-      },
-      { id: 11282, name: "onions", estimatedCostInCents: 439, amount: 2 },
-      {
-        id: 11215,
-        name: "whole garlic clove",
-        estimatedCostInCents: 220,
-        amount: 3
-      },
-      { id: 14106, name: "white wine", estimatedCostInCents: 675, amount: 2 },
-      { id: 1125, name: "egg yolks", estimatedCostInCents: 889, amount: 2 }
+      { ingredient: 1123, name: "eggs", estimatedCostInCents: 472, amount: 3 },
+
     ];
     pantry = new Pantry(userIngredients);
     savedRecipes = [0];
-    ingredientsData = [
+    ingredientsData = {ingredientsData:[
         {
           "id": 20081,
           "name": "wheat flour",
           "estimatedCostInCents": 142
         },
         {
-          "id": 18372,
+          "id": 18371,
           "name": "bicarbonate of soda",
           "estimatedCostInCents": 582
         },
@@ -64,7 +48,7 @@ describe("Pantry", () => {
           "id": 19206,
           "name": "instant vanilla pudding",
           "estimatedCostInCents": 660
-        }]
+        }]}
     recipes = [
       {
         name: "Test Kitchen Recipe Success",

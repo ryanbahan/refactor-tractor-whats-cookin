@@ -215,7 +215,7 @@ class DomUpdates {
 
     user.pantry = new Pantry(await controller.updateUserPantry(user.id));
     user.pantry.getPantryInfo(ingredientsData);
-    
+
     let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
     console.log('on modal open - pantry', user.pantry);
     console.log('on modal open - needed ingredients', ingredients);
@@ -327,7 +327,10 @@ class DomUpdates {
   searchCards(user, recipes) {
   let query = new RegExp(`${$('.search-bar').val()}`, 'gi');
 
-  let matches = recipes.filter(recipe => recipe.name.match(query));
+  let matches = recipes.filter(recipe => {
+    return recipe.name.match(query) ||
+    recipe.ingredients.find(item => item.name.match(query))
+  });
 
   this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, matches);
 };

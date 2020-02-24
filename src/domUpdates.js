@@ -157,6 +157,8 @@ class DomUpdates {
         controller.updateIngredients(jsonInfo);
       })
 
+      controller.updateUserPantry(user);
+
       $('.grocery-modal').remove();
       $('.modal-opacity').remove();
     }
@@ -214,14 +216,10 @@ class DomUpdates {
 
   async viewGroceryList(user,recipes) {
     let controller = new DatabaseController();
-    let ingredientsData = await controller.getIngredients();
-
-    user.pantry = new Pantry(await controller.updateUserPantry(user.id));
-    user.pantry.getPantryInfo(ingredientsData);
 
     let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
-    console.log('on modal open - pantry', user.pantry);
-    console.log('on modal open - needed ingredients', ingredients);
+    // console.log('on modal open - pantry', user.pantry);
+    // console.log('on modal open - needed ingredients', ingredients);
 
 
     let htmlStart = `<section class="grocery-modal">

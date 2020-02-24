@@ -11,14 +11,17 @@ class DatabaseController {
 
     return user;
   }
-  async updateUserPantry(userId){
+
+  async updateUserPantry(currentUser){
+    let ingredientsData = await this.getIngredients();
     let response = await fetch(
       "https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData"
     );
     let users = await response.json();
-    let user = users.wcUsersData.find(person => person.id === Number(userId));
+    let user = users.wcUsersData.find(person => person.id === Number(currentUser.id));
 
-    return user.pantry;
+    currentUser.pantry.contents = user.pantry;
+    currentUser.pantry.getPantryInfo(ingredientsData);
   }
 
   async getRecipes() {

@@ -263,23 +263,52 @@ class DomUpdates {
   closeFilter(user, recipes) {
     if ($(event.target).hasClass("filter-close")) {
 
-      $(".filter-checkbox:checked")
-      .each((index, value) => {
-        if (!this.activeFilterCategories.find(item => item === value.id)) {
-          this.activeFilterCategories.push(value.id)
-        }
-      });
+      this.updateCheckedItems();
 
-      $(".filter-checkbox:not(:checked)")
-      .each((index, value) => {
-        if (this.activeFilterCategories.find(item => item === value.id)) {
-          let index = this.activeFilterCategories.findIndex(item => item === value.id);
-          this.activeFilterCategories.splice(index, 1);
-        }
-      });
+      let filteredItems = this.getFilteredRecipes(this.activeFilterCategories, recipes);
 
       $('.filter-dropdown').remove();
     }
+  }
+
+  getFilteredRecipes(activeCategories, recipes) {
+    let matches = [];
+
+    activeCategories.forEach(category => {
+      let query = new RegExp(`${category}`, 'gi');
+
+      let queryMatches = recipes.filter(recipe => recipe.tags.find(item => item.match(query)));
+
+      matches.push(queryMatches);
+
+    })
+
+    matches = matches.flat();
+
+    matches = matches.reduce((list, recipe) => {
+      if (!list.find(item => item.id === recipe.id)) {
+        list.push(recipe);
+      }
+      return list;
+    }, [])
+
+  }
+
+  updateCheckedItems() {
+    $(".filter-checkbox:checked")
+    .each((index, value) => {
+      if (!this.activeFilterCategories.find(item => item === value.id)) {
+        this.activeFilterCategories.push(value.id)
+      }
+    });
+
+    $(".filter-checkbox:not(:checked)")
+    .each((index, value) => {
+      if (this.activeFilterCategories.find(item => item === value.id)) {
+        let index = this.activeFilterCategories.findIndex(item => item === value.id);
+        this.activeFilterCategories.splice(index, 1);
+      }
+    });
   }
 
   populateCheckedFilterItems() {
@@ -298,63 +327,63 @@ class DomUpdates {
     $(".filter").append(`<section class="filter-dropdown">
     <div class="fieldset-container">
       <fieldset class="filter-options">
-        <input class="filter-checkbox" type="checkbox" id="Antipasti" name="Antipasti"
+        <input class="filter-checkbox" type="checkbox" id="antipasti" name="Antipasti"
         >
            <label for="Antipasti">Antipasti</label>
-       <input class="filter-checkbox" type="checkbox" id="Antipasto" name="Antipasto"
+       <input class="filter-checkbox" type="checkbox" id="antipasto" name="Antipasto"
       >
           <label for="Antipasto">Antipasto</label>
-      <input class="filter-checkbox" type="checkbox" id="Appetizer" name="Appetizer"
+      <input class="filter-checkbox" type="checkbox" id="appetizer" name="Appetizer"
       >
          <label for="Appetizer">Appetizer</label>
-     <input class="filter-checkbox" type="checkbox" id="Breakfast" name="Breakfast"
+     <input class="filter-checkbox" type="checkbox" id="breakfast" name="Breakfast"
     >
         <label for="Breakfast">Breakfast</label>
-     <input class="filter-checkbox" type="checkbox" id="Brunch" name="Brunch"
+     <input class="filter-checkbox" type="checkbox" id="brunch" name="Brunch"
     >
         <label for="Brunch">Brunch</label>
-     <input class="filter-checkbox" type="checkbox" id="Condiment" name="Condiment"
+     <input class="filter-checkbox" type="checkbox" id="condiment" name="Condiment"
     >
         <label for="Condiment">Condiment</label>
-     <input class="filter-checkbox" type="checkbox" id="Dinner" name="Dinner"
+     <input class="filter-checkbox" type="checkbox" id="dinner" name="Dinner"
     >
         <label for="Dinner">Dinner</label>
-     <input class="filter-checkbox" type="checkbox" id="Dip" name="Dip"
+     <input class="filter-checkbox" type="checkbox" id="dip" name="Dip"
     >
         <label for="Dip">Dip</label>
-     <input class="filter-checkbox" type="checkbox" id="hor-doeuvre" name="hor doeuvre"
+     <input class="filter-checkbox" type="checkbox" id="hor" name="hor doeuvre"
     >
         <label for="hor doeuvre">hor doeuvre</label>
       </fieldset>
       <fieldset>
-      <input class="filter-checkbox" type="checkbox" id="Lunch" name="Lunch"
+      <input class="filter-checkbox" type="checkbox" id="lunch" name="Lunch"
       >
          <label for="Lunch">Lunch</label>
-      <input class="filter-checkbox" type="checkbox" id="Main-Course" name="Main Course"
+      <input class="filter-checkbox" type="checkbox" id="course" name="Main Course"
       >
          <label for="Main Course">Main Course</label>
-      <input class="filter-checkbox" type="checkbox" id="Main-Dish" name="Main Dish"
+      <input class="filter-checkbox" type="checkbox" id="dish" name="Main Dish"
       >
          <label for="Main Dish">Main Dish</label>
-      <input class="filter-checkbox" type="checkbox" id="Morning-Meal" name="Morning Meal"
+      <input class="filter-checkbox" type="checkbox" id="morning" name="Morning Meal"
       >
          <label for="Morning Meal">Morning Meal</label>
-      <input class="filter-checkbox" type="checkbox" id="Salad" name="Salad"
+      <input class="filter-checkbox" type="checkbox" id="salad" name="salad"
       >
          <label for="Salad">Salad</label>
-      <input class="filter-checkbox" type="checkbox" id="Sauce" name="Sauce"
+      <input class="filter-checkbox" type="checkbox" id="sauce" name="Sauce"
       >
          <label for="Sauce">Sauce</label>
-      <input class="filter-checkbox" type="checkbox" id="Side-Dish" name="Side Dish"
+      <input class="filter-checkbox" type="checkbox" id="side" name="Side Dish"
       >
          <label for="Side Dish">Side Dish</label>
-      <input class="filter-checkbox" type="checkbox" id="Snack" name="Snack"
+      <input class="filter-checkbox" type="checkbox" id="snack" name="Snack"
       >
          <label for="Snack">Snack</label>
-      <input class="filter-checkbox" type="checkbox" id="Spread" name="Spread"
+      <input class="filter-checkbox" type="checkbox" id="spread" name="Spread"
       >
          <label for="Spread">Spread</label>
-      <input class="filter-checkbox" type="checkbox" id="Starter" name="Starter"
+      <input class="filter-checkbox" type="checkbox" id="starter" name="Starter"
       >
          <label for="Starter">Starter</label>
       </fieldset>
@@ -377,7 +406,8 @@ class DomUpdates {
   });
 
   this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, matches);
-};
+  }
+
   cook(user,target,recipes){
     let controller = new DatabaseController();
     let recipeID = target.attr('id');

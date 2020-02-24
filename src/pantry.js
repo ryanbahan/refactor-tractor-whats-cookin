@@ -11,7 +11,7 @@ class Pantry {
     //Remove Duplicates
     ingredientsNeeded = ingredientsNeeded.reduce((list, ingredient, index) => {
       let firstIndex = ingredientsNeeded.findIndex(item => {
-        return item.id === ingredient.id;
+        return item.id == ingredient.id;
       });
       if (firstIndex < index) {
         ingredientsNeeded[firstIndex].quantity.amount +=
@@ -24,13 +24,16 @@ class Pantry {
 
     let hasIngredients = ingredientsNeeded.reduce(
       (hasIngredient, ingredient) => {
+        // console.log(this.contents)
         let pantryIngredient = this.contents.find(
-          item => item.id == ingredient.id
+          item => item.ingredient == ingredient.id
         );
+        // console.log(pantryIngredient)
         if (pantryIngredient) {
           hasIngredient.ready =
-            pantryIngredient.amount > ingredient.quantity.amount &&
-            hasIngredient.ready;
+            pantryIngredient.amount >= ingredient.quantity.amount && hasIngredient.ready;
+            console.log(`${pantryIngredient.amount} >= ${ingredient.quantity.amount}`);
+            console.log(hasIngredient.ready)
         } else {
           hasIngredient.ready = false;
         }
@@ -45,6 +48,9 @@ class Pantry {
     );
 
     if (hasIngredients.ready) {
+      console.log(`'''''''''''''''''`)
+      console.log(hasIngredients.req === true)
+      console.log(`'''''''''''''''''`)
       return hasIngredients.req;
     } else {
       return hasIngredients.ready;

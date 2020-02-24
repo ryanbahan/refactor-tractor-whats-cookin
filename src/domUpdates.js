@@ -14,8 +14,10 @@ class DomUpdates {
     $('.user-name').text(user.name.split(' ')[0] + '\xa0' + user.name.split(' ')[1][0]);
   };
 
-  displayRecipeCards(user, favorites, savedRecipes, recipeData) {
-
+  async displayRecipeCards(user, favorites, savedRecipes, recipeData) {
+    let controller = new DatabaseController();
+    user.pantry = new Pantry(await controller.updateUserPantry(user.id));
+    console.log(user.pantry)
     function populateCards(recipes, target) {
       $(target).html("");
       if (target.hasClass('all')) {
@@ -26,8 +28,9 @@ class DomUpdates {
         let isFavorite = '';
         let isSaved ='';
         let canCook ='';
-        if(!user.pantry.prepareIngredients(recipe.id,recipes)){
+        if(user.pantry.prepareIngredients(recipe.id,recipes,user.id)===false){
           canCook = 'disabled';
+          // console.log('this is disabled')
         }
         if (savedRecipes.includes(`${recipe.id}`)){
           isSaved = 'add-button-active';
@@ -65,6 +68,7 @@ class DomUpdates {
     let isFavorite = '';
     let isSaved ='';
     let canCook ='';
+  
     if(!user.pantry.prepareIngredients(recipe.id,recipes)){
       canCook = 'disabled';
     }
@@ -137,7 +141,7 @@ class DomUpdates {
       let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
       let controller = new DatabaseController();
 
-      console.log('on modal', ingredients[0]);
+      // console.log('on modal', ingredients[0]);
 
       ingredients[0].forEach(ingredient => {
         let jsonInfo = {
@@ -195,12 +199,17 @@ class DomUpdates {
       });
       this.displayRecipe(id,recipe,user,recipes);
     }
+    console.log(user.pantry)
   }
 
-  toggleFavoriteRecipe(user,target) {
+  async toggleFavoriteRecipe(user,target) {
     target.toggleClass('favorite-active');
     let id = target.attr('id');
     user.cookbook.updateFavorites(id);
+
+    let controller = new DatabaseController();
+
+    user.pantry = new Pantry(await controller.updateUserPantry(user.id));
   }
 
   toggleSavedRecipe(user,target) {
@@ -334,7 +343,7 @@ class DomUpdates {
   cook(user,target,recipes){
     let controller = new DatabaseController();
     let recipeID = target.attr('id');
-    console.log(user.pantry);
+    // console.log(user.pantry);
     user.pantry = controller.updateUserPantry(user.id);
     let neededIngredients = user.pantry.prepareIngredients(recipeID,recipes,user.id);
     if(neededIngredients){

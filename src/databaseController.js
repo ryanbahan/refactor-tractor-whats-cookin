@@ -52,7 +52,7 @@ class DatabaseController {
       }
     );
     let retrievedData = await response.json();
-    console.log(retrievedData);
+    // console.log(retrievedData);
   }
 
   async updateIngredientParallelTest(ingredients) {

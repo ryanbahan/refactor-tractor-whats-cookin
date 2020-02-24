@@ -151,7 +151,7 @@ class Pantry {
         // console.log(pantryItem)
         // console.log(this.contents[0])
         // console.log(ingredient.id == pantryItem.id)
-        return ingredient.id == pantryItem.id;
+        return ingredient.id === pantryItem.id;
       });
 
       if (pantryItem && pantryItem.amount < ingredient.quantity.amount) {

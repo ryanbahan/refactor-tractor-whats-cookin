@@ -8,6 +8,7 @@ class DomUpdates {
     this.allCards = $('.all-cards');
     this.filter = $('.filter');
     this.searchField = $('.search-bar');
+    this.activeFilterCategories = [];
   }
 
   greetUser(user) {
@@ -261,7 +262,14 @@ class DomUpdates {
 
   closeFilter() {
     if ($(event.target).hasClass("filter-close")) {
-      console.log($(".filter-checkbox:checked"));
+
+      $(".filter-checkbox:checked")
+      .each((index, value) => {
+        if (!this.activeFilterCategories.find(item => item === value.id)) {
+          this.activeFilterCategories.push(value.id)
+        }
+      });
+
       $('.filter-dropdown').remove();
     }
   }

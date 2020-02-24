@@ -3,52 +3,35 @@ class Pantry {
     this.contents = userIngredients;
   }
 
-  prepareIngredients(recipeID, recipes,userID) {
+  prepareIngredients(recipeID, recipes, userID) {
+
     let preparingRecipe = recipes.find(recipe => {
       return recipe.id == recipeID;
     });
-    let ingredientsNeeded = preparingRecipe.ingredients;
-    //Remove Duplicates
-    ingredientsNeeded = ingredientsNeeded.reduce((list, ingredient, index) => {
-      let firstIndex = ingredientsNeeded.findIndex(item => {
-        return item.id === ingredient.id;
-      });
-      if (firstIndex < index) {
-        ingredientsNeeded[firstIndex].quantity.amount +=
-          ingredient.quantity.amount;
-      } else {
-        list.push(ingredient);
-      }
-      return list;
-    }, []);
+    // get recipe ingredients from ID's
+    let totalIngredientsNeeded = this.getSavedRecipeIngredients([recipeID], recipes);
 
-    let hasIngredients = ingredientsNeeded.reduce(
-      (hasIngredient, ingredient) => {
-        let pantryIngredient = this.contents.find(
-          item => item.id == ingredient.id
-        );
-        if (pantryIngredient) {
-          hasIngredient.ready =
-            pantryIngredient.amount > ingredient.quantity.amount &&
-            hasIngredient.ready;
-        } else {
-          hasIngredient.ready = false;
-        }
-        hasIngredient.req.push({
-          userID:userID,
-          ingredientID: ingredient.id,
-          ingredientModification: ingredient.quantity.amount
-        });
-        return hasIngredient;
-      },
-      { ready: true, req: [] }
-    );
 
-    if (hasIngredients.ready) {
-      return hasIngredients.req;
+    // remove duplicates
+    totalIngredientsNeeded = this.mergeDuplicates(totalIngredientsNeeded);
+
+    // console.log(totalIngredientsNeeded);
+    // get missing ingredients
+    let missingIngredients = this.findMissingIngredients(totalIngredientsNeeded);
+
+    console.log('missing', missingIngredients);
+
+    if(missingIngredients.length === 0){
+      return true;
     } else {
-      return hasIngredients.ready;
+      return false;
     }
+
+    // if (hasIngredients.ready) {
+    //   return hasIngredients.req;
+    // } else {
+    //   return hasIngredients.ready;
+    // }
   }
 
   getPantryInfo(ingredientsData) {

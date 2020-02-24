@@ -16,7 +16,8 @@ class DomUpdates {
   };
 
   displayRecipeCards(user, favorites, savedRecipes, recipeData) {
-
+    let controller = new DatabaseController();
+    controller.updateUserPantry(user);
     function populateCards(recipes, target) {
       $(target).html("");
       if (target.hasClass('all')) {
@@ -27,7 +28,8 @@ class DomUpdates {
         let isFavorite = '';
         let isSaved ='';
         let canCook ='';
-        if(!user.pantry.prepareIngredients(recipe.id,recipes)){
+        console.log(user.pantry.prepareIngredients(recipe.id,recipes,user.id))
+        if(user.pantry.prepareIngredients(recipe.id,recipes,user.id)===false){
           canCook = 'disabled';
         }
         if (savedRecipes.includes(`${recipe.id}`)){
@@ -158,7 +160,7 @@ class DomUpdates {
       })
 
       controller.updateUserPantry(user);
-
+      this.displayRecipeCards(user, user.cookbook.favoriteRecipes, user.cookbook.savedRecipes, recipes)
       $('.grocery-modal').remove();
       $('.modal-opacity').remove();
     }

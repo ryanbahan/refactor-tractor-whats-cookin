@@ -8,8 +8,9 @@ class Pantry {
       return recipe.id == recipeID;
     });
     let ingredientsNeeded = preparingRecipe.ingredients;
-    //Remove Duplicates
-    console.log(preparingRecipe)
+    // //Remove Duplicates
+    // console.log(`Checking ingredients for :`)
+    // console.log(preparingRecipe)
     ingredientsNeeded = ingredientsNeeded.reduce((list, ingredient, index) => {
       let firstIndex = ingredientsNeeded.findIndex(item => {
         return item.id == ingredient.id;
@@ -22,8 +23,9 @@ class Pantry {
       }
       return list;
     }, []);
-    console.log(ingredientsNeeded)
-    console.log(this.findMissingIngredients(preparingRecipe.ingredients));
+
+    // console.log(`Required Ingredients:`)
+    // console.log(ingredientsNeeded)
 
     let hasIngredients = ingredientsNeeded.reduce(
       (hasIngredient, ingredient) => {
@@ -31,13 +33,24 @@ class Pantry {
         let pantryIngredient = this.contents.find(
           item => item.ingredient == ingredient.id
         );
-        // console.log(pantryIngredient)
+
         if (pantryIngredient) {
           hasIngredient.ready =
             pantryIngredient.amount >= ingredient.quantity.amount && hasIngredient.ready;
             // console.log(`${pantryIngredient.amount} >= ${ingredient.quantity.amount}`);
-            // console.log(hasIngredient.ready)
+            if(!hasIngredient.ready){
+              // console.log(`||||||||||||||||`)
+              // console.log(`Ingredient needed: ${ingredient}`)
+              // console.log(ingredient)
+              // console.log(this.contents)
+              // console.log(`||||||||||||||||`)
+            }
         } else {
+          // console.log(`||||||||||||||||`)
+          // console.log(`Ingredient needed: ${ingredient}`)
+          // console.log(ingredient)
+          // console.log(this.contents)
+          // console.log(`||||||||||||||||`)
           hasIngredient.ready = false;
         }
         hasIngredient.req.push({
@@ -53,9 +66,10 @@ class Pantry {
 
 
     if (hasIngredients.ready) {
-
+      console.log(`You have all the ingredients`)
       return hasIngredients.req;
     } else {
+      console.log(`You are missing some ingredients!`)
       return hasIngredients.ready;
     }
   }
@@ -75,7 +89,6 @@ class Pantry {
   }
 
   getNeededIngredients(savedRecipes, recipes) {
-
     // remove any items that may cause issues
     let savedItems = savedRecipes.filter(recipe => recipe !== null);
 
@@ -85,12 +98,12 @@ class Pantry {
     // remove duplicates
     totalIngredientsNeeded = this.mergeDuplicates(totalIngredientsNeeded);
 
-    console.log('pantry', this.contents);
+    // console.log('pantry', this.contents);
 
     // get missing ingredients
     let missingIngredients = this.findMissingIngredients(totalIngredientsNeeded);
 
-    console.log('missing', missingIngredients);
+    // console.log('missing', missingIngredients);
 
     // add cost to ingredients
     missingIngredients = this.addCostToIngredients(missingIngredients);
@@ -140,11 +153,15 @@ class Pantry {
   }
 
   findMissingIngredients(ingredients) {
+    console.log(ingredients)
     let missingIngredients = ingredients.reduce((list, ingredient) => {
-      let pantryItem = this.contents.find(pantryItem => ingredient.id === pantryItem.id);
-
+      let pantryItem = this.contents.find((pantryItem) => {
+        // console.log(pantryItem)
+        // console.log(ingredient.id == pantryItem.ingredient)
+        return ingredient.id == pantryItem.ingredient
+      });
+      console.log(pantryItem);
       if (pantryItem && pantryItem.amount < ingredient.quantity.amount) {
-
         let neededItem = {
           estimatedCostInCents: ingredient.estimatedCostInCents,
           id: ingredient.id,
@@ -152,6 +169,7 @@ class Pantry {
           quantity: {amount: ingredient.quantity.amount - pantryItem.amount,
              unit: ingredient.quantity.unit}
         };
+        list.push(neededItem)
 
       } else if (!pantryItem) {
         list.push(ingredient);

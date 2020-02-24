@@ -49,10 +49,8 @@ class Pantry {
     );
 
     if (hasIngredients.ready) {
-      // console.log(`You have all the ingredients`)
       return hasIngredients.req;
     } else {
-      // console.log(`You are missing some ingredients!`)
       return hasIngredients.ready;
     }
   }

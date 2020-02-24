@@ -132,8 +132,16 @@ class DomUpdates {
     }
   }
 
+  closeGroceryModalWithoutCheckout(user, recipes) {
+    if ($(event.target).hasClass("close-link")) {
+      $('.grocery-modal').remove();
+      $('.modal-opacity').remove();
+    }
+  }
+
   closeGroceryModal(user, recipes) {
     if ($(event.target).hasClass("grocery-submit")) {
+
       let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
       let controller = new DatabaseController();
 
@@ -215,13 +223,17 @@ class DomUpdates {
 
     user.pantry = new Pantry(await controller.updateUserPantry(user.id));
     user.pantry.getPantryInfo(ingredientsData);
-    
+
     let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
     console.log('on modal open - pantry', user.pantry);
     console.log('on modal open - needed ingredients', ingredients);
 
 
     let htmlStart = `<section class="grocery-modal">
+      <div class="grocery-top">
+        <p>Your Cart</p>
+        <button class="close-link">Close</button>
+      </div>
       <hr>`;
 
     let items = ingredients[0].map(ingredient => {
@@ -327,7 +339,10 @@ class DomUpdates {
   searchCards(user, recipes) {
   let query = new RegExp(`${$('.search-bar').val()}`, 'gi');
 
-  let matches = recipes.filter(recipe => recipe.name.match(query));
+  let matches = recipes.filter(recipe => {
+    return recipe.name.match(query) ||
+    recipe.ingredients.find(item => item.name.match(query))
+  });
 
   this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes, matches);
 };
@@ -384,6 +399,7 @@ class DomUpdates {
       this.closeModal(user, recipes);
       this.closeFilter();
       this.closeGroceryModal(user, recipes);
+      this.closeGroceryModalWithoutCheckout(user, recipes);
     })
   }
 }

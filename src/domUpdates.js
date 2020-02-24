@@ -14,14 +14,19 @@ class DomUpdates {
     $('.user-name').text(user.name.split(' ')[0] + '\xa0' + user.name.split(' ')[1][0]);
   };
 
-  async displayRecipeCards(user, favorites, savedRecipes, recipeData) {
+  async pantryUpdateHelper(user) {
     let controller = new DatabaseController();
     user.pantry = new Pantry(await controller.updateUserPantry(user.id));
-    console.log(user.pantry.prepareIngredients)
+    let ingredientsData = await controller.getIngredients();
+    user.pantry.getPantryInfo(ingredientsData);
+  }
+
+  async displayRecipeCards(user, favorites, savedRecipes, recipeData) {
+    await this.pantryUpdateHelper(user);
     function populateCards(recipes, target) {
       $(target).html("");
       if (target.hasClass('all')) {
-        target.removeClass('all')
+        target.removeClass('all');
       }
 
       recipes.forEach(recipe => {
@@ -29,7 +34,7 @@ class DomUpdates {
         let isFavorite = '';
         let isSaved ='';
         let canCook ='';
-        // console.log(user.pantry.prepareIngredients(recipe.id,recipes,user.id))
+        console.log(user.pantry.prepareIngredients(recipe.id,recipes,user.id))
         if(user.pantry.prepareIngredients(recipe.id,recipes,user.id)===false){
           canCook = 'disabled';
           // console.log('this is disabled')
@@ -145,17 +150,30 @@ class DomUpdates {
 
       // console.log('on modal', ingredients[0]);
 
-      ingredients[0].forEach(ingredient => {
+      // ingredients[0].forEach(ingredient => {
+      //   let jsonInfo = {
+      //     userID: user.id,
+      //     ingredientID: ingredient.id,
+      //     ingredientModification: ingredient.quantity.amount
+      //   };
+      //   controller.updateIngredients(jsonInfo);
+      // })
+      let list = ingredients[0].reduce((acc,ingredient)=>{
         let jsonInfo = {
           userID: user.id,
           ingredientID: ingredient.id,
           ingredientModification: ingredient.quantity.amount
         };
-        controller.updateIngredients(jsonInfo);
-      })
+        acc.push(jsonInfo)
+        return acc;
+      },[])
+      controller.updateIngredientParallelTest(list)
 
       $('.grocery-modal').remove();
       $('.modal-opacity').remove();
+      console.log(user.pantry);
+      this.pantryUpdateHelper(user);
+      this.displayRecipeCards(user, user.cookbook.favoriteRecipes, user.cookbook.savedRecipes, recipes);
     }
   }
 
@@ -201,17 +219,13 @@ class DomUpdates {
       });
       this.displayRecipe(id,recipe,user,recipes);
     }
-    console.log(user.pantry)
+    console.log(user.pantry.contents)
   }
 
   async toggleFavoriteRecipe(user,target) {
     target.toggleClass('favorite-active');
     let id = target.attr('id');
     user.cookbook.updateFavorites(id);
-
-    let controller = new DatabaseController();
-
-    user.pantry = new Pantry(await controller.updateUserPantry(user.id));
   }
 
   toggleSavedRecipe(user,target) {
@@ -222,11 +236,12 @@ class DomUpdates {
 
   async viewGroceryList(user,recipes) {
     let controller = new DatabaseController();
+    await(this.pantryUpdateHelper(user))
     let ingredientsData = await controller.getIngredients();
 
     user.pantry = new Pantry(await controller.updateUserPantry(user.id));
     user.pantry.getPantryInfo(ingredientsData);
-    
+    // console.log(user.cookbook)
     let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
     console.log('on modal open - pantry', user.pantry);
     console.log('on modal open - needed ingredients', ingredients);

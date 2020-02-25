@@ -3,51 +3,19 @@ class Pantry {
     this.contents = userIngredients;
   }
 
-  prepareIngredients(recipeID, recipes,userID) {
-    let preparingRecipe = recipes.find(recipe => {
-      return recipe.id == recipeID;
-    });
-    let ingredientsNeeded = preparingRecipe.ingredients;
-    //Remove Duplicates
-    ingredientsNeeded = ingredientsNeeded.reduce((list, ingredient, index) => {
-      let firstIndex = ingredientsNeeded.findIndex(item => {
-        return item.id === ingredient.id;
-      });
-      if (firstIndex < index) {
-        ingredientsNeeded[firstIndex].quantity.amount +=
-          ingredient.quantity.amount;
-      } else {
-        list.push(ingredient);
-      }
-      return list;
-    }, []);
+  checkIfCookable(recipes, recipeId) {
+    let neededRecipe = recipes.find(recipe => recipe.id == recipeId).ingredients;
 
-    let hasIngredients = ingredientsNeeded.reduce(
-      (hasIngredient, ingredient) => {
-        let pantryIngredient = this.contents.find(
-          item => item.id == ingredient.id
-        );
-        if (pantryIngredient) {
-          hasIngredient.ready =
-            pantryIngredient.amount > ingredient.quantity.amount &&
-            hasIngredient.ready;
-        } else {
-          hasIngredient.ready = false;
-        }
-        hasIngredient.req.push({
-          userID:userID,
-          ingredientID: ingredient.id,
-          ingredientModification: ingredient.quantity.amount
-        });
-        return hasIngredient;
-      },
-      { ready: true, req: [] }
-    );
+    neededRecipe = this.mergeDuplicates(neededRecipe);
 
-    if (hasIngredients.ready) {
-      return hasIngredients.req;
+    let neededIngredients = this.findMissingIngredients(neededRecipe);
+
+    // console.log(neededIngredients);
+
+    if (neededIngredients.length > 0) {
+      return false;
     } else {
-      return hasIngredients.ready;
+      return true;
     }
   }
 
@@ -61,6 +29,8 @@ class Pantry {
 
       return ingredientData;
     });
+
+    this.contents = this.contents.filter(item => item.amount > 0)
 
     this.contents = this.contents.filter(item => item !== undefined);
   }
@@ -76,12 +46,12 @@ class Pantry {
     // remove duplicates
     totalIngredientsNeeded = this.mergeDuplicates(totalIngredientsNeeded);
 
-    console.log('pantry', this.contents);
+    // console.log('pantry', this.contents);
 
     // get missing ingredients
     let missingIngredients = this.findMissingIngredients(totalIngredientsNeeded);
 
-    console.log('missing', missingIngredients);
+    // console.log('missing', missingIngredients);
 
     // add cost to ingredients
     missingIngredients = this.addCostToIngredients(missingIngredients);
@@ -143,7 +113,7 @@ class Pantry {
           quantity: {amount: ingredient.quantity.amount - pantryItem.amount,
              unit: ingredient.quantity.unit}
         };
-
+        list.push(neededItem);
       } else if (!pantryItem) {
         list.push(ingredient);
       }

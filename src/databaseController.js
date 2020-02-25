@@ -11,14 +11,15 @@ class DatabaseController {
 
     return user;
   }
-  async updateUserPantry(userId){
+  async updateUserPantry(currentUser){
+    let ingredientsData = await this.getIngredients();
     let response = await fetch(
       "https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData"
     );
     let users = await response.json();
-    let user = users.wcUsersData.find(person => person.id === Number(userId));
-
-    return user.pantry;
+    let user = users.wcUsersData.find(person => person.id === Number(currentUser.id));
+    currentUser.pantry.contents = user.pantry;
+    currentUser.pantry.getPantryInfo(ingredientsData);
   }
 
   async getRecipes() {
@@ -53,23 +54,6 @@ class DatabaseController {
     );
     let retrievedData = await response.json();
     console.log(retrievedData);
-  }
-
-  async updateIngredientParallelTest(ingredients) {
-    const allRequests = ingredients.map(async item => {
-      let response = await fetch(
-        "https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(item)
-        }
-      );
-      console.log(await response.json());
-    });
-    Promise.all(allRequests);
   }
 
 }

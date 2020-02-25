@@ -3,51 +3,19 @@ class Pantry {
     this.contents = userIngredients;
   }
 
-  prepareIngredients(recipeID, recipes,userID) {
-    let preparingRecipe = recipes.find(recipe => {
-      return recipe.id == recipeID;
-    });
-    let ingredientsNeeded = preparingRecipe.ingredients;
-    //Remove Duplicates
-    ingredientsNeeded = ingredientsNeeded.reduce((list, ingredient, index) => {
-      let firstIndex = ingredientsNeeded.findIndex(item => {
-        return item.id === ingredient.id;
-      });
-      if (firstIndex < index) {
-        ingredientsNeeded[firstIndex].quantity.amount +=
-          ingredient.quantity.amount;
-      } else {
-        list.push(ingredient);
-      }
-      return list;
-    }, []);
+  checkIfCookable(recipes, recipeId) {
+    let neededRecipe = recipes.find(recipe => recipe.id == recipeId).ingredients;
 
-    let hasIngredients = ingredientsNeeded.reduce(
-      (hasIngredient, ingredient) => {
-        let pantryIngredient = this.contents.find(
-          item => item.id == ingredient.id
-        );
-        if (pantryIngredient) {
-          hasIngredient.ready =
-            pantryIngredient.amount > ingredient.quantity.amount &&
-            hasIngredient.ready;
-        } else {
-          hasIngredient.ready = false;
-        }
-        hasIngredient.req.push({
-          userID:userID,
-          ingredientID: ingredient.id,
-          ingredientModification: ingredient.quantity.amount
-        });
-        return hasIngredient;
-      },
-      { ready: true, req: [] }
-    );
+    neededRecipe = this.mergeDuplicates(neededRecipe);
 
-    if (hasIngredients.ready) {
-      return hasIngredients.req;
+    let neededIngredients = this.findMissingIngredients(neededRecipe);
+
+    console.log(neededIngredients);
+
+    if (neededIngredients.length > 0) {
+      return false;
     } else {
-      return hasIngredients.ready;
+      return true;
     }
   }
 

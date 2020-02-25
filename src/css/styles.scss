@@ -1,4 +1,4 @@
-// html elements
+// sass components
 
 $black: black;
 $white: white;
@@ -12,6 +12,12 @@ $dark-red: hsla(14°, 90%, 61%, 1);
 @mixin black-border($size) {
   border: solid $size black;
 }
+
+@mixin grey-border($size) {
+  border: solid $size #e4e4e4;
+}
+
+// html elements
 
 * {
   box-sizing: border-box;
@@ -46,25 +52,22 @@ img {
 nav {
   padding: 1% 0 1% 30px;
   display: flex;
-}
-
-nav ul {
-  list-style-type: none;
-  display: flex;
-  margin-right: 1.5%;
-}
-
-nav li {
-  margin-right: 15px;
-  cursor: pointer;
-  padding-bottom: 1%;
-  border-bottom: solid 2px $red;
-  @include border-radius(2.5px);
-}
-
-nav li:hover {
-    border-bottom: solid 2px $dark-red;
+  ul {
+    list-style-type: none;
+    display: flex;
+    margin-right: 1.5%;
+  }
+  li {
+    margin-right: 15px;
+    cursor: pointer;
+    padding-bottom: 1%;
+    border-bottom: solid 2px $red;
     @include border-radius(2.5px);
+    &:hover {
+      border-bottom: solid 2px $dark-red;
+      @include border-radius(2.5px);
+    }
+  }
 }
 
 // id's
@@ -85,10 +88,9 @@ nav li:hover {
   min-width: 250px;
   margin-right: 2.5%;
   padding-left: 1%;
-}
-
-.search-bar::placeholder {
-  font-style: italic;
+  &::placeholder {
+    font-style: italic;
+  }
 }
 
 .navButton {
@@ -125,7 +127,7 @@ nav li:hover {
 }
 
 .filter-dropdown {
-  border: solid 0.5px #e4e4e4;
+  @include grey-border(0.5px);
   width: 25vw;
   min-width: 350px;
   height: min-content;
@@ -137,10 +139,12 @@ nav li:hover {
   background-color: #fff;
   border-radius: 5px;
   padding: 1%;
-}
-
-.filter-dropdown fieldset {
-  border: none;
+  fieldset {
+    border: none;
+  }
+  button {
+    margin: 2.5%;
+  }
 }
 
 .filter-dropdown fieldset > * {
@@ -150,10 +154,6 @@ nav li:hover {
 .fieldset-container {
   display: flex;
   justify-content: space-around;
-}
-
-.filter-dropdown button {
-  margin: 2.5%;
 }
 
 .filter-close {
@@ -172,11 +172,10 @@ nav li:hover {
   grid-gap: 30px;
   grid-auto-columns: min-content;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  // border: solid 5px black;
 }
 
 .card {
-  border: 0.5px solid #e4e4e4;
+  @include grey-border(0.5px);
   box-shadow: 5px 5px 5px #e4e4e4;
   border-radius: 2.5%;
   width: 90%;
@@ -206,15 +205,14 @@ nav li:hover {
   background-position: center;
   background-size: 120%;
   cursor: pointer;
-}
-
-.cook:hover {
-  display: flex;
-  background-image: url("../images/cooked-meat.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 120%;
-  cursor: pointer;
+  &:hover {
+    display: flex;
+    background-image: url("../images/cooked-meat.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 120%;
+    cursor: pointer;
+  }
 }
 
 .favorite {
@@ -272,7 +270,7 @@ ol {
 // grocery modal
 
 .grocery-modal {
-  border: solid 0.5px #e4e4e4;
+  @include grey-border(0.5px);
   width: 40vw;
   height: 90vh;
   overflow: scroll;
@@ -288,12 +286,11 @@ ol {
 .grocery-top {
   display: flex;
   justify-content: space-between;
-}
-
-.grocery-top button {
-  @include black-border(0.5px);
-  border-radius: 2.5px;
-  cursor: pointer;
+  button {
+    @include black-border(0.5px);
+    border-radius: 2.5px;
+    cursor: pointer;
+  }
 }
 
 .grocery-item {
@@ -338,7 +335,7 @@ ol {
 // recipe modal
 
 .recipe-modal {
-  border: solid 0.5px #e4e4e4;
+  @include grey-border(0.5px);
   width: 65vw;
   width: min-content;
   height: 90vh;

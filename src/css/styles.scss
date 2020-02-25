@@ -1,11 +1,11 @@
-html {
-  height: 100vh;
+// html elements
+
+* {
+  box-sizing: border-box;
 }
 
 body {
-  box-sizing: border-box;
   font-family: 'Open Sans', sans-serif;
-  margin: auto;
   position: relative;
 }
 
@@ -14,12 +14,24 @@ button {
   border: none;
 }
 
+h1 {
+  margin-left: 2.5%;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+img {
+  cursor: pointer;
+}
+
+// main {
+//
+// }
+
 nav {
-  padding-top: 1%;
+  // padding-top: 1%;
   display: flex;
-  height: auto;
   justify-content: space-between;
-  width: 100%;
 }
 
 nav ul {
@@ -33,15 +45,13 @@ nav li {
   cursor: pointer;
 }
 
-.nav-right {
-  display: flex;
-  align-items: center;
-}
-
+// id's
 
 #home {
   cursor: pointer;
 }
+
+// nav items
 
 .search-bar {
   border: solid 0.5px black;
@@ -57,138 +67,28 @@ nav li {
   margin-right: 2.5%;
 }
 
-h1 {
-  margin-left: 2.5%;
-  font-size: 18px;
-  font-weight: 400;
-}
-
-.hidden {
-  display: none;
-}
-
-.cook {
-    display: flex;
-    background-image: url("../images/raw-meat.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 120%;
-    cursor: pointer;
-}
-
-.cook:hover {
-  display: flex;
-  background-image: url("../images/cooked-meat.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 120%;
-  cursor: pointer;
-}
-
-.favorite {
-  background-image: url(https://image.flaticon.com/icons/svg/149/149222.svg);
-  background-repeat: no-repeat;
-  background-position: center;
-  cursor: pointer;
-}
-
-.favorite-active {
-  background-image: url(https://image.flaticon.com/icons/svg/148/148841.svg);
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
-
-.add-button {
-  display: flex;
-  background-image: url("../images/plus.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 87.5%;
-  cursor: pointer;
-}
-
-.add-button-active {
-  display: flex;
-  background-image: url("../images/minus.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 87.5%;
-  cursor: pointer;
-}
-
-.card-button {
-  width: 40px;
-  height: 30px;
-}
-
-.all-cards {
-  display: grid;
-  grid-gap: 30px;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 30px 0 30px 30px;
-  width: 95.5vw;
-}
-
-img {
-  cursor: pointer;
-}
-
-.card {
-  border: 0.5px solid #e4e4e4;
-  box-shadow: 5px 5px 5px #e4e4e4;
-  border-radius: 2.5%;
-  width: 100%;
-  min-width: 200px;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-}
-
-.card-title-info {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 2.5%;
-}
-
-.card-button-container {
+.nav-right {
   display: flex;
   align-items: center;
 }
 
-.card-button-container > * {
-  margin: 0 5%;
+// filter dropdown
+
+.filter {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
 }
 
-.all {
-  grid-gap: 0px;
-  grid-template-columns: repeat(1, 1fr);
-}
-
-.all-recipe-info,
-ol {
-  color: #EBF5EE;
-  font-size: 220%;
-  width: 100%;
-}
-
-h3 {
-  color: #EBF5EE;
-  font-size: 250%;
-}
-
-.recipe-name {
-  max-width: 60%;
-}
-
-.card-picture {
-  width: 100%;
-  border-radius: 2.5%;
-}
-
-main {
-  height: 100%;
-  min-height: 100vh;
-  width: 100%;
+.filter-button {
+  position: relative;
+  z-index: 0;
+  font-size: 1rem;
+  border: solid 1px black;
+  border-radius: 5px;
+  margin-right: 2%;
+  cursor: pointer;
 }
 
 .filter-dropdown {
@@ -230,6 +130,111 @@ main {
   padding: 2.5%;
   cursor: pointer;
 }
+
+// card and card buttons
+
+.all-cards {
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: repeat(4, 1fr);
+  // border: solid 5px black;
+}
+
+.card {
+  border: 0.5px solid #e4e4e4;
+  box-shadow: 5px 5px 5px #e4e4e4;
+  border-radius: 2.5%;
+  width: 90%;
+  min-width: 200px;
+  cursor: pointer;
+}
+
+.card-title-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2.5%;
+}
+
+.card-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.card-button-container > * {
+  margin: 0 5%;
+}
+
+.cook {
+  display: flex;
+  background-image: url("../images/raw-meat.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 120%;
+  cursor: pointer;
+}
+
+.cook:hover {
+  display: flex;
+  background-image: url("../images/cooked-meat.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 120%;
+  cursor: pointer;
+}
+
+.favorite {
+  background-image: url("https://image.flaticon.com/icons/svg/149/149222.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.favorite-active {
+  background-image: url("https://image.flaticon.com/icons/svg/148/148841.svg");
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.add-button {
+  display: flex;
+  background-image: url("../images/plus.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 87.5%;
+  cursor: pointer;
+}
+
+.add-button-active {
+  display: flex;
+  background-image: url("../images/minus.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 87.5%;
+  cursor: pointer;
+}
+
+.card-button {
+  width: 40px;
+  height: 30px;
+}
+
+.all-recipe-info,
+ol {
+  color: #EBF5EE;
+  font-size: 220%;
+  width: 100%;
+}
+
+.recipe-name {
+  max-width: 60%;
+}
+
+.card-picture {
+  width: 100%;
+  border-radius: 2.5%;
+}
+
+// grocery modal
 
 .grocery-modal {
   border: solid 0.5px #e4e4e4;
@@ -295,6 +300,8 @@ main {
   margin-right: 5px;
 }
 
+// recipe modal
+
 .recipe-modal {
   border: solid 0.5px #e4e4e4;
   width: 65vw;
@@ -319,6 +326,21 @@ main {
   justify-content: space-between;
 }
 
+.recipe-name-container h3 {
+  color: black;
+  margin: 1% 0;
+  font-size: 1.25rem;
+}
+
+// js classes
+
+.close-link {
+  font-weight: 700;
+  display: block;
+  text-align: right;
+  padding: 1.5%;
+}
+
 .modal-opacity {
   position: absolute;
   height: 100%;
@@ -329,35 +351,6 @@ main {
   z-index: 1;
 }
 
-.recipe-name-container {
-}
-
-.recipe-name-container h3 {
-  color: black;
-  margin: 1% 0;
-  font-size: 1.25rem;
-}
-
-.close-link {
-  font-weight: 700;
-  display: block;
-  text-align: right;
-  padding: 1.5%;
-}
-
-.filter {
-  margin-top: 25px;
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-}
-
-.filter-button {
-  position: relative;
-  z-index: 0;
-  font-size: 1rem;
-  border: solid 1px black;
-  border-radius: 5px;
-  margin-right: 2%;
-  cursor: pointer;
+.hidden {
+  display: none;
 }

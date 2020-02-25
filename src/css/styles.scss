@@ -7,6 +7,10 @@
 body {
   font-family: 'Open Sans', sans-serif;
   position: relative;
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 button {
@@ -15,7 +19,6 @@ button {
 }
 
 h1 {
-  margin-left: 2.5%;
   font-size: 18px;
   font-weight: 400;
 }
@@ -24,14 +27,9 @@ img {
   cursor: pointer;
 }
 
-// main {
-//
-// }
-
 nav {
-  // padding-top: 1%;
+  padding-top: 1%;
   display: flex;
-  justify-content: space-between;
 }
 
 nav ul {
@@ -56,10 +54,14 @@ nav li {
 .search-bar {
   border: solid 0.5px black;
   border-radius: 2.5px;
-  height: 50%;
   width: 25vw;
   min-width: 250px;
-  margin-right: 5%;
+  margin-right: 2.5%;
+  padding-left: 1%;
+}
+
+.search-bar::placeholder {
+  font-style: italic;
 }
 
 .navButton {
@@ -67,15 +69,18 @@ nav li {
   margin-right: 2.5%;
 }
 
-.nav-right {
+.nav-container {
   display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  justify-content: space-between;
   align-items: center;
 }
 
 // filter dropdown
 
 .filter {
-  margin-top: 25px;
+  margin: 25px 0;
   display: flex;
   justify-content: flex-end;
   position: relative;
@@ -87,7 +92,7 @@ nav li {
   font-size: 1rem;
   border: solid 1px black;
   border-radius: 5px;
-  margin-right: 2%;
+  margin-right: 2.5vw;
   cursor: pointer;
 }
 
@@ -136,7 +141,8 @@ nav li {
 .all-cards {
   display: grid;
   grid-gap: 30px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-auto-columns: min-content;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   // border: solid 5px black;
 }
 

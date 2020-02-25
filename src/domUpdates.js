@@ -71,14 +71,17 @@ class DomUpdates {
   async displayRecipe(id, recipe,user,recipes) {
     let isFavorite = '';
     let isSaved ='';
-    let canCook ='';
+    let canCookHTML ='';
 
-    if(user.pantry.checkIfCookable(recipes, recipe.id) === false){
-      canCook = 'disabled';
+    if (!user.pantry.checkIfCookable(recipes, recipe.id) === false) {
+      canCookHTML = `<button id='${recipe.id}' aria-label='cook-button' class='cook card-button'>
+      </button>`
     }
+
     if (user.cookbook.savedRecipes.includes(`${recipe.id}`)){
       isSaved = 'add-button-active';
     }
+
     if (user.cookbook.favoriteRecipes.includes(`${recipe.id}`)){
       isFavorite = 'favorite-active';
     } else {
@@ -93,11 +96,10 @@ class DomUpdates {
           <h3>$${recipe.calculateTotalRecipeCost()}</h3>
         </div>
         <div class="card-button-container">
+        ${canCookHTML}
         <button id='${recipe.id}' aria-label='add-button' class='add-button ${isSaved} card-button'>
         </button>
         <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'>
-        </button>
-        <button id='${recipe.id}' ${canCook} aria-label='cook-button' class='cook card-button'>
         </button>
         </div>
       </div>
@@ -427,7 +429,7 @@ class DomUpdates {
     await controller.updateUserPantry(user);
 
     let recipeIngredients = recipes.find(item => item.id == $(target).attr('id')).ingredients;
-
+    user.cookbook.cook($(target).attr('id'));
     recipeIngredients.forEach(ingredient => {
       let jsonInfo = {
         userID: user.id,
@@ -436,7 +438,10 @@ class DomUpdates {
       };
       controller.updateIngredients(jsonInfo);
     })
-
+    await controller.updateUserPantry(user);
+    if(!user.pantry.checkIfCookable(recipes,$(target).attr('id'))){
+      $(target).remove();
+    }
     console.log('cook', user);
     console.log(recipeIngredients);
 

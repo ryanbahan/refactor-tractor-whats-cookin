@@ -440,6 +440,9 @@ class DomUpdates {
     })
     await controller.updateUserPantry(user);
     if(!user.pantry.checkIfCookable(recipes,$(target).attr('id'))){
+      // debugger;
+
+      $(target).next().removeClass('add-button-active')
       $(target).remove();
     }
     console.log('cook', user);

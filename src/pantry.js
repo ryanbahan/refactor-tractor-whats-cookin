@@ -4,10 +4,7 @@ class Pantry {
   }
 
   prepareIngredients(recipeID, recipes, userID) {
-
-    let preparingRecipe = recipes.find(recipe => {
-      return recipe.id == recipeID;
-    });
+    
     // get recipe ingredients from ID's
     let totalIngredientsNeeded = this.getSavedRecipeIngredients([recipeID], recipes);
 
@@ -19,7 +16,7 @@ class Pantry {
     // get missing ingredients
     let missingIngredients = this.findMissingIngredients(totalIngredientsNeeded);
 
-    console.log('missing', missingIngredients);
+    // console.log('missing', missingIngredients);
 
     if(missingIngredients.length === 0){
       return true;
@@ -32,6 +29,19 @@ class Pantry {
     // } else {
     //   return hasIngredients.ready;
     // }
+  }
+
+  useCookingIngredients(recipeID, recipes, userID) {
+    let totalIngredientsNeeded = this.getSavedRecipeIngredients([recipeID], recipes);
+    totalIngredientsNeeded = this.mergeDuplicates(totalIngredientsNeeded);
+    return totalIngredientsNeeded.reduce((ingList,ingredient)=>{
+      ingList.push({
+        userID: userID,
+        ingredientID: ingredient.id,
+        ingredientModification: -ingredient.quantity.amount
+      })
+      return ingList;
+    },[])
   }
 
   getPantryInfo(ingredientsData) {

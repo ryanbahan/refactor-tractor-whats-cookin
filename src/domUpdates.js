@@ -15,20 +15,20 @@ class DomUpdates {
     $('.user-name').text(user.name.split(' ')[0] + '\xa0' + user.name.split(' ')[1][0]);
   };
 
-  displayRecipeCards(user, favorites, savedRecipes, recipeData) {
+  async displayRecipeCards(user, favorites, savedRecipes, recipeData) {
     let controller = new DatabaseController();
-    controller.updateUserPantry(user);
+    await controller.updateUserPantry(user);
     function populateCards(recipes, target) {
       $(target).html("");
       if (target.hasClass('all')) {
         target.removeClass('all')
       }
       recipes.forEach(recipe => {
-
+        // console.log(recipe)
         let isFavorite = '';
         let isSaved ='';
         let canCook ='';
-        console.log(user.pantry.prepareIngredients(recipe.id,recipes,user.id))
+        // console.log(user.pantry.prepareIngredients(recipe.id,recipes,user.id))
         if(user.pantry.prepareIngredients(recipe.id,recipes,user.id)===false){
           canCook = 'disabled';
         }
@@ -147,8 +147,10 @@ class DomUpdates {
 
       let ingredients = user.pantry.getNeededIngredients(user.cookbook.savedRecipes, recipes);
       let controller = new DatabaseController();
+      
 
       console.log('on modal', ingredients[0]);
+      
 
       ingredients[0].forEach(ingredient => {
         let jsonInfo = {
@@ -415,16 +417,17 @@ class DomUpdates {
 
   cook(user,target,recipes){
     let controller = new DatabaseController();
+
+    controller.updateUserPantry(user);
     let recipeID = target.attr('id');
+    let neededIngredients = user.pantry.useCookingIngredients(recipeID,recipes,user.id);
+    console.log(neededIngredients)
+    user.cookbook.cook(recipeID);
+    controller.updateIngredientParallelTest(neededIngredients);
     console.log(user.pantry);
-    user.pantry = controller.updateUserPantry(user.id);
-    let neededIngredients = user.pantry.prepareIngredients(recipeID,recipes,user.id);
-    if(neededIngredients){
-      user.cookbook.cook(recipeID);
-      controller.updateIngredientParallelTest(neededIngredients);
-      user.pantry = controller.updateUserPantry(user.id);
-    }
-    console.log(user.pantry);
+    controller.updateUserPantry(user);
+    this.displayRecipeCards(user, user.cookbook.favoriteRecipes,user.cookbook.savedRecipes,recipes);
+    
   }
 
   createDOMBindings(user,recipes){

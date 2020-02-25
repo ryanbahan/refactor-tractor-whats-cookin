@@ -21,8 +21,6 @@ class DomUpdates {
     let controller = new DatabaseController();
     await controller.updateUserPantry(user);
 
-    console.log("disdplayrecipe", user);
-
     function populateCards(recipes, target) {
       $(target).html("");
       if (target.hasClass("all")) {
@@ -32,10 +30,10 @@ class DomUpdates {
         let isFavorite = "";
         let isSaved = "";
         let canCookHTML = "";
-
+        // console.log(user.cookbook.isSaved(`${recipe.id}`))
         if (
           user.pantry.checkIfCookable(recipes, recipe.id) &&
-          !user.cookbook.isSaved(recipe.id)
+          user.cookbook.isSaved(`${recipe.id}`)
         ) {
           canCookHTML = `<button id='${recipe.id}' aria-label='cook-button' class='cook card-button'>
           </button>`;
@@ -77,7 +75,7 @@ class DomUpdates {
 
     if (
       user.pantry.checkIfCookable(recipes, recipe.id) &&
-      !user.cookbook.isSaved(recipe.id)
+      user.cookbook.isSaved(`${recipe.id}`)
     ) {
       canCookHTML = `<button id='${recipe.id}' aria-label='cook-button' class='cook card-button'>
       </button>`;
@@ -268,7 +266,6 @@ class DomUpdates {
         .before(`<button id='${id}' aria-label='cook-button' class='cook card-button'>
       </button>`);
     } else if (user.pantry.checkIfCookable(recipes, id)) {
-      console.log("is not cookable");
       $(target)
         .prev()
         .remove();
@@ -511,8 +508,6 @@ class DomUpdates {
         .removeClass("add-button-active");
       $(target).remove();
     }
-    console.log("cook", user);
-    console.log(recipeIngredients);
 
     await controller.updateUserPantry(user);
 

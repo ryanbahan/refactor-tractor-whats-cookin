@@ -31,11 +31,11 @@ class DomUpdates {
 
         let isFavorite = '';
         let isSaved ='';
-        // let canCook ='';
+        let canCook ='';
 
-        // if (user.pantry.checkIfCookable(recipes, recipe.id) === false) {
-        //   canCook = 'disabled';
-        // }
+        if (user.pantry.checkIfCookable(recipes, recipe.id) === false) {
+          canCook = 'disabled';
+        }
         if (savedRecipes.includes(`${recipe.id}`)){
           isSaved = 'add-button-active';
         }
@@ -55,7 +55,7 @@ class DomUpdates {
           </button>
           <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'>
           </button>
-          <button id='${recipe.id}' aria-label='cook-button' class='cook card-button'>
+          <button id='${recipe.id}' aria-label='cook-button' class='cook card-button' ${canCook}>
           </button>
           </div>
           </div>
@@ -66,25 +66,16 @@ class DomUpdates {
 
     populateCards(recipeData, this.allCards);
 
-    this.disableMissingRecipes(user, recipeData);
-
-  }
-
-  disableMissingRecipes(user, recipes) {
-    $('.card').each((index, value) => {
-      if (user.pantry.checkIfCookable(recipes, value.id) === false) {
-        $(`#${value.id}`).find('.cook').prop('disabled', true);
-      }
-    })
   }
 
   async displayRecipe(id, recipe,user,recipes) {
     let isFavorite = '';
     let isSaved ='';
     let canCook ='';
-    // if(!user.pantry.prepareIngredients(recipe.id,recipes)){
-    //   canCook = 'disabled';
-    // }
+
+    if(user.pantry.checkIfCookable(recipes, recipe.id) === false){
+      canCook = 'disabled';
+    }
     if (user.cookbook.savedRecipes.includes(`${recipe.id}`)){
       isSaved = 'add-button-active';
     }

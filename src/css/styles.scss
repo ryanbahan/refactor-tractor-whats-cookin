@@ -9,6 +9,10 @@ $dark-red: hsla(14°, 90%, 61%, 1);
   border-radius: $radius;
 }
 
+@mixin black-border($size) {
+  border: solid $size black;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -75,7 +79,7 @@ nav li:hover {
 // nav items
 
 .search-bar {
-  border: solid 0.5px black;
+  @include black-border(0.5px);
   border-radius: 2.5px;
   width: 25vw;
   min-width: 250px;
@@ -114,7 +118,7 @@ nav li:hover {
   padding: 0.5%;
   z-index: 0;
   font-size: 1rem;
-  border: solid 0.5px $black;
+  @include black-border(0.5px);
   border-radius: 5px;
   margin-right: 2.5vw;
   cursor: pointer;
@@ -153,7 +157,7 @@ nav li:hover {
 }
 
 .filter-close {
-  border: solid 1px black;
+  @include black-border(1px);
   border-radius: 2.5px;
   font-size: 1.25rem;
   padding: 2.5%;
@@ -287,14 +291,14 @@ ol {
 }
 
 .grocery-top button {
-  border: solid 0.5px black;
+  @include black-border(0.5px);
   border-radius: 2.5px;
   cursor: pointer;
 }
 
 .grocery-item {
   border-radius: 5px;
-  border: solid 1px black;
+  @include black-border(1px);
   display: flex;
   justify-content: space-between;
   padding: 2.5%;
@@ -310,7 +314,7 @@ ol {
 }
 
 .grocery-submit {
-  border: solid 1px black;
+  @include black-border(1px);
   border-radius: 2.5px;
   font-size: 1.25rem;
   padding: 2.5%;

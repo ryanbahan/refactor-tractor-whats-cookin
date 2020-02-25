@@ -31,10 +31,11 @@ class DomUpdates {
 
         let isFavorite = '';
         let isSaved ='';
-        let canCook ='';
+        let canCookHTML ='';
 
-        if (user.pantry.checkIfCookable(recipes, recipe.id) === false) {
-          canCook = 'disabled';
+        if (!user.pantry.checkIfCookable(recipes, recipe.id) === false) {
+          canCookHTML = `<button id='${recipe.id}' aria-label='cook-button' class='cook card-button'>
+          </button>`
         }
         if (savedRecipes.includes(`${recipe.id}`)){
           isSaved = 'add-button-active';
@@ -51,11 +52,10 @@ class DomUpdates {
           <div class="card-title-info">
           <p id='${recipe.id}' class='recipe-name'>${recipe.name}</p>
           <div class="card-button-container">
+          ${canCookHTML}
           <button id='${recipe.id}' aria-label='add-button' class='add-button ${isSaved} card-button'>
           </button>
           <button id='${recipe.id}' aria-label='favorite-button' class='favorite ${isFavorite} favorite${recipe.id} card-button'>
-          </button>
-          <button id='${recipe.id}' aria-label='cook-button' class='cook card-button' ${canCook}>
           </button>
           </div>
           </div>

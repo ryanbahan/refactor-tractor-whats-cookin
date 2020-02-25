@@ -33,7 +33,7 @@ class DomUpdates {
         let isSaved ='';
         let canCookHTML ='';
 
-        if (!user.pantry.checkIfCookable(recipes, recipe.id) === false) {
+        if (user.pantry.checkIfCookable(recipes, recipe.id) && !user.cookbook.isSaved(recipe.id)) {
           canCookHTML = `<button id='${recipe.id}' aria-label='cook-button' class='cook card-button'>
           </button>`
         }
@@ -73,7 +73,7 @@ class DomUpdates {
     let isSaved ='';
     let canCookHTML ='';
 
-    if (!user.pantry.checkIfCookable(recipes, recipe.id) === false) {
+    if (user.pantry.checkIfCookable(recipes, recipe.id) && !user.cookbook.isSaved(recipe.id)) {
       canCookHTML = `<button id='${recipe.id}' aria-label='cook-button' class='cook card-button'>
       </button>`
     }
@@ -201,7 +201,7 @@ class DomUpdates {
     if (target.hasClass('favorite')) {
       this.toggleFavoriteRecipe(user,target)
     } else if (target.hasClass('add-button')) {
-      this.toggleSavedRecipe(user,target)
+      this.toggleSavedRecipe(user,target,recipes)
     } else if(target.hasClass('cook')) {
       this.cook(user,target,recipes);
     }else if ($(event.target).parents('.card').length) {
@@ -219,10 +219,17 @@ class DomUpdates {
     user.cookbook.updateFavorites(id);
   }
 
-  toggleSavedRecipe(user,target) {
+  toggleSavedRecipe(user,target,recipes) {
     target.toggleClass('add-button-active');
     let id = target.attr('id');
     user.cookbook.updateSavedRecipes(id);
+    if (user.pantry.checkIfCookable(recipes, id) && user.cookbook.isSaved(id)) {
+      $(target).before( `<button id='${id}' aria-label='cook-button' class='cook card-button'>
+      </button>`);
+    }else if(user.pantry.checkIfCookable(recipes, id)){
+      console.log('is not cookable')
+      $(target).prev().remove()
+    }
   }
 
   async viewGroceryList(user,recipes) {

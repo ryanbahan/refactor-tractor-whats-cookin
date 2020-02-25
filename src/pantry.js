@@ -113,7 +113,7 @@ class Pantry {
           quantity: {amount: ingredient.quantity.amount - pantryItem.amount,
              unit: ingredient.quantity.unit}
         };
-
+        list.push(neededItem);
       } else if (!pantryItem) {
         list.push(ingredient);
       }

@@ -52,6 +52,10 @@ class Cookbook {
     this.save();
   }
 
+  isSaved(recipeID) {
+    return this.savedRecipes.includes(recipeID)
+  }
+
 }
 
 export default Cookbook;

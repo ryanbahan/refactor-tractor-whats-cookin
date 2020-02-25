@@ -10,7 +10,7 @@ class Pantry {
 
     let neededIngredients = this.findMissingIngredients(neededRecipe);
 
-    console.log(neededIngredients);
+    // console.log(neededIngredients);
 
     if (neededIngredients.length > 0) {
       return false;
@@ -30,6 +30,8 @@ class Pantry {
       return ingredientData;
     });
 
+    this.contents = this.contents.filter(item => item.amount > 0)
+
     this.contents = this.contents.filter(item => item !== undefined);
   }
 
@@ -44,12 +46,12 @@ class Pantry {
     // remove duplicates
     totalIngredientsNeeded = this.mergeDuplicates(totalIngredientsNeeded);
 
-    console.log('pantry', this.contents);
+    // console.log('pantry', this.contents);
 
     // get missing ingredients
     let missingIngredients = this.findMissingIngredients(totalIngredientsNeeded);
 
-    console.log('missing', missingIngredients);
+    // console.log('missing', missingIngredients);
 
     // add cost to ingredients
     missingIngredients = this.addCostToIngredients(missingIngredients);

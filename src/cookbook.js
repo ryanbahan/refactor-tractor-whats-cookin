@@ -7,7 +7,6 @@ class Cookbook {
     };
     this.favoriteRecipes = storedValue.favorites || [];
     this.savedRecipes = storedValue.savedRecipes || [];
-    this.cookableRecipes = [];
   }
 
   save() {

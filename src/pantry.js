@@ -70,7 +70,7 @@ class Pantry {
 
     // get total cost of items
     let totalCost = this.getTotalCost(missingIngredients);
-
+  
     // get total quantity of items
     let quantities = this.getTotalQuantities(missingIngredients);
 

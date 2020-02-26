@@ -1,53 +1,54 @@
 import { expect } from "chai";
 
 import Pantry from "../src/pantry.js";
-import ingredientData from '../src/data/ingredients.js';
-let pantry,recipes,formattedPantry;
+import ingredientData from "../src/data/ingredients.js";
+let pantry, recipes, formattedPantry;
 
 describe("Pantry", () => {
   beforeEach(() => {
+    
     formattedPantry = [
-      { id: 19335, name: 'sucrose', estimatedCostInCents: 902, amount: 2 },
+      { id: 19335, name: "sucrose", estimatedCostInCents: 902, amount: 2 },
       {
         id: 20081,
-        name: 'wheat flour',
+        name: "wheat flour",
         estimatedCostInCents: 142,
         amount: 4
       },
       {
         id: 18371,
-        name: 'baking powder',
+        name: "baking powder",
         estimatedCostInCents: 346,
         amount: 3
       },
-      { id: 1123, name: 'eggs', estimatedCostInCents: 472, amount: 3 },
-      { id: 2047, name: 'salt', estimatedCostInCents: 280, amount: 5 },
+      { id: 1123, name: "eggs", estimatedCostInCents: 472, amount: 3 },
+      { id: 2047, name: "salt", estimatedCostInCents: 280, amount: 5 },
       {
         id: 19296,
-        name: 'runny honey',
+        name: "runny honey",
         estimatedCostInCents: 742,
         amount: 2
       },
       {
         id: 4053,
-        name: 'pure olive oil',
+        name: "pure olive oil",
         estimatedCostInCents: 705,
         amount: 5
       },
-      { id: 11282, name: 'onions', estimatedCostInCents: 439, amount: 2 },
+      { id: 11282, name: "onions", estimatedCostInCents: 439, amount: 2 },
       {
         id: 11215,
-        name: 'whole garlic clove',
+        name: "whole garlic clove",
         estimatedCostInCents: 220,
         amount: 3
       },
       {
         id: 14106,
-        name: 'white wine',
+        name: "white wine",
         estimatedCostInCents: 675,
         amount: 2
       },
-      { id: 1125, name: 'egg yolks', estimatedCostInCents: 889, amount: 2 }
+      { id: 1125, name: "egg yolks", estimatedCostInCents: 889, amount: 2 }
     ];
     let userIngredients = [
       { ingredient: 19335, amount: 2 },
@@ -97,17 +98,38 @@ describe("Pantry", () => {
   describe("Pantry Checks", () => {
     it("Should return false if there is not sufficient ingredients", () => {
       pantry.getPantryInfo(ingredientData);
-      expect(pantry.checkIfCookable(recipes,1 )).to.equal(false);
+      expect(pantry.checkIfCookable(recipes, 1)).to.equal(false);
     });
     it("Should return a formatted pantry", () => {
-      pantry.getPantryInfo(ingredientData)
+      pantry.getPantryInfo(ingredientData);
       expect(pantry.contents).to.deep.equal(formattedPantry);
     });
-    it.skip("Should return false if there is not sufficient ingredients", () => {
-      expect(pantry.prepareIngredients(1, recipes)).to.equal(false);
+    it.skip("Should return the required ingredients", () => {
+      pantry.getPantryInfo(ingredientData);
+      expect(pantry.getNeededIngredients(['1'], recipes)).to.deep.equal([[],0,0]);
     });
-    it.skip("Should return false if there is not sufficient ingredients", () => {
-      expect(pantry.prepareIngredients(1, recipes)).to.equal(false);
+    it("getSavedRecipeIngredients should return an the recipe ingredients ", () => {
+      pantry.getPantryInfo(ingredientData);
+      console.log(pantry.contents)
+      expect(pantry.getSavedRecipeIngredients(['1'], recipes)).to.deep.equal(
+        [
+            {
+              "id": 19335,
+              "quantity": {
+                "amount": 100,
+                "unit": "mguffin"
+              }
+            },
+            {
+              "id": 1123,
+              "quantity": {
+                "amount": 1,
+                "unit": "mguffin"
+              }
+            }
+        ]
+      );
     });
+
   });
 });

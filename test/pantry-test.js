@@ -185,6 +185,7 @@ describe("Pantry", () => {
     pantry.getPantryInfo(ingredientData);
     let totalIngredientsNeeded = pantry.getSavedRecipeIngredients(['1'], recipes)
     let missingIngredients= pantry.findMissingIngredients(totalIngredientsNeeded)
+    missingIngredients = pantry.addCostToIngredients(missingIngredients)
     expect(parseInt(pantry.getTotalCost(missingIngredients))).to.deep.equal(902);
   });
 

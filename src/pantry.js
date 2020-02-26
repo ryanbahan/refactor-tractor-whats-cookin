@@ -145,7 +145,7 @@ class Pantry {
 
   getTotalCost(ingredients) {
     let cost = ingredients.reduce((num, item) => {
-      num += parseFloat(item.estimatedCostInCents);
+      num += parseFloat(item.cost);
       return num;
     }, 0);
 

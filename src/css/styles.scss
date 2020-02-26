@@ -388,6 +388,13 @@ ol {
   display: none;
 }
 
+.down-arrow {
+  align-self: flex-end;
+  padding-left: 2.5%;
+  font-weight: bold;
+  color: $dark-red;
+}
+
 @media only screen and (max-width: 550px) {
   .filter {
     justify-content: flex-start;

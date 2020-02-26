@@ -1,36 +1,40 @@
-import { expect } from 'chai';
+const chai = require("chai"),
+  spies = require("chai-spies");
+chai.use(spies);
+import { expect } from "chai";
+
 
 import Recipe from '../src/recipe.js';
-import recipeData from '../src/data/recipes.js';
-import ingredientsData from '../src/data/ingredients.js';
+import recipeData from "../src/data/recipes.js";
+import DatabaseController from '../src/databaseController.js';
 
-let recipe;
+let database, recipe, recipesData;
+
 
 describe('Recipe', () => {
   beforeEach(() => {
 
-    recipe = new Recipe(recipeData[47], ingredientsData);
+    database = new DatabaseController();
+
+    recipesData = database.getIngredients();
+
+    recipe = new Recipe(recipeData);
   });
 
   describe('Recipe Data', () => {
 
     it('Should hold its own ingredient data', () => {
-      expect(recipe.ingredients).to.equal(recipeData[47].ingredients);
-    })
+      expect(recipe.ingredients).to.equal(recipesData.ingredients);
+    });
 
     it('Should hold its own instruction data', () => {
-      expect(recipe.instructions).to.equal(recipeData[47].instructions);
-    })
-  })
+      expect(recipe.instructions).to.equal(recipesData.instructions);
+    });
 
-  it('Should be able to calculate the cost of its ingredients', () => {
-    // console.log(ingredientsData);
-    expect(recipe.calculateCost()).to.equal(4166);
+    // it('Should be able to get ingredients info', () => {
+    //   expect(recipe.getIngredientsInfo()).to.equal(ingredient);
+    // });
+    
   });
-  it('Should be able to calculate the cost of an ingredient', () => {
-    // console.log(recipe);
-    expect(recipe.findCost(1041009)).to.equal(850);
-  });
-
 
 });

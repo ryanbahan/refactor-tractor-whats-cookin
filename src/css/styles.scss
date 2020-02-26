@@ -395,7 +395,13 @@ ol {
   color: $dark-red;
 }
 
-@media only screen and (max-width: 550px) {
+@media only screen and (max-width: 850px) {
+  .recipe-modal {
+    left: 12.5%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
   .filter {
     justify-content: flex-start;
     padding-left: 5.5%;

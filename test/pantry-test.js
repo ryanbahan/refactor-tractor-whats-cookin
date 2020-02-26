@@ -1,6 +1,7 @@
 import { expect } from "chai";
 
 import Pantry from "../src/pantry.js";
+import ingredientData from '..'
 
 let pantry;
 let recipes;
@@ -70,19 +71,17 @@ describe("Pantry", () => {
 
   describe("Pantry Checks", () => {
     it("Should return false if there is not sufficient ingredients", () => {
+      expect(pantry.checkIfCookable(recipes,1 )).to.equal(false);
+    });
+    it("Should return false if there is not sufficient ingredients", () => {
+      console.log(pantry.getPantryInfo(ingredientData))
+      expect(pantry.getPantryInfo(ingredientData)).to.equal(false);
+    });
+    it.skip("Should return false if there is not sufficient ingredients", () => {
       expect(pantry.prepareIngredients(1, recipes)).to.equal(false);
     });
-    it("Should return list of ingredients if there is sufficient ingredients to cook", () => {
-        let ingredients = [{
-            userID:14,
-            ingredientID:19335,
-            ingredientModification:1
-        },{
-            userID:14,
-            ingredientID:1123,
-            ingredientModification:1
-        }]
-        expect(pantry.prepareIngredients(0, recipes,14)).to.deep.equal(ingredients);
+    it.skip("Should return false if there is not sufficient ingredients", () => {
+      expect(pantry.prepareIngredients(1, recipes)).to.equal(false);
     });
   });
 });

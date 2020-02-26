@@ -117,7 +117,7 @@ class Pantry {
       } else if (!pantryItem) {
         list.push(ingredient);
       }
-
+      
       return list;
     }, []);
 

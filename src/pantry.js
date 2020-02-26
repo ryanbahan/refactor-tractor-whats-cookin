@@ -3,6 +3,18 @@ class Pantry {
     this.contents = userIngredients;
   }
 
+  returnNeededIngredients(recipes, recipeId) {
+
+      let neededRecipe = recipes.find(recipe => recipe.id == recipeId).ingredients;
+
+      neededRecipe = this.mergeDuplicates(neededRecipe);
+
+      let neededIngredients = this.findMissingIngredients(neededRecipe);
+
+      return neededIngredients;
+
+  }
+
   checkIfCookable(recipes, recipeId) {
     let neededRecipe = recipes.find(recipe => recipe.id == recipeId).ingredients;
 

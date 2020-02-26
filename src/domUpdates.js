@@ -125,12 +125,25 @@ class DomUpdates {
     <div class="modal-opacity">
     </div>`);
 
+    let missingIngredients = user.pantry.returnNeededIngredients(recipes, id);
+
     recipe.ingredients.forEach(ingredient => {
-      $(
-        `<p>${ingredient.name.replace(/^\w/, c => c.toUpperCase())} ${
-          ingredient.quantity.amount
-        } ${ingredient.quantity.unit}</p>`
-      ).insertAfter(".ingredients-list");
+
+      if (missingIngredients.find(item => item.id == ingredient.id)) {
+        $(
+          `<p>${ingredient.name.replace(/^\w/, c => c.toUpperCase())} ${
+            ingredient.quantity.amount
+          } ${ingredient.quantity.unit}
+          <span class="down-arrow">\u00D7</span></p>`
+        ).insertAfter(".ingredients-list");
+      } else {
+        $(
+          `<p>${ingredient.name.replace(/^\w/, c => c.toUpperCase())} ${
+            ingredient.quantity.amount
+          } ${ingredient.quantity.unit}</p>`
+        ).insertAfter(".ingredients-list");
+      }
+
     });
 
     recipe.instructions.reverse();

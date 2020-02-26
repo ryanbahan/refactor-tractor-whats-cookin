@@ -5,6 +5,16 @@ This website is a clone of the site cooking.nytimes.com, it assists in a user's 
 ## Screen-shot
 
 
+
+
+
+![Home](https://github.com/ryanbahan/refactor-tractor-whats-cookin/blob/master/Screen%20Shot%202020-02-26%20at%2012.21.16%20AM.png?raw=true "Home")
+
+![Elvis](https://github.com/ryanbahan/refactor-tractor-whats-cookin/blob/master/Screen%20Shot%202020-02-26%20at%2012.21.31%20AM.png?raw=true "Elvis")
+
+![Pork](https://github.com/ryanbahan/refactor-tractor-whats-cookin/blob/master/Screen%20Shot%202020-02-26%20at%2012.22.29%20AM.png?raw=true "Pork")
+
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.

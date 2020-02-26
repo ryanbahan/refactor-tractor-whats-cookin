@@ -1,4 +1,4 @@
-let ingredientsData = [
+let ingredientsData = {ingredientsData:[
   {
     "id": 20081,
     "name": "wheat flour",
@@ -1232,7 +1232,7 @@ let ingredientsData = [
     "name": "vegetable stock",
     "estimatedCostInCents": 613
   }
-]
+]}
 
 
 export default ingredientsData;

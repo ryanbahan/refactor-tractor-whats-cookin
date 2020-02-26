@@ -117,11 +117,11 @@ class Pantry {
       let pantryItem = this.contents.find(pantryItem => ingredient.id === pantryItem.id);
 
       if (pantryItem && pantryItem.amount < ingredient.quantity.amount) {
-
         let neededItem = {
-          estimatedCostInCents: ingredient.estimatedCostInCents,
+
+          estimatedCostInCents: pantryItem.estimatedCostInCents,
           id: ingredient.id,
-          name: ingredient.name,
+          name: pantryItem.name,
           quantity: {amount: ingredient.quantity.amount - pantryItem.amount,
              unit: ingredient.quantity.unit}
         };
@@ -145,7 +145,7 @@ class Pantry {
 
   getTotalCost(ingredients) {
     let cost = ingredients.reduce((num, item) => {
-      num += parseFloat(item.cost);
+      num += parseFloat(item.estimatedCostInCents);
       return num;
     }, 0);
 

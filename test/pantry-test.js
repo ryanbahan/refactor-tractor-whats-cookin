@@ -2,7 +2,7 @@ import { expect } from "chai";
 
 import Pantry from "../src/pantry.js";
 import ingredientData from "../src/data/ingredients.js";
-let pantry, recipes, formattedPantry;
+let pantry, recipes, formattedPantry, ingredients;
 
 describe("Pantry", () => {
   beforeEach(() => {
@@ -94,6 +94,23 @@ describe("Pantry", () => {
         ]
       }
     ];
+
+    ingredients =  [
+      {
+        "id": 19335,
+        "quantity": {
+          "amount": 100,
+          "unit": "mguffin"
+        }
+      },
+      {
+        "id": 1123,
+        "quantity": {
+          "amount": 1,
+          "unit": "mguffin"
+        }
+      }
+  ];
   });
   describe("Pantry Checks", () => {
     it("Should return false if there is not sufficient ingredients", () => {
@@ -104,32 +121,78 @@ describe("Pantry", () => {
       pantry.getPantryInfo(ingredientData);
       expect(pantry.contents).to.deep.equal(formattedPantry);
     });
-    it.skip("Should return the required ingredients", () => {
+    it("Should return the required ingredients", () => {
       pantry.getPantryInfo(ingredientData);
-      expect(pantry.getNeededIngredients(['1'], recipes)).to.deep.equal([[],0,0]);
+      expect(pantry.getNeededIngredients(['0'], recipes)).to.deep.equal([[],'0.00','0.00']);
     });
     it("getSavedRecipeIngredients should return an the recipe ingredients ", () => {
+      
       pantry.getPantryInfo(ingredientData);
-      console.log(pantry.contents)
       expect(pantry.getSavedRecipeIngredients(['1'], recipes)).to.deep.equal(
         [
             {
-              "id": 19335,
-              "quantity": {
-                "amount": 100,
-                "unit": "mguffin"
+                "id": 19335,
+                "quantity": {
+                  "amount": 100,
+                  "unit": "mguffin"
+                }},
+              {
+                "id": 1123,
+                "quantity": {
+                  "amount": 1,
+                  "unit": "mguffin"
+                }
               }
-            },
-            {
-              "id": 1123,
-              "quantity": {
-                "amount": 1,
-                "unit": "mguffin"
-              }
+            ]
+        );
+    });
+    
+    it("Should be able to find missing ingredients", () => {
+      pantry.getPantryInfo(ingredientData);
+      // console.log(pantry.contents)
+
+      expect(pantry.findMissingIngredients(ingredients)).to.deep.equal([   {
+            "estimatedCostInCents": 902,
+            "id": 19335,
+            "name": "sucrose",
+            "quantity": {
+              "amount": 98,
+              "unit": "mguffin"
             }
-        ]
-      );
+          }]);
     });
 
   });
+  it("addCost to Ingredients", () => {
+    pantry.getPantryInfo(ingredientData);
+    let totalIngredientsNeeded = pantry.getSavedRecipeIngredients(['1'], recipes)
+    let missingIngredients= pantry.findMissingIngredients(totalIngredientsNeeded)
+    expect(pantry.addCostToIngredients(missingIngredients)).to.deep.equal(
+        [{
+            "cost": "883.96",
+            "estimatedCostInCents": 902,
+            "id": 19335,
+            "name": "sucrose",
+            "quantity": {
+              "amount": 98,
+              "unit": "mguffin"
+            }
+          }]
+    );
+  });
+
+  it("Get Total Cost", () => {
+    pantry.getPantryInfo(ingredientData);
+    let totalIngredientsNeeded = pantry.getSavedRecipeIngredients(['1'], recipes)
+    let missingIngredients= pantry.findMissingIngredients(totalIngredientsNeeded)
+    expect(parseInt(pantry.getTotalCost(missingIngredients))).to.deep.equal(902);
+  });
+
+  it("Get Total Quanitites", () => {
+    pantry.getPantryInfo(ingredientData);
+    let totalIngredientsNeeded = pantry.getSavedRecipeIngredients(['1'], recipes)
+    let missingIngredients= pantry.findMissingIngredients(totalIngredientsNeeded)
+    expect(pantry.getTotalQuantities(missingIngredients)).to.deep.equal('98.00');
+  });
+
 });

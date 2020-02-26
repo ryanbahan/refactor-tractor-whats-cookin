@@ -70,7 +70,7 @@ class Pantry {
 
     // get total cost of items
     let totalCost = this.getTotalCost(missingIngredients);
-
+  
     // get total quantity of items
     let quantities = this.getTotalQuantities(missingIngredients);
 
@@ -117,11 +117,11 @@ class Pantry {
       let pantryItem = this.contents.find(pantryItem => ingredient.id === pantryItem.id);
 
       if (pantryItem && pantryItem.amount < ingredient.quantity.amount) {
-
         let neededItem = {
-          estimatedCostInCents: ingredient.estimatedCostInCents,
+
+          estimatedCostInCents: pantryItem.estimatedCostInCents,
           id: ingredient.id,
-          name: ingredient.name,
+          name: pantryItem.name,
           quantity: {amount: ingredient.quantity.amount - pantryItem.amount,
              unit: ingredient.quantity.unit}
         };
@@ -129,7 +129,7 @@ class Pantry {
       } else if (!pantryItem) {
         list.push(ingredient);
       }
-
+      
       return list;
     }, []);
 

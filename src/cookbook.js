@@ -19,16 +19,6 @@ class Cookbook {
     );
   }
 
-  findRecipe(searchText) {
-    return this.recipes.filter(recipe => {
-      return recipe.ingredients.find(ingredient => {
-        return (
-          ingredient.name.includes(searchText) ||
-          recipe.name.includes(searchText)
-        );
-      });
-    });
-  }
   updateFavorites(recipeID) {
     if (this.favoriteRecipes.includes(recipeID)) {
       this.favoriteRecipes.splice(this.favoriteRecipes.indexOf(recipeID), 1);
@@ -53,9 +43,8 @@ class Cookbook {
   }
 
   isSaved(recipeID) {
-    return this.savedRecipes.includes(recipeID)
+    return this.savedRecipes.includes(recipeID);
   }
-
 }
 
 export default Cookbook;

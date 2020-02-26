@@ -343,14 +343,23 @@ class DomUpdates {
         recipes
       );
 
-      this.displayRecipeCards(
-        user,
-        user.cookbook.favoriteRecipes,
-        user.cookbook.savedRecipes,
-        filteredItems
-      );
+      if ($(".filter-checkbox:checked").length < 1) {
+        this.displayRecipeCards(
+          user,
+          user.cookbook.favoriteRecipes,
+          user.cookbook.savedRecipes,
+          recipes
+        );
+      } else {
+        this.displayRecipeCards(
+          user,
+          user.cookbook.favoriteRecipes,
+          user.cookbook.savedRecipes,
+          filteredItems
+        );
+      }
 
-      console.log(filteredItems);
+      $(".search-bar").val('');
 
       $(".filter-dropdown").remove();
     }

@@ -6,7 +6,7 @@ let pantry, recipes, formattedPantry, ingredients;
 
 describe("Pantry", () => {
   beforeEach(() => {
-    
+
     formattedPantry = [
       { id: 19335, name: "sucrose", estimatedCostInCents: 902, amount: 2 },
       {
@@ -126,7 +126,7 @@ describe("Pantry", () => {
       expect(pantry.getNeededIngredients(['0'], recipes)).to.deep.equal([[],'0.00','0.00']);
     });
     it("getSavedRecipeIngredients should return an the recipe ingredients ", () => {
-      
+
       pantry.getPantryInfo(ingredientData);
       expect(pantry.getSavedRecipeIngredients(['1'], recipes)).to.deep.equal(
         [
@@ -146,7 +146,7 @@ describe("Pantry", () => {
             ]
         );
     });
-    
+
     it("Should be able to find missing ingredients", () => {
       pantry.getPantryInfo(ingredientData);
       // console.log(pantry.contents)
@@ -179,14 +179,6 @@ describe("Pantry", () => {
             }
           }]
     );
-  });
-
-  it("Get Total Cost", () => {
-    pantry.getPantryInfo(ingredientData);
-    let totalIngredientsNeeded = pantry.getSavedRecipeIngredients(['1'], recipes)
-    let missingIngredients= pantry.findMissingIngredients(totalIngredientsNeeded)
-    missingIngredients = pantry.addCostToIngredients(missingIngredients)
-    expect(parseInt(pantry.getTotalCost(missingIngredients))).to.deep.equal(902);
   });
 
   it("Get Total Quanitites", () => {

@@ -7,11 +7,7 @@ import recipeData from "../src/data/recipes.js";
 import Cookbook from "../src/cookbook.js";
 import Recipe from "../src/recipe.js";
 
-let cookbook;
-let userID;
-let recipe;
-let savedRecipes;
-let favoriteRecipes;
+let cookbook, userID, recipe, savedRecipes, favoriteRecipes;
 global.localStorage = {};
 
 describe("Cookbook", () => {

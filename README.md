@@ -1,6 +1,9 @@
 # Refactor-Tractor
 
-One Paragraph of project description goes here
+This website is a clone of the site cooking.nytimes.com, it assists in a user's meal managment. The user can save a recipe to cook in the future, "checkout" all the ingredients necissary, favorite a recipe to store in their favorites tab, and view the recipe they want to cook, and manage their personal, virtual pantry. The app keeps track of favorites, ready to cook, and current pantry ingredients and quantity of the user and will show ingredients needed of any recipe the user may be interested in.
+
+## Screen-shot
+
 
 ## Getting Started
 
@@ -18,45 +21,15 @@ To verify that it is setup correctly, run `npm start` in your terminal. Go to `h
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+This project is simple to build! We relied on webpack to process SASS into CSS and mochai chai to perform testing on this project.
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
+We run tests on Classes from the tests root folder. Using NPM, you can run tests from:
 ```
-Give an example
+npm test
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 

@@ -3,17 +3,14 @@ const chai = require("chai"),
 chai.use(spies);
 import { expect } from "chai";
 
-import recipeData from "../src/data/recipes.js";
 import Cookbook from "../src/cookbook.js";
-import Recipe from "../src/recipe.js";
 
-let cookbook, userID, recipe, savedRecipes, favoriteRecipes;
+let cookbook, userID;
 global.localStorage = {};
 
 describe("Cookbook", () => {
   beforeEach(() => {
     userID = "1";
-    // recipe = new Recipe(recipeData[0], ingredientsData)
   });
   describe("LocalStorage", () => {
     it("Should start off as an empty array of favorites", () => {
